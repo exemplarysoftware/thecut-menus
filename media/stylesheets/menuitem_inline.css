@@ -1,0 +1,22 @@
+/*.inline-group > div {
+  float: left;
+}*/
+
+/*.js-enabled .form-row.order {
+  display: none;
+}*/
+
+/*.form-row.order input {
+  display: block;
+}*/
+
+#menuitem_set-group ul li {
+  clear: both;
+  display: block;
+  overflow: auto;
+}
+
+#menuitem_set-group ul li div {
+  float: left;
+}
+

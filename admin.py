@@ -4,10 +4,11 @@ from menus.forms import MenuAdminForm, ViewLinkAdminForm, WebLinkAdminForm
 from menus.models import MenuItem, Menu, ViewLink, WebLink
 
 
-class MenuItemInline(admin.TabularInline):
+class MenuItemInline(admin.options.InlineModelAdmin):
     exclude = ['is_featured', 'publish_at', 'publish_by', 'title']
     extra = 0
     model = MenuItem
+    template = 'admin/menus/edit_inline/menuitem_inline.html'
 
 
 class MenuAdmin(admin.ModelAdmin):
@@ -20,6 +21,10 @@ class MenuAdmin(admin.ModelAdmin):
     form = MenuAdminForm
     inlines = [MenuItemInline]
     prepopulated_fields = {'slug': ['name']}
+    
+    class Media:
+        css = {'all': ['stylesheets/menuitem_inline.css']}
+        js = ['javascripts/jquery.js', 'javascripts/jquery-ui.js', 'javascripts/menuitem_inline.js']
     
     def save_model(self, request, obj, form, change):
         if not change: obj.created_by = request.user
