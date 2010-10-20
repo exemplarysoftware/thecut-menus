@@ -9,6 +9,7 @@ from thecut.models import AbstractBaseResource
 class Menu(AbstractBaseResource):
     """A collection of menu items."""
     name = models.CharField(max_length=100)
+    slug = models.SlugField(unique=True)
     
     objects = QuerySetManager()
     
@@ -39,6 +40,10 @@ class MenuItem(AbstractBaseResource):
     
     def get_absolute_url(self):
         return self.content_object.get_absolute_url()
+    
+    @property
+    def is_menu(self):
+        return isinstance(self.content_object, Menu)
 
 
 class ViewLink(AbstractBaseResource):
