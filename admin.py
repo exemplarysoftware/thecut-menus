@@ -1,18 +1,19 @@
 from datetime import datetime
+from django.conf.urls.defaults import url, patterns
 from django.contrib import admin
-from menus.forms import MenuAdminForm, ViewLinkAdminForm, WebLinkAdminForm
+from menus.forms import MenuAdminForm, MenuItemAdminForm, ViewLinkAdminForm, WebLinkAdminForm
 from menus.models import MenuItem, Menu, ViewLink, WebLink
 
 
-class MenuItemInline(admin.options.InlineModelAdmin):
-    exclude = ['is_featured', 'publish_at', 'publish_by', 'title']
+class MenuItemInline(admin.StackedInline):#admin.options.InlineModelAdmin):
     extra = 0
+    fields = ['name', 'order', 'content_type', 'object_id']
+    form = MenuItemAdminForm
     model = MenuItem
-    template = 'admin/menus/edit_inline/menuitem_inline.html'
+    #template = 'admin/menus/edit_inline/menuitem_inline.html'
 
 
 class MenuAdmin(admin.ModelAdmin):
-    exclude = ['is_featured', 'publish_by']
     fieldsets = [
         (None, {'fields': ['name']}),
         ('Publishing', {'fields': ['slug', ('publish_at', 'is_enabled')],
@@ -22,9 +23,14 @@ class MenuAdmin(admin.ModelAdmin):
     inlines = [MenuItemInline]
     prepopulated_fields = {'slug': ['name']}
     
-    class Media:
-        css = {'all': ['stylesheets/menuitem_inline.css']}
-        js = ['javascripts/jquery.js', 'javascripts/jquery-ui.js', 'javascripts/menuitem_inline.js']
+    def get_urls(self):
+        urlpatterns = patterns('menus.views',
+            url(r'^menuitem/contenttype/(?P<content_type_pk>\d+)/$',
+                'menuitem_admin_contenttype_list',
+                name='menuitem_admin_contenttype_list'),
+        )
+        urlpatterns += super(MenuAdmin, self).get_urls()
+        return urlpatterns
     
     def save_model(self, request, obj, form, change):
         if not change: obj.created_by = request.user

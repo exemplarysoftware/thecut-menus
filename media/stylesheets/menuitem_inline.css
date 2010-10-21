@@ -1,22 +1,78 @@
-/*.inline-group > div {
-  float: left;
-}*/
+#menuitem_set-group.js-enabled .form-row.order {
+  position: absolute;
+  overflow: hidden;
+  height: 0;
+  width: 0;
+  margin: 0;
+  padding: 1px;
+  border-style: none;
+  z-index: -1;
+}
 
-/*.js-enabled .form-row.order {
+#menuitem_set-group .inline-related {
+  position: relative;
+  height: 43px;
+}
+
+#menuitem_set-group .inline-related h3 {
+  width: 0;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+#menuitem_set-group .inline-related h3 .inline_label,
+#menuitem_set-group .form-row {
+  position: absolute;
+  padding: 0;
+  border-style: none;
+}
+
+#menuitem_set-group .inline-related b,
+#menuitem_set-group .inline-related a,
+#menuitem_set-group .form-row label {
   display: none;
-}*/
-
-/*.form-row.order input {
-  display: block;
-}*/
-
-#menuitem_set-group ul li {
-  clear: both;
-  display: block;
-  overflow: auto;
 }
 
-#menuitem_set-group ul li div {
-  float: left;
+#menuitem_set-group .inline-related .delete {
+  position: absolute;
+  right: 10px;
+  display: block;
 }
 
+#menuitem_set-group .form-row.content_type label {
+  display: block;
+}
+
+#menuitem_set-group .form-row.is_enabled {
+  left: 20px;
+}
+
+#menuitem_set-group .form-row.name {
+  left: 40px;
+  width: 200px;
+}
+
+#menuitem_set-group.js-enabled .form-row.name {
+  display: none;
+}
+
+#menuitem_set-group .form-row.name input {
+  width: 200px;
+}
+
+#menuitem_set-group .inline-related h3 .inline_label {
+  display: block;
+  left: 40px;
+  top: 0;
+  width: 200px;
+  line-height: 43px;
+}
+
+#menuitem_set-group .form-row.content_type {
+  left: 400px;
+}
+
+#menuitem_set-group .form-row.object_id {
+  left: 600px;
+}
