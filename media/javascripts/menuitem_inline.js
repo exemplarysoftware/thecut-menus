@@ -35,7 +35,7 @@ $(document).ready(function() {
     $(this).closest('.inline-related').find('.form-row.name input').select();
   });
   
-  $('#menuitem_set-group .form-row.name').focusout(function() {
+  $('#menuitem_set-group .form-row.name').live('focusout', function() {
     $(this).hide();
     label = $(this).closest('.inline-related').find('.inline_label');
     updateInlineLabel(label);
