@@ -1,5 +1,6 @@
 from django import template
-from menus.models import Menu
+from django.contrib.contenttypes.models import ContentType
+from menus.models import Menu, MenuItem
 
 
 register = template.Library()
@@ -10,6 +11,23 @@ def menu(context, slug, extra_class=None):
         menu = Menu.objects.active().get(slug=slug)
     except Menu.DoesNotExist:
         menu = None
+    request = context['request']
+    return {'menu': menu, 'extra_class': extra_class,
+        'request': request}
+
+
+@register.inclusion_tag('menus/_menu.html', takes_context=True)
+def section_menu(context, obj, extra_class=None):
+    """Find a Menu which contains a MenuItem linking to this object.
+    
+    A rather crude way of finding a menu, which is determined by
+    looking for the first MenuItem which links to this object.
+    
+    """
+    content_type = ContentType.objects.get_for_model(obj)
+    menu_items = MenuItem.objects.active().filter(content_type=content_type,
+      object_id=obj.pk)
+    menu = menu_items and menu_items[0].menu or False
     request = context['request']
     return {'menu': menu, 'extra_class': extra_class,
         'request': request}
