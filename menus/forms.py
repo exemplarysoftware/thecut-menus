@@ -34,9 +34,9 @@ class MenuItemAdminForm(forms.ModelForm):
             pk__in=[ct.pk for ct in content_types])
     
     class Media:
-        css = {'all': ['stylesheets/menuitem_inline.css']}
+        css = {'all': ['menus/menuitem_inline.css']}
         js = ['javascripts/jquery.js', 'javascripts/jquery-ui.js',
-            'javascripts/menuitem_inline.js']
+            'menus/menuitem_inline.js']
     
     class Meta:
         model = MenuItem
