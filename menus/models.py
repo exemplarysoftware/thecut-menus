@@ -57,7 +57,9 @@ class ViewLink(AbstractBaseResource):
         return self.name
     
     def get_absolute_url(self):
-        return reverse(self.view)
+        args = self.view.split()
+        view_name = args.pop(0)
+        return reverse(view_name, args=args)
 
 
 class WebLink(AbstractBaseResource):
