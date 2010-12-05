@@ -1,8 +1,8 @@
 from datetime import datetime
 from django.conf.urls.defaults import url, patterns
 from django.contrib import admin
-from menus.forms import MenuAdminForm, MenuItemAdminForm, ViewLinkAdminForm, WebLinkAdminForm
-from menus.models import MenuItem, Menu, ViewLink, WebLink
+from thecut.menus.forms import MenuAdminForm, MenuItemAdminForm, ViewLinkAdminForm, WebLinkAdminForm
+from thecut.menus.models import MenuItem, Menu, ViewLink, WebLink
 
 
 class MenuItemInline(admin.StackedInline):#admin.options.InlineModelAdmin):
