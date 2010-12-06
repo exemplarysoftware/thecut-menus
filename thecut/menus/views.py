@@ -8,6 +8,7 @@ from django.utils import simplejson
 from django.views.decorators.cache import cache_control, cache_page
 from thecut.menus.forms import MenuItemAdminForm
 from thecut.menus.models import Menu, MenuItem
+from thecut.menus.settings import SELECTABLE_MODELS
 import uuid
 
 
@@ -32,9 +33,29 @@ def menu_admin_add_child(request, menu_pk):
 @cache_page(0)
 @user_passes_test(lambda u: u.has_perm('menus.add_menuitem') or \
     u.has_perm('menus.change_menuitem'))
-def menuitem_admin_contenttype_list(request, content_type_pk):
-    if request.is_ajax():
-        content_type = get_object_or_404(ContentType, pk=content_type_pk)
+def menuitem_admin_contenttype_list(request):
+    #if request.is_ajax():
+        content_types = []
+        for app_model in SELECTABLE_MODELS:
+            app_label, model = app_model.lower().split('.')
+            content_type = ContentType.objects.get(
+                app_label=app_label, model=model)
+            content_types += [{'pk': content_type.pk,
+                'name': content_type.name.title()}]
+        return HttpResponse(simplejson.dumps(content_types),
+            mimetype='application/json')
+    #else:
+    #    return HttpResponseBadRequest('bad request')
+
+
+@cache_control(no_cache=True)
+@cache_page(0)
+@user_passes_test(lambda u: u.has_perm('menus.add_menuitem') or \
+    u.has_perm('menus.change_menuitem'))
+def menuitem_admin_contenttype_object_list(request, content_type_pk):
+    #if request.is_ajax():
+        content_type = get_object_or_404(ContentType,
+            pk=content_type_pk)
         model_class = content_type.model_class()
         
         objects = []
@@ -43,8 +64,8 @@ def menuitem_admin_contenttype_list(request, content_type_pk):
         
         return HttpResponse(simplejson.dumps(objects),
             mimetype='application/json')
-    else:
-        return HttpResponseBadRequest('bad request')
+    #else:
+    #    return HttpResponseBadRequest('bad request')
 
 
 @permission_required('menus.change_menuitem')

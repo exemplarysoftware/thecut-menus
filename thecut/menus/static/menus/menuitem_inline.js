@@ -48,7 +48,7 @@ function updateObjectSelect(object_select, content_type_pk, object_select_value)
   object_select.empty().append('<option value="">---------</option>').val('');
   if (content_type_pk) {
     $.ajax({
-      url: '/django-admin/menus/menu/menuitem/contenttype/' + content_type_pk + '/',
+      url: $('link[rel="menuitem_contenttype_list"]').attr('href') + content_type_pk + '/',
       success: function(data) {
         $.each(data, function(index, item) {
           var option = $('<option />').attr('value', item.pk).html(item.name);

@@ -1,33 +1,36 @@
 from datetime import datetime
 from django.conf.urls.defaults import url, patterns
 from django.contrib import admin
-from thecut.menus.forms import MenuAdminForm, MenuItemAdminForm, ViewLinkAdminForm, WebLinkAdminForm
+from thecut.menus.forms import MenuAdminForm, MenuItemAdminForm, ViewLinkAdminForm, WebLinkAdminForm, OldMenuItemAdminForm
 from thecut.menus.models import MenuItem, Menu, ViewLink, WebLink
 
 
-class MenuItemInline(admin.StackedInline):#admin.options.InlineModelAdmin):
+class OldMenuItemInline(admin.StackedInline):
     extra = 0
     fields = ['name', 'order', 'content_type', 'object_id']
-    form = MenuItemAdminForm
+    form = OldMenuItemAdminForm
     model = MenuItem
-    #template = 'admin/menus/edit_inline/menuitem_inline.html'
 
 
 class OldMenuAdmin(admin.ModelAdmin):
+    change_form_template = 'admin/menus/menu/change_form_old.html'
     fieldsets = [
         (None, {'fields': ['name']}),
         ('Publishing', {'fields': ['slug', ('publish_at', 'is_enabled')],
             'classes': ['collapse']}),
     ]
     form = MenuAdminForm
-    inlines = [MenuItemInline]
+    inlines = [OldMenuItemInline]
     prepopulated_fields = {'slug': ['name']}
     
     def get_urls(self):
         urlpatterns = patterns('thecut.menus.views',
-            url(r'^menuitem/contenttype/(?P<content_type_pk>\d+)/$',
+            url(r'^menuitem/contenttype/$',
                 'menuitem_admin_contenttype_list',
-                name='menuitem_admin_contenttype_list'),
+                name='menus_menuitem_admin_contenttype_list'),
+            url(r'^menuitem/contenttype/(?P<content_type_pk>\d+)/$',
+                'menuitem_admin_contenttype_object_list',
+                name='menus_menuitem_admin_contenttype_object_list'),
         )
         urlpatterns += super(MenuAdmin, self).get_urls()
         return urlpatterns
@@ -51,8 +54,6 @@ class OldMenuAdmin(admin.ModelAdmin):
 
 class MenuAdmin(admin.ModelAdmin):
     fields = ['name', 'slug', 'publish_at']
-    #change_form_template = 'menus/admin/change_form.html'
-    #def changelist_view(self, request, extra_context=None):
     
     class Media:
         css = {'all': ['menus/admin.css']}
@@ -63,9 +64,17 @@ class MenuAdmin(admin.ModelAdmin):
             url(r'^(?P<menu_pk>\d+)/add-child$',
                 'menu_admin_add_child',
                 name='menus_menu_admin_add_child'),
+            
             url(r'^menuitem/reorder$',
                 'menuitem_admin_reorder',
                 name='menus_menuitem_admin_reorder'),
+            url(r'^menuitem/contenttype/$',
+                'menuitem_admin_contenttype_list',
+                name='menus_menuitem_admin_contenttype_list'),
+            url(r'^menuitem/contenttype/(?P<content_type_pk>\d+)/$',
+                'menuitem_admin_contenttype_object_list',
+                name='menus_menuitem_admin_contenttype_object_list'),
+            
             url(r'^(?P<menu_pk>\d+)/menuitem/add$',
                 'menuitem_admin_add',
                 name='menus_menu_menuitem_admin_add'),

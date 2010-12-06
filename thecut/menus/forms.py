@@ -1,12 +1,8 @@
 from datetime import datetime
 from django import forms
-from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from thecut.menus.models import Menu, MenuItem, ViewLink, WebLink
-
-
-SELECTABLE_MODELS = getattr(settings, 'MENUS_SELECTABLE_MODELS',
-    ['menus.Menu', 'menus.ViewLink', 'menus.WebLink'])
+from thecut.menus.settings import SELECTABLE_MODELS
 
 
 class MenuAdminForm(forms.ModelForm):
@@ -20,7 +16,7 @@ class MenuAdminForm(forms.ModelForm):
 
 class OldMenuItemAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
-        super(MenuItemAdminForm, self).__init__(*args, **kwargs)
+        super(OldMenuItemAdminForm, self).__init__(*args, **kwargs)
         self.fields['content_type'].label = 'Target'
         self.fields['object_id'].label = 'Object'
         
