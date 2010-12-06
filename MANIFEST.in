@@ -1,0 +1,5 @@
+include RELEASE-VERSION
+include AUTHORS COPYING README INSTALL LICENCE
+graft thecut/menus/media
+graft thecut/menus/static
+graft thecut/menus/templates

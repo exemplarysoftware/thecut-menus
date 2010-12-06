@@ -2,7 +2,7 @@ from datetime import datetime
 from django import forms
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
-from menus.models import Menu, MenuItem, ViewLink, WebLink
+from thecut.menus.models import Menu, MenuItem, ViewLink, WebLink
 
 
 SELECTABLE_MODELS = getattr(settings, 'MENUS_SELECTABLE_MODELS',
