@@ -5,6 +5,7 @@ from django.http import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
+from django.views.decorators.cache import cache_control, cache_page
 from thecut.menus.forms import MenuItemAdminForm
 from thecut.menus.models import Menu, MenuItem
 import uuid
@@ -27,6 +28,8 @@ def menu_admin_add_child(request, menu_pk):
         return HttpResponseBadRequest('bad request')
 
 
+@cache_control(no_cache=True)
+@cache_page(0)
 @user_passes_test(lambda u: u.has_perm('menus.add_menuitem') or \
     u.has_perm('menus.change_menuitem'))
 def menuitem_admin_contenttype_list(request, content_type_pk):
