@@ -1,6 +1,5 @@
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db import models
 from thecut.managers import QuerySetManager
 from thecut.models import AbstractBaseResource
@@ -56,10 +55,11 @@ class ViewLink(AbstractBaseResource):
     def __unicode__(self):
         return self.name
     
+    @models.permalink
     def get_absolute_url(self):
         args = self.view.split()
         view_name = args.pop(0)
-        return reverse(view_name, args=args)
+        return (view_name, args)
 
 
 class WebLink(AbstractBaseResource):

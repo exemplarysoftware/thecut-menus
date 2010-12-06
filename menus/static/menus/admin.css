@@ -1,0 +1,10 @@
+
+.menus-menu .menu {
+  clear: both;
+  }
+
+.menus-menu .menu .menuitem .source,
+.menus-menu .menu .menuitem .target {
+  display: inline-block;
+  }
+

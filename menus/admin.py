@@ -13,7 +13,7 @@ class MenuItemInline(admin.StackedInline):#admin.options.InlineModelAdmin):
     #template = 'admin/menus/edit_inline/menuitem_inline.html'
 
 
-class MenuAdmin(admin.ModelAdmin):
+class OldMenuAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['name']}),
         ('Publishing', {'fields': ['slug', ('publish_at', 'is_enabled')],
@@ -46,7 +46,42 @@ class MenuAdmin(admin.ModelAdmin):
             if not instance.publish_at:
                 instance.publish_at = datetime.now()
             instance.save() 
-        #formset.save() 
+        #formset.save()
+
+
+class MenuAdmin(admin.ModelAdmin):
+    fields = ['name', 'slug', 'publish_at']
+    #change_form_template = 'menus/admin/change_form.html'
+    #def changelist_view(self, request, extra_context=None):
+    
+    class Media:
+        css = {'all': ['menus/admin.css']}
+        js = ['menus/jquery.min.js', 'menus/jquery-ui.min.js', 'menus/admin.js']
+    
+    def get_urls(self):
+        urlpatterns = patterns('menus.views',
+            url(r'^(?P<menu_pk>\d+)/add-child$',
+                'menu_admin_add_child',
+                name='menus_menu_admin_add_child'),
+            url(r'^menuitem/reorder$',
+                'menuitem_admin_reorder',
+                name='menus_menuitem_admin_reorder'),
+            url(r'^(?P<menu_pk>\d+)/menuitem/add$',
+                'menuitem_admin_add',
+                name='menus_menu_menuitem_admin_add'),
+            url(r'^(?P<menu_pk>\d+)/menuitem/(?P<menuitem_pk>\d+)/edit$',
+                'menuitem_admin_edit',
+                name='menus_menu_menuitem_admin_edit'),
+            url(r'^(?P<menu_pk>\d+)/menuitem/(?P<menuitem_pk>\d+)/delete$',
+                'menuitem_admin_delete',
+                name='menus_menu_menuitem_admin_delete'),
+        )
+        urlpatterns += super(MenuAdmin, self).get_urls()
+        return urlpatterns
+
+
+class MenuItemAdmin(admin.ModelAdmin):
+    fields = ['name', 'content_type', 'object_id', 'is_enabled']
 
 
 class ViewLinkAdmin(admin.ModelAdmin):
@@ -80,6 +115,7 @@ class WebLinkAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Menu, MenuAdmin)
+admin.site.register(MenuItem, MenuItemAdmin)
 admin.site.register(ViewLink, ViewLinkAdmin)
 admin.site.register(WebLink, WebLinkAdmin)
 

@@ -1,0 +1,22 @@
+<ul class="menu" id="menu-{{ menu.pk }}">
+  {% for menuitem in menu.menuitem_set.all %}
+  <li class="menuitem" id="menuitem-{{ menuitem.pk }}">
+    <div class="source">
+      {{ menuitem }}
+      <a class="action edit" href="{% url admin:menus_menu_menuitem_admin_edit menu.pk menuitem.pk %}">edit</a>
+    </div>
+    {% if menuitem.is_menu %}
+    {% load admin_menu_tags %}
+    {% menu menuitem.content_object %}
+    {% else %}
+    <div class="target">
+      <span class="type">{{ menuitem.content_type }}</span>
+      <span class="object">{{ menuitem.content_object }}</span>
+      <a class="action edit" href="#">edit</a>
+    </div>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+<a class="action additem" href="{% url admin:menus_menu_menuitem_admin_add menu.pk %}">add link</a>
+<a class="action addmenu" href="{% url admin:menus_menu_admin_add_child menu.pk %}">add menu</a>

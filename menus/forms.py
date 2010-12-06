@@ -18,7 +18,7 @@ class MenuAdminForm(forms.ModelForm):
         model = Menu
 
 
-class MenuItemAdminForm(forms.ModelForm):
+class OldMenuItemAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MenuItemAdminForm, self).__init__(*args, **kwargs)
         self.fields['content_type'].label = 'Target'
@@ -41,6 +41,26 @@ class MenuItemAdminForm(forms.ModelForm):
     class Meta:
         model = MenuItem
 
+
+class MenuItemAdminForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(MenuItemAdminForm, self).__init__(*args, **kwargs)
+        self.fields['content_type'].label = 'Target'
+        self.fields['object_id'].label = 'Object'
+        
+        content_types = []
+        for app_model in SELECTABLE_MODELS:
+            app_label, model = app_model.lower().split('.')
+            content_types += [ContentType.objects.get(
+                app_label=app_label, model=model)]
+        queryset = self.fields['content_type'].queryset
+        self.fields['content_type'].queryset = queryset.filter(
+            pk__in=[ct.pk for ct in content_types])
+    
+    class Meta:
+        fields = ['name', 'content_type', 'object_id', 'is_enabled']
+        model = MenuItem
+        
 
 class ViewLinkAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
