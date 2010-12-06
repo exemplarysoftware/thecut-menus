@@ -1,8 +1,8 @@
 from datetime import datetime
 from django.conf.urls.defaults import url, patterns
 from django.contrib import admin
-from menus.forms import MenuAdminForm, MenuItemAdminForm, ViewLinkAdminForm, WebLinkAdminForm
-from menus.models import MenuItem, Menu, ViewLink, WebLink
+from thecut.menus.forms import MenuAdminForm, MenuItemAdminForm, ViewLinkAdminForm, WebLinkAdminForm
+from thecut.menus.models import MenuItem, Menu, ViewLink, WebLink
 
 
 class MenuItemInline(admin.StackedInline):#admin.options.InlineModelAdmin):
@@ -24,7 +24,7 @@ class OldMenuAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ['name']}
     
     def get_urls(self):
-        urlpatterns = patterns('menus.views',
+        urlpatterns = patterns('thecut.menus.views',
             url(r'^menuitem/contenttype/(?P<content_type_pk>\d+)/$',
                 'menuitem_admin_contenttype_list',
                 name='menuitem_admin_contenttype_list'),
@@ -59,7 +59,7 @@ class MenuAdmin(admin.ModelAdmin):
         js = ['menus/jquery.min.js', 'menus/jquery-ui.min.js', 'menus/admin.js']
     
     def get_urls(self):
-        urlpatterns = patterns('menus.views',
+        urlpatterns = patterns('thecut.menus.views',
             url(r'^(?P<menu_pk>\d+)/add-child$',
                 'menu_admin_add_child',
                 name='menus_menu_admin_add_child'),

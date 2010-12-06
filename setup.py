@@ -1,18 +1,13 @@
-from distutils.core import setup
-
+from setuptools import setup, find_packages
+from version import get_git_version
 
 setup(name='menus',
-    author='Busara', author_email='serveradmin@busara.com.au',
-    url="http://projects.busara.com.au/projects/django-app-menus",
-    version='0.01',
-    packages=['menus', 'menus.templatetags'],
-    package_data={
-        'menus': ['templates/menus/*.*',
-            'templates/admin/menus/*.*',
-            'templates/admin/menus/edit_inline/*.*',
-            'media/menus/javascripts/*.*', 'media/menus/stylesheets/*.*',
-            'media/menus/images/*.*',
-            ]},
-    requires=['thecut'],
+    author='The Cut', author_email='development@thecut.net.au',
+    url='http://projects.thecut.net.au/projects/django-app-menus',
+    namespace_packages=['thecut'],
+    version=get_git_version(),
+    packages=find_packages(),
+    include_package_data=True,
+    install_requires=['distribute'],
     )
 

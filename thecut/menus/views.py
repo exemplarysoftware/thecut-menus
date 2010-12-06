@@ -5,8 +5,8 @@ from django.http import HttpResponseBadRequest, HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
-from menus.forms import MenuItemAdminForm
-from menus.models import Menu, MenuItem
+from thecut.menus.forms import MenuItemAdminForm
+from thecut.menus.models import Menu, MenuItem
 import uuid
 
 
