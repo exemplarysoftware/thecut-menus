@@ -3,13 +3,13 @@
 {% load admin_menu_tags %}
 
 {% block extrahead %}
-{{ block.super }}
-<link rel="menuitem_contenttype_list" href="{% url admin:menus_menuitem_admin_contenttype_list %}" />
-<link rel="menuitem_reorder" href="{% url admin:menus_menuitem_admin_reorder %}" />
+  {{ block.super }}
+  <link rel="menuitem_contenttype_list" href="{% url admin:menus_menuitem_admin_contenttype_list %}" />
+  <link rel="menuitem_reorder" href="{% url admin:menus_menuitem_admin_reorder %}" />
 {% endblock %}
 
 {% block extrastyle %}
-{{ block.super }}
+  {{ block.super }}
 {% endblock %}
 
 
@@ -26,9 +26,7 @@
         {% endif %}{% endif %}
         {% endblock %}
         
-        <div class="menu">{% menu original %}</div>
-        
-        <div id="content-ajax"></div>
+        <div class="menu" id="content-menus">{% menu original %}</div>
         
     </div>
   {% else %}

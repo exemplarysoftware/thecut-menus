@@ -25,11 +25,18 @@ class MenuItem(AbstractBaseResource):
     menu = models.ForeignKey('Menu')
     
     # Generic relation to an object.
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.IntegerField()
+    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    object_id = models.IntegerField(blank=True, null=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     
     objects = QuerySetManager()
+    
+    class QuerySet(AbstractBaseResource.QuerySet):
+        def active(self):
+            """Return active (enabled, published) objects which are linked to an object."""
+            #queryset = super(QuerySet, super).active()
+            return self.exclude(content_type__isnull=True).exclude(
+                object_id__isnull=True)
     
     class Meta(AbstractBaseResource.Meta):
         ordering = ['order']

@@ -16,7 +16,8 @@ class OldMenuAdmin(admin.ModelAdmin):
     change_form_template = 'admin/menus/menu/change_form_old.html'
     fieldsets = [
         (None, {'fields': ['name']}),
-        ('Publishing', {'fields': ['slug', ('publish_at', 'is_enabled')],
+        ('Publishing', {'fields': ['slug', ('publish_at', 'is_enabled'),
+            'is_featured'],
             'classes': ['collapse']}),
     ]
     form = MenuAdminForm
@@ -32,7 +33,7 @@ class OldMenuAdmin(admin.ModelAdmin):
                 'menuitem_admin_contenttype_object_list',
                 name='menus_menuitem_admin_contenttype_object_list'),
         )
-        urlpatterns += super(MenuAdmin, self).get_urls()
+        urlpatterns += super(OldMenuAdmin, self).get_urls()
         return urlpatterns
     
     def save_model(self, request, obj, form, change):
@@ -56,8 +57,23 @@ class MenuAdmin(admin.ModelAdmin):
     fields = ['name', 'slug', 'publish_at']
     
     class Media:
-        css = {'all': ['menus/admin.css']}
-        js = ['menus/jquery.min.js', 'menus/jquery-ui.min.js', 'menus/admin.js']
+        css = {'all': ['menus/fancybox/jquery.fancybox-1.3.4.css',
+            'menus/admin.css']}
+        js = ['menus/jquery.min.js', 'menus/jquery-ui.min.js',
+            'menus/fancybox/jquery.fancybox-1.3.4.pack.js',
+            'menus/admin.js']
+    
+    def change_view(self, *args, **kwargs):
+        extra_context = kwargs.pop('extra_context', {})
+        extra_context.update({'current_app': self.admin_site.name})
+        return super(MenuAdmin, self).change_view(*args,
+            extra_context=extra_context, **kwargs)
+    
+    def queryset(self, request):
+        queryset = super(MenuAdmin, self).queryset(request)
+        #if request.user.is_superuser:
+        #    return queryset
+        return queryset.filter(is_featured=True)
     
     def get_urls(self):
         urlpatterns = patterns('thecut.menus.views',
@@ -75,6 +91,9 @@ class MenuAdmin(admin.ModelAdmin):
                 'menuitem_admin_contenttype_object_list',
                 name='menus_menuitem_admin_contenttype_object_list'),
             
+            url(r'^(?P<menu_pk>\d+)/menuitem/add/placeholder$',
+                'menuitem_admin_add_placeholder',
+                name='menus_menu_menuitem_admin_add_placeholder'),
             url(r'^(?P<menu_pk>\d+)/menuitem/add$',
                 'menuitem_admin_add',
                 name='menus_menu_menuitem_admin_add'),
