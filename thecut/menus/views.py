@@ -19,7 +19,8 @@ def menu_admin_add_child(request, menu_pk):
     if request.is_ajax():
         name = 'New sub menu'
         slug = str(uuid.uuid4())
-        menu = Menu(name=slug, slug=slug, publish_at=datetime.now())
+        menu = Menu(name=slug, slug=slug, publish_at=datetime.now(),
+            created_by=request.user, updated_by=request.user)
         menu.save()
         content_type = ContentType.objects.get_for_model(Menu)
         order = parent_menu.menuitem_set.count() + 1
@@ -81,6 +82,7 @@ def menuitem_admin_reorder(request):
         for pk in order:
             item = MenuItem.objects.get(pk=pk)
             item.order = order.index(pk)
+            item.updated_by = request.user
             item.save()
         return HttpResponse('ok', mimetype='text/plain')
     else:
@@ -99,7 +101,9 @@ def menuitem_admin_add(request, menu_pk):
                 menuitem = form.save(commit=False)
                 menuitem.menu = menu
                 menuitem.order = menu.menuitem_set.count() + 1
-                menuitem.publish_at = datetime.now()
+                menuitem.publish_at = datetime.now(),
+                menuitem.created_by = request.user
+                menuitem.updated_by = request.user
                 menuitem.save()
                 return HttpResponse('created', mimetype='text/plain')
         else:
@@ -121,7 +125,8 @@ def menuitem_admin_add_placeholder(request, menu_pk):
         order = menu.menuitem_set.count() + 1
         menu_item = MenuItem(menu=menu, is_enabled=False,
             content_type=None, object_id=None,
-            name=name, order=order, publish_at=datetime.now())
+            name=name, order=order, publish_at=datetime.now(),
+            created_by=request.user, updated_by=request.user)
         menu_item.save()
         return HttpResponse('created', mimetype='text/plain')
     else:
@@ -145,7 +150,9 @@ def menuitem_admin_edit(request, menu_pk, menuitem_pk):
                 form = form_class(request.POST,
                     instance=menuitem)
             if form.is_valid():
-                form.save()
+                obj = form.save(commit=False)
+                obj.updated_by = request.user
+                obj.save()
                 return HttpResponse('updated', mimetype='text/plain')
         else:
             form = form_class(instance=menuitem)
