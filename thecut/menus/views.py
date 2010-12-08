@@ -26,7 +26,8 @@ def menu_admin_add_child(request, menu_pk):
         order = parent_menu.menuitem_set.count() + 1
         menu_item = MenuItem(menu=parent_menu, is_enabled=False,
             content_type=content_type, object_id=menu.pk,
-            name=name, order=order, publish_at=datetime.now())
+            name=name, order=order, publish_at=datetime.now(),
+            created_by=request.user, updated_by=request.user)
         menu_item.save()
         return HttpResponse('created', mimetype='text/plain')
     else:
