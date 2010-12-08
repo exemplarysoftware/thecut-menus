@@ -1,0 +1,20 @@
+{% extends "admin/menus/menu/change_form.html" %}
+{% load i18n admin_modify adminmedia %}
+
+{% block extrastyle %}
+  {{ block.super }}
+  <link href="{{ MEDIA_URL }}backslash/backslash.css" type="text/css" rel="stylesheet" />
+  <link href="{{ MEDIA_URL }}menus/backslash.css" type="text/css" rel="stylesheet" />
+{% endblock %}
+
+{% block userlinks %}{% include "backslash/_userlinks.html" %}{% endblock %}
+
+{% block breadcrumbs %}{% if not is_popup %}
+<div class="breadcrumbs">
+     <a href="../../../">{% trans "Home" %}</a> &gt;
+     {% comment %}<a href="../../">{{ app_label|capfirst|escape }}</a> &gt; {% endcomment %}
+     {% if has_change_permission %}<a href="../">{{ opts.verbose_name_plural|capfirst }}</a>{% else %}{{ opts.verbose_name_plural|capfirst }}{% endif %} &gt; 
+     <span class="active">{% if add %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}{{ original|truncatewords:"18" }}{% endif %}</span>
+</div>
+{% endif %}{% endblock %}
+

@@ -1,0 +1,35 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_modify adminmedia %}
+{% load admin_menu_tags %}
+
+{% block extrahead %}
+  {{ block.super }}
+  <link rel="menuitem_contenttype_list" href="{% url admin:menus_menuitem_admin_contenttype_list %}" />
+  <link rel="menuitem_reorder" href="{% url admin:menus_menuitem_admin_reorder %}" />
+{% endblock %}
+
+{% block extrastyle %}
+  {{ block.super }}
+{% endblock %}
+
+
+{% block content_title %}<h1>{% if not original %}{% trans "Add" %} {{ opts.verbose_name }}{% else %}Change {{ original }} {{ opts.verbose_name }}{% endif %}</h1>{% endblock %}
+
+{% block content %}
+  {% if original %}
+    <div id="content-main">
+        {% block object-tools %}
+        {% if change %}{% if not is_popup %}
+          <ul class="object-tools"><li><a href="history/" class="historylink">{% trans "History" %}</a></li>
+          {% if has_absolute_url %}<li><a href="../../../r/{{ content_type_id }}/{{ object_id }}/" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif%}
+          </ul>
+        {% endif %}{% endif %}
+        {% endblock %}
+        
+        <div class="menu {{ original.slug }}" id="content-menus">{% menu original %}</div>
+        
+    </div>
+  {% else %}
+    {{ block.super }}
+  {% endif %}
+{% endblock %}
