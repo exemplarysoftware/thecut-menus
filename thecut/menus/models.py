@@ -1,6 +1,5 @@
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.db import models
 from thecut.managers import QuerySetManager
 from thecut.models import AbstractBaseResource
@@ -26,11 +25,18 @@ class MenuItem(AbstractBaseResource):
     menu = models.ForeignKey('Menu')
     
     # Generic relation to an object.
-    content_type = models.ForeignKey(ContentType)
-    object_id = models.IntegerField()
+    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    object_id = models.IntegerField(blank=True, null=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     
     objects = QuerySetManager()
+    
+    class QuerySet(AbstractBaseResource.QuerySet):
+        def active(self):
+            """Return active (enabled, published) objects which are linked to an object."""
+            queryset = super(MenuItem.QuerySet, self).active()
+            return queryset.exclude(content_type__isnull=True).exclude(
+                object_id__isnull=True)
     
     class Meta(AbstractBaseResource.Meta):
         ordering = ['order']
@@ -40,6 +46,13 @@ class MenuItem(AbstractBaseResource):
     
     def get_absolute_url(self):
         return self.content_object.get_absolute_url()
+    
+    @property
+    def is_active(self):
+        is_active = self in self.__class__.objects.active().filter(
+            pk=self.pk)
+        object_active = getattr(self.content_object, 'is_active', True)
+        return object_active and is_active or False
     
     @property
     def is_menu(self):
@@ -56,10 +69,11 @@ class ViewLink(AbstractBaseResource):
     def __unicode__(self):
         return self.name
     
+    @models.permalink
     def get_absolute_url(self):
         args = self.view.split()
         view_name = args.pop(0)
-        return reverse(view_name, args=args)
+        return (view_name, args)
 
 
 class WebLink(AbstractBaseResource):

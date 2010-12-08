@@ -1,0 +1,177 @@
+body.change-form.menus-menu .menu {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+  font-size: 10px;
+}
+
+body.change-form.menus-menu .menu .menu {
+  margin: 0 0 20px 20px;
+}
+
+body.change-form.menus-menu .menuitem {
+  margin: 5px 0 0 0;
+  background-repeat: no-repeat;
+  background-position: 268px 0px;
+  font-size: 10px;
+}
+
+body.change-form.menus-menu .menuitem.linked {
+  background-image: url("./arrow.png");
+}
+
+body.change-form.menus-menu .menuitem .menuitem {
+  margin: 5px 0 0 0;
+}
+
+body.change-form.menus-menu .menuitem .source,
+body.change-form.menus-menu .menuitem .target {
+  position: relative;
+  overflow: hidden;
+  height: 23px;
+  width: 256px;
+  margin: 0 30px 0 0;
+  padding: 0 5px;
+  background-color: #888a85;
+  background-image: url("./active.png");
+  background-position: right top;
+  background-repeat: no-repeat;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  color: #ffffff;
+  font-weight: bold;
+  line-height: 23px;
+  text-transform: uppercase;
+}
+
+body.change-form.menus-menu .menuitem .target {
+  background-image: none;
+}
+
+body.change-form.menus-menu .menuitem .target.active,
+body.change-form.menus-menu .menuitem .target.disabled {
+  background-image: url("./active.png");
+}
+
+body.change-form.menus-menu .menuitem .source.active,
+body.change-form.menus-menu .menuitem .target.active {
+  background-position: right bottom;
+}
+
+body.change-form.menus-menu .menuitem .target,
+body.change-form.menus-menu .menuitem .menuitem .source,
+body.change-form.menus-menu .menuitem .menuitem .target {
+  background-color: #b7b7b7;
+}
+
+body.change-form.menus-menu .menuitem .menuitem .menuitem .source,
+body.change-form.menus-menu .menuitem .menuitem .menuitem .target {
+  background-color: #d6d6d6;
+}
+
+body.change-form.menus-menu .menuitem .source .name {
+  cursor: move;
+}
+
+body.change-form.menus-menu .menuitem .action.edit {
+  float: right;
+  overflow: hidden;
+  margin: 0 25px 0 0;
+  height: 23px;
+  width: 16px;
+  background-image: url("./edit.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  text-indent: 20px;
+}
+
+body.change-form.menus-menu .menuitem .target .object {
+  margin: 0 0 0 10px;
+  color: #000000;
+  font-weight: normal;
+  text-transform: none;
+}
+
+body.change-form.menus-menu .menu .toolbox {
+  margin: 10px 0 0 20px;
+}
+
+body.change-form.menus-menu .menu .toolbox a.action.additem,
+body.change-form.menus-menu .menu .toolbox a.action.addmenu {
+  margin: 0 10px 0 0;
+  padding: 0 0 0 15px;
+  background-image: url("./add.png");
+  background-position: left center;
+  background-repeat: no-repeat;
+}
+
+body.change-form.menus-menu #fancybox-content .action.close {
+  float: right;
+  padding: 0 10px 0 0;
+  color: #00aeef;
+  line-height: 30px;
+  text-transform: uppercase;
+}
+
+body.change-form.menus-menu #fancybox-content h2 {
+  height: 30px;
+  margin: 0 0 15px 0;
+  padding: 0 10px;
+  background-color: #000000;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 30px;
+  text-transform: uppercase;
+}
+
+body.change-form.menus-menu #fancybox-content ul {
+  list-style-type: none;
+  padding: 0;
+}
+
+body.change-form.menus-menu #fancybox-content ul li {
+  clear: both;
+  height: 27px;
+  margin: 10px 0 0 0;
+  padding: 2px;
+  background-color: #cccccc;
+  border-radius: 2px;
+  -moz-border-radius: 2px;
+  font-size: 10px;
+  line-height: 27px;
+}
+
+body.change-form.menus-menu #fancybox-content ul li label {
+  display: block;
+  float: left;
+  width: 100px;
+  padding: 0 0 0 10px;
+  color: #ffffff;
+  font-weight: bold !important;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+body.change-form.menus-menu #fancybox-content ul li input[type="text"] {
+  width: 374px;
+}
+
+body.change-form.menus-menu #fancybox-content ul li.buttons {
+  height: auto;
+  background-color: transparent;
+}
+
+body.change-form.menus-menu #fancybox-content .action.delete {
+  display: block;
+  float: right;
+  overflow: hidden;
+  height: 30px;
+  width: 12px;
+  background-image: url("./delete.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  line-height: 30px;
+  text-indent: 20px;
+}
+
