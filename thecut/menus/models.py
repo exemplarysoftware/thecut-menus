@@ -34,8 +34,8 @@ class MenuItem(AbstractBaseResource):
     class QuerySet(AbstractBaseResource.QuerySet):
         def active(self):
             """Return active (enabled, published) objects which are linked to an object."""
-            #queryset = super(QuerySet, super).active()
-            return self.exclude(content_type__isnull=True).exclude(
+            queryset = super(MenuItem.QuerySet, self).active()
+            return queryset.exclude(content_type__isnull=True).exclude(
                 object_id__isnull=True)
     
     class Meta(AbstractBaseResource.Meta):
@@ -46,6 +46,13 @@ class MenuItem(AbstractBaseResource):
     
     def get_absolute_url(self):
         return self.content_object.get_absolute_url()
+    
+    @property
+    def is_active(self):
+        is_active = self in self.__class__.objects.active().filter(
+            pk=self.pk)
+        object_active = getattr(self.content_object, 'is_active', True)
+        return object_active and is_active or False
     
     @property
     def is_menu(self):

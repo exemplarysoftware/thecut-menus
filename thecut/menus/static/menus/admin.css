@@ -8,3 +8,7 @@
   display: inline-block;
   }
 
+.action.close {
+  cursor: pointer;
+}
+

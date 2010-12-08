@@ -64,15 +64,24 @@ class MenuAdmin(admin.ModelAdmin):
             'menus/admin.js']
     
     def change_view(self, *args, **kwargs):
+        # Set 'current_app' to name of admin site.
         extra_context = kwargs.pop('extra_context', {})
         extra_context.update({'current_app': self.admin_site.name})
         return super(MenuAdmin, self).change_view(*args,
             extra_context=extra_context, **kwargs)
     
+    def changelist_view(self, request, *args, **kwargs):
+        # Remove add menu link from change list if not a superuser.
+        extra_context = kwargs.pop('extra_context', {})
+        if not request.user.is_superuser:
+            extra_context.update({'has_add_permission': False})
+        return super(MenuAdmin, self).changelist_view(request, *args,
+            extra_context=extra_context, **kwargs)
+    
     def queryset(self, request):
         queryset = super(MenuAdmin, self).queryset(request)
-        #if request.user.is_superuser:
-        #    return queryset
+        if request.user.is_superuser:
+            return queryset
         return queryset.filter(is_featured=True)
     
     def get_urls(self):

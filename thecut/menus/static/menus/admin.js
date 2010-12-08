@@ -1,6 +1,6 @@
 $(document).ready(function() {
   
-  $('a.action.addmenu, a.action.additem').live('click', function(event) {
+  $('.action.addmenu, .action.additem').live('click', function(event) {
     var menu = $(this).closest('.menu');
     $.ajax({
       url: $(this).attr('href'),
@@ -31,7 +31,7 @@ $(document).ready(function() {
   return false;
   });
   
-  $('a.action.delete').live('click', function(event) {
+  $('.action.delete').live('click', function(event) {
     $.ajax({
       type: 'POST',
       url: $(this).attr('href'),
@@ -45,15 +45,21 @@ $(document).ready(function() {
   return false;
   });
   
+  $('.action.close').live('click', function(event) {
+    $.fancybox.close();
+  });
+  
+  $('a.action.edit[href="#"]').remove();
+  
   bindSortableFancybox();
 });
 
 function bindSortableFancybox() {
   $('.menus-menu ol.menu').sortable({
-    //handle: '.move',
+    handle: '.name',
     cursor: 'move',
     opacity: 0.6,
-    axis: 'y',
+    //axis: 'y',
     //containment: 'parent',
     update: function(event, ui) {
       var ids = $(this).sortable('toArray');
@@ -71,7 +77,12 @@ function bindSortableFancybox() {
     },
   });
   
-  $('.menus-menu .menu .source a.action.edit').fancybox({    
+  $('.menus-menu .menu .source .action.edit').fancybox({    
+    'autoDimensions': false,
+    'height': 250,
+    'width': 500,
+    'padding': 20,
+    'scrolling': 'no',
     'padding': 20,
     'showCloseButton': false,
     'overlayColor': '#000000',
