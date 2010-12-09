@@ -151,7 +151,6 @@ def menuitem_admin_edit(request, menu_pk, menuitem_pk):
         pk=menuitem_pk)
     form_class = menuitem.is_menu and MenuMenuItemAdminForm \
         or MenuItemAdminForm
-    print form_class
     if request.is_ajax():
         if request.method == 'POST':
             if menuitem.is_menu:
