@@ -12,6 +12,8 @@ from thecut.menus.settings import SELECTABLE_MODELS
 import uuid
 
 
+@cache_control(no_cache=True)
+@cache_page(0)
 @permission_required('menus.add_menu')
 def menu_admin_add_child(request, menu_pk):
     """Add/create new child menu."""
@@ -75,6 +77,8 @@ def menuitem_admin_contenttype_object_list(request, content_type_pk):
         return HttpResponseBadRequest('bad request')
 
 
+@cache_control(no_cache=True)
+@cache_page(0)
 @permission_required('menus.change_menuitem')
 def menuitem_admin_reorder(request):
     """Reorder list of menu items."""
@@ -91,6 +95,8 @@ def menuitem_admin_reorder(request):
             mimetype='text/plain')
 
 
+@cache_control(no_cache=True)
+@cache_page(0)
 @permission_required('menus.add_menuitem')
 def menuitem_admin_add(request, menu_pk):
     """Add/create new menu item."""
@@ -116,6 +122,8 @@ def menuitem_admin_add(request, menu_pk):
             mimetype='text/plain')
 
 
+@cache_control(no_cache=True)
+@cache_page(0)
 @permission_required('menus.add_menuitem')
 def menuitem_admin_add_placeholder(request, menu_pk):
     """Add/create new unlinked (empty) menu item."""
@@ -134,6 +142,8 @@ def menuitem_admin_add_placeholder(request, menu_pk):
         return HttpResponseBadRequest('bad request')
 
 
+@cache_control(no_cache=True)
+@cache_page(0)
 @permission_required('menus.change_menuitem')
 def menuitem_admin_edit(request, menu_pk, menuitem_pk):
     """Edit/update new menu item."""
@@ -165,6 +175,8 @@ def menuitem_admin_edit(request, menu_pk, menuitem_pk):
             mimetype='text/plain')
 
 
+@cache_control(no_cache=True)
+@cache_page(0)
 @permission_required('menus.delete_menuitem')
 def menuitem_admin_delete(request, menu_pk, menuitem_pk):
     """Delete/destroy existing menu item."""
