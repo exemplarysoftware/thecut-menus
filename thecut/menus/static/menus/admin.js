@@ -80,7 +80,7 @@ function bindSortableFancybox() {
   $('.menus-menu .menu .source .action.edit').fancybox({    
     'autoDimensions': false,
     'height': 250,
-    'width': 500,
+    'width': 700,
     'padding': 20,
     'scrolling': 'no',
     'padding': 20,
