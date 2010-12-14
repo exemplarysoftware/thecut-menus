@@ -69,7 +69,19 @@ def menuitem_admin_contenttype_object_list(request, content_type_pk):
         
         objects = []
         for obj in model_class.objects.all():
-            objects += [{'pk': obj.pk, 'name': str(obj)}]
+            name = str(obj)
+            if hasattr(obj, 'sites'):
+                try:
+                    name += ' (%s)' %(', '.join(
+                        [site.name for site in obj.sites.all()]))
+                except:
+                    pass
+            if hasattr(obj, 'site'):
+                try:
+                    name += ' (%s)' %(obj.site.name)
+                except:
+                    pass
+            objects += [{'pk': obj.pk, 'name': name}]
         
         return HttpResponse(simplejson.dumps(objects),
             mimetype='application/json')
