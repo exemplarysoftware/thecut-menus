@@ -115,10 +115,20 @@ class MenuAdmin(admin.ModelAdmin):
         )
         urlpatterns += super(MenuAdmin, self).get_urls()
         return urlpatterns
+    
+    def save_model(self, request, obj, form, change):
+        if not change: obj.created_by = request.user
+        obj.updated_by = request.user
+        obj.save()
 
 
 class MenuItemAdmin(admin.ModelAdmin):
     fields = ['name', 'content_type', 'object_id', 'is_enabled']
+    
+    def save_model(self, request, obj, form, change):
+        if not change: obj.created_by = request.user
+        obj.updated_by = request.user
+        obj.save()
 
 
 class ViewLinkAdmin(admin.ModelAdmin):
