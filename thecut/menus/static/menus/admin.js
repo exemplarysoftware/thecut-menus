@@ -32,17 +32,20 @@ $(document).ready(function() {
   });
   
   $('.action.delete').live('click', function(event) {
-    $.ajax({
-      type: 'POST',
-      url: $(this).attr('href'),
-      success: function(data) {
-        $('li#menuitem-' + data.pk).fadeOut().remove();
-        $.fancybox.close();
-        },
-      error: function() {alert('An error occured whilst processing this request.');},
-    });
-  event.preventDefault; 
-  return false;
+    var answer = confirm('Are you sure you wish to delete this menu item?');
+    if (answer) {
+      $.ajax({
+        type: 'POST',
+        url: $(this).attr('href'),
+        success: function(data) {
+          $('li#menuitem-' + data.pk).fadeOut().remove();
+          $.fancybox.close();
+          },
+        error: function() {alert('An error occured whilst processing this request.');},
+      });
+    }
+    event.preventDefault; 
+    return false;
   });
   
   $('.action.close').live('click', function(event) {
