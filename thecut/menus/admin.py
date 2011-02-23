@@ -61,7 +61,7 @@ class MenuAdmin(admin.ModelAdmin):
             'menus/admin.css']}
         js = ['menus/jquery.min.js', 'menus/jquery-ui.min.js',
             'menus/fancybox/jquery.fancybox-1.3.4.pack.js',
-            'menus/admin.js']
+            'menus/admin.js', 'menus/csrf.js']
     
     def change_view(self, *args, **kwargs):
         # Set 'current_app' to name of admin site.
