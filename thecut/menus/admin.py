@@ -55,6 +55,7 @@ class OldMenuAdmin(admin.ModelAdmin):
 
 class MenuAdmin(admin.ModelAdmin):
     fields = ['name', 'slug', 'publish_at', 'is_featured']
+    ordering = ['is_featured']
     
     class Media:
         css = {'all': ['menus/fancybox/jquery.fancybox-1.3.4.css',
