@@ -53,8 +53,9 @@ class MenuItem(AbstractBaseResource):
             # http://blog.roseman.org.uk/2010/02/22/django-patterns-part-4-forwards-generic-relations/
             generics = {}
             for item in queryset:
-                generics.setdefault(item.content_type_id, set()).add(
-                    item.object_id)
+                if item.content_type_id:
+                    generics.setdefault(item.content_type_id, set()).add(
+                        item.object_id)
             
             content_types = ContentType.objects.in_bulk(generics.keys())
             
@@ -64,7 +65,8 @@ class MenuItem(AbstractBaseResource):
                 relations[ct] = ct_model.objects.in_bulk(list(fk_list))
             
             for item in queryset:
-                setattr(item, '_content_object_cache',
+                if item.content_type_id and item.object_id:
+                    setattr(item, '_content_object_cache',
                         relations[item.content_type_id][item.object_id])
             
             return queryset
