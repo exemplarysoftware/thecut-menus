@@ -25,7 +25,7 @@ def menu_admin_add_child(request, menu_pk):
             created_by=request.user, updated_by=request.user)
         menu.save()
         content_type = ContentType.objects.get_for_model(Menu)
-        order = parent_menu.menuitem_set.count() + 1
+        order = parent_menu.items.count() + 1
         menu_item = MenuItem(menu=parent_menu, is_enabled=False,
             content_type=content_type, object_id=menu.pk,
             name=name, order=order, publish_at=datetime.now(),
@@ -119,7 +119,7 @@ def menuitem_admin_add(request, menu_pk):
             if form.is_valid():
                 menuitem = form.save(commit=False)
                 menuitem.menu = menu
-                menuitem.order = menu.menuitem_set.count() + 1
+                menuitem.order = menu.items.count() + 1
                 menuitem.publish_at = datetime.now(),
                 menuitem.created_by = request.user
                 menuitem.updated_by = request.user
@@ -143,7 +143,7 @@ def menuitem_admin_add_placeholder(request, menu_pk):
     if request.is_ajax():
         name = 'New menu item'
         content_type = ContentType.objects.get_for_model(Menu)
-        order = menu.menuitem_set.count() + 1
+        order = menu.items.count() + 1
         menu_item = MenuItem(menu=menu, is_enabled=False,
             content_type=None, object_id=None,
             name=name, order=order, publish_at=datetime.now(),

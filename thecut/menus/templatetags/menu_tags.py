@@ -10,9 +10,12 @@ def menu(context, slug, extra_class=None):
     try:
         menu = Menu.objects.active().get(slug=slug)
     except Menu.DoesNotExist:
-        menu = None
+        menuitem_list = None
+    else:
+        menuitem_list = menu.items.active().select_related()
+    
     request = context['request']
-    return {'menu': menu, 'extra_class': extra_class,
+    return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
         'request': request}
 
 
@@ -26,8 +29,8 @@ def section_menu(context, obj, extra_class=None):
     """
     content_type = ContentType.objects.get_for_model(obj)
     menu_items = MenuItem.objects.active().filter(content_type=content_type,
-      object_id=obj.pk)
-    menu = menu_items and menu_items[0].menu or False
+      object_id=obj.pk).select_related()
+    menu = menu_items and menu_items[0].menu or None
     request = context['request']
     return {'menu': menu, 'extra_class': extra_class,
         'request': request}
