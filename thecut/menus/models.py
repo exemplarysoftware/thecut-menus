@@ -14,6 +14,14 @@ class Menu(AbstractBaseResource):
     
     def __unicode__(self):
         return self.name
+    
+    @property
+    def menuitem_set(self):
+        """Deprecated - instead use 'items()'."""
+        warnings.warn('menuitem_set property is deprecated - use '
+            '\'items\' property.', DeprecationWarning,
+            stacklevel=2)
+        return self.items
 
 
 class MenuItem(AbstractBaseResource):
@@ -22,7 +30,7 @@ class MenuItem(AbstractBaseResource):
     title = models.CharField(max_length=200, blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
     
-    menu = models.ForeignKey('Menu')
+    menu = models.ForeignKey('Menu', related_name='items')
     
     # Generic relation to an object.
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
@@ -37,6 +45,29 @@ class MenuItem(AbstractBaseResource):
             queryset = super(MenuItem.QuerySet, self).active()
             return queryset.exclude(content_type__isnull=True).exclude(
                 object_id__isnull=True)
+        
+        def select_related(self):
+            queryset = super(MenuItem.QuerySet, self).select_related()
+            
+            # Simulating select_related() on GenericForeignKey
+            # http://blog.roseman.org.uk/2010/02/22/django-patterns-part-4-forwards-generic-relations/
+            generics = {}
+            for item in queryset:
+                generics.setdefault(item.content_type_id, set()).add(
+                    item.object_id)
+            
+            content_types = ContentType.objects.in_bulk(generics.keys())
+            
+            relations = {}
+            for ct, fk_list in generics.items():
+                ct_model = content_types[ct].model_class()
+                relations[ct] = ct_model.objects.in_bulk(list(fk_list))
+            
+            for item in queryset:
+                setattr(item, '_content_object_cache',
+                        relations[item.content_type_id][item.object_id])
+            
+            return queryset
     
     class Meta(AbstractBaseResource.Meta):
         ordering = ['order']
