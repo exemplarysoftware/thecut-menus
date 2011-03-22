@@ -4,7 +4,7 @@
   <a class="action addmenu" href="{% url admin:menus_menu_admin_add_child menu.pk %}">add sub-menu</a>
 </div>
 <ol class="menu" id="menu-{{ menu.pk }}">
-  {% for menuitem in menu.menuitem_set.all %}
+  {% for menuitem in menu.items.select_related.all %}
   <li class="menuitem{% if not menuitem.is_menu %}{% if menuitem.content_object %} linked{% endif %}{% endif %}" id="menuitem-{{ menuitem.pk }}">
     <div class="source{% if menuitem.is_active %} active{% endif %}">
       <span class="name">{{ menuitem }}</span>
