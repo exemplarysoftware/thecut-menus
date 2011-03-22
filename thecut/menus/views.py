@@ -1,4 +1,5 @@
 from datetime import datetime
+from django.conf import settings
 from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.contrib.contenttypes.models import ContentType
 from django.http import HttpResponseBadRequest, HttpResponse
@@ -18,7 +19,7 @@ import uuid
 def menu_admin_add_child(request, menu_pk):
     """Add/create new child menu."""
     parent_menu = get_object_or_404(Menu, pk=menu_pk)
-    if request.is_ajax():
+    if request.is_ajax() or settings.DEBUG:
         name = 'New sub menu'
         slug = str(uuid.uuid4())
         menu = Menu(name=slug, slug=slug, publish_at=datetime.now(),
@@ -42,7 +43,7 @@ def menu_admin_add_child(request, menu_pk):
     u.has_perm('menus.change_menuitem'))
 def menuitem_admin_contenttype_list(request):
     """Add/create new child menu."""
-    if request.is_ajax():
+    if request.is_ajax() or settings.DEBUG:
         content_types = []
         for app_model in SELECTABLE_MODELS:
             app_label, model = app_model.lower().split('.')
@@ -62,7 +63,7 @@ def menuitem_admin_contenttype_list(request):
     u.has_perm('menus.change_menuitem'))
 def menuitem_admin_contenttype_object_list(request, content_type_pk):
     """Add/create new child menu."""
-    if request.is_ajax():
+    if request.is_ajax() or settings.DEBUG:
         content_type = get_object_or_404(ContentType,
             pk=content_type_pk)
         model_class = content_type.model_class()
@@ -113,7 +114,7 @@ def menuitem_admin_reorder(request):
 def menuitem_admin_add(request, menu_pk):
     """Add/create new menu item."""
     menu = get_object_or_404(Menu, pk=menu_pk)
-    if request.is_ajax():
+    if request.is_ajax() or settings.DEBUG:
         if request.method == 'POST':
             form = MenuItemAdminForm(request.POST)
             if form.is_valid():
@@ -140,7 +141,7 @@ def menuitem_admin_add(request, menu_pk):
 def menuitem_admin_add_placeholder(request, menu_pk):
     """Add/create new unlinked (empty) menu item."""
     menu = get_object_or_404(Menu, pk=menu_pk)
-    if request.is_ajax():
+    if request.is_ajax() or settings.DEBUG:
         name = 'New menu item'
         content_type = ContentType.objects.get_for_model(Menu)
         order = menu.items.count() + 1
@@ -163,7 +164,7 @@ def menuitem_admin_edit(request, menu_pk, menuitem_pk):
         pk=menuitem_pk)
     form_class = menuitem.is_menu and MenuMenuItemAdminForm \
         or MenuItemAdminForm
-    if request.is_ajax():
+    if request.is_ajax() or settings.DEBUG:
         if request.method == 'POST':
             if menuitem.is_menu:
                 form = form_class(request.POST,
