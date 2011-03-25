@@ -28,10 +28,14 @@ def section_menu(context, obj, extra_class=None):
     
     """
     content_type = ContentType.objects.get_for_model(obj)
-    menu_items = MenuItem.objects.active().filter(content_type=content_type,
-      object_id=obj.pk).select_related()
-    menu = menu_items and menu_items[0].menu or None
+    matching_menuitems = MenuItem.objects.active().filter(
+        content_type=content_type, object_id=obj.pk)
+    
+    menuitem_list = matching_menuitems and \
+        matching_menuitems[0].menu.items.active().select_related() or \
+        None
+    
     request = context['request']
-    return {'menu': menu, 'extra_class': extra_class,
+    return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
         'request': request}
 
