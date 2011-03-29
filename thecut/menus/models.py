@@ -1,8 +1,8 @@
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.db import models
-from thecut.managers import QuerySetManager
-from thecut.models import AbstractBaseResource
+from thecut.core.managers import QuerySetManager
+from thecut.core.models import AbstractBaseResource
 
 
 class Menu(AbstractBaseResource):
