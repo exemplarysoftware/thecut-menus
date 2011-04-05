@@ -66,8 +66,11 @@ class MenuItem(AbstractBaseResource):
             
             for item in queryset:
                 if item.content_type_id and item.object_id:
-                    setattr(item, '_content_object_cache',
-                        relations[item.content_type_id][item.object_id])
+                    try:
+                        setattr(item, '_content_object_cache',
+                            relations[item.content_type_id][item.object_id])
+                    except KeyError:
+                        pass
             
             return queryset
     
