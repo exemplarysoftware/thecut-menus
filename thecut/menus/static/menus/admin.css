@@ -1,3 +1,6 @@
+body.ajax-loading, body.ajax-loading * {
+    cursor: wait !important;
+}
 
 .menus-menu .menu {
   clear: both;

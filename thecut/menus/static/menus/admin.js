@@ -1,5 +1,11 @@
 $(document).ready(function() {
   
+  $('body').ajaxSend(function() {
+      $(this).addClass('ajax-loading');
+  }).ajaxComplete(function() {
+      $(this).removeClass('ajax-loading');
+  });
+  
   $('.action.addmenu, .action.additem').live('click', function(event) {
     var menu = $(this).closest('.menu');
     $.ajax({
