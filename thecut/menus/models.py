@@ -46,8 +46,8 @@ class MenuItem(AbstractBaseResource):
             return queryset.exclude(content_type__isnull=True).exclude(
                 object_id__isnull=True)
         
-        def select_related(self):
-            queryset = super(MenuItem.QuerySet, self).select_related()
+        def select_generic_related(self):
+            queryset = self.all()
             
             # Simulating select_related() on GenericForeignKey
             # http://blog.roseman.org.uk/2010/02/22/django-patterns-part-4-forwards-generic-relations/
