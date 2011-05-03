@@ -12,7 +12,7 @@ def menu(context, slug, extra_class=None):
     except Menu.DoesNotExist:
         menuitem_list = None
     else:
-        menuitem_list = menu.items.active().select_related()
+        menuitem_list = menu.items.active().select_generic_related()
     
     request = context['request']
     return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
@@ -32,7 +32,7 @@ def section_menu(context, obj, extra_class=None):
         content_type=content_type, object_id=obj.pk)
     
     menuitem_list = matching_menuitems and \
-        matching_menuitems[0].menu.items.active().select_related() or \
+        matching_menuitems[0].menu.items.active().select_generic_related() or \
         None
     
     request = context['request']
