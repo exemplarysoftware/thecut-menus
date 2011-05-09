@@ -9,7 +9,7 @@ class ImageInput(FileInput):
         if value and hasattr(value, 'url'):
             output.append('<a target="_blank" href="%s"><img src="%s" ' \
                 'style="display: block; float: left; max-width: 30px;' \
-                ' height: 27px; padding-right: 5px;" /></a>' %(
+                ' height: 27px; padding-right: 5px;" /></a> Change:' %(
                 escape(value.url), escape(value.url)))
         output.append(super(ImageInput, self).render(name, value, attrs))
         return mark_safe(u''.join(output))
