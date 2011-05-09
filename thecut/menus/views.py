@@ -42,7 +42,6 @@ def menu_admin_add_child(request, menu_pk):
 @user_passes_test(lambda u: u.has_perm('menus.add_menuitem') or \
     u.has_perm('menus.change_menuitem'))
 def menuitem_admin_contenttype_list(request):
-    """Add/create new child menu."""
     if request.is_ajax() or settings.DEBUG:
         content_types = []
         for app_model in SELECTABLE_MODELS:
@@ -62,7 +61,6 @@ def menuitem_admin_contenttype_list(request):
 @user_passes_test(lambda u: u.has_perm('menus.add_menuitem') or \
     u.has_perm('menus.change_menuitem'))
 def menuitem_admin_contenttype_object_list(request, content_type_pk):
-    """Add/create new child menu."""
     if request.is_ajax() or settings.DEBUG:
         content_type = get_object_or_404(ContentType,
             pk=content_type_pk)
@@ -116,7 +114,7 @@ def menuitem_admin_add(request, menu_pk):
     menu = get_object_or_404(Menu, pk=menu_pk)
     if request.is_ajax() or settings.DEBUG:
         if request.method == 'POST':
-            form = MenuItemAdminForm(request.POST)
+            form = MenuItemAdminForm(request.POST, request.FILES)
             if form.is_valid():
                 menuitem = form.save(commit=False)
                 menuitem.menu = menu
@@ -166,12 +164,7 @@ def menuitem_admin_edit(request, menu_pk, menuitem_pk):
         or MenuItemAdminForm
     if request.is_ajax() or settings.DEBUG:
         if request.method == 'POST':
-            if menuitem.is_menu:
-                form = form_class(request.POST,
-                    instance=menuitem)
-            else:
-                form = form_class(request.POST,
-                    instance=menuitem)
+            form = form_class(request.POST, request.FILES, instance=menuitem)
             if form.is_valid():
                 obj = form.save(commit=False)
                 obj.updated_by = request.user

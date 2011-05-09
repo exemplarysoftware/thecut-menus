@@ -26,15 +26,12 @@ $(document).ready(function() {
   });
   
   $('form').live('submit', function(event) {
-    $.ajax({
-      type: 'POST',
-      url: $(this).attr('action'),
-      data: $(this).serialize(),
+    event.preventDefault();
+    $(this).ajaxSubmit({
       success: function(data) {location.reload();},
       error: function() {alert('An error occured whilst processing this request.');},
     });
-  event.preventDefault;
-  return false;
+    return false;
   });
   
   $('.action.delete').live('click', function(event) {
@@ -88,7 +85,7 @@ function bindSortableFancybox() {
   
   $('.menus-menu .menu .source .action.edit').fancybox({    
     'autoDimensions': false,
-    'height': 250,
+    'height': 350,
     'width': 700,
     'padding': 20,
     'scrolling': 'no',
