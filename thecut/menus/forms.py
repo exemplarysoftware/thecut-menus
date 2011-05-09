@@ -65,9 +65,15 @@ class MenuItemAdminForm(forms.ModelForm):
 
 
 class MenuMenuItemAdminForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(MenuMenuItemAdminForm, self).__init__(*args, **kwargs)
+        if not getattr(settings, 'MENUS_IMAGES', False):
+            del self.fields['image']
+    
     class Meta:
-        fields = ['name', 'is_enabled']
+        fields = ['name', 'image', 'is_enabled']
         model = MenuItem
+        widgets = {'image': ImageInput()}
 
 
 class ViewLinkAdminForm(forms.ModelForm):
