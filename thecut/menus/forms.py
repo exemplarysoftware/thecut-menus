@@ -2,10 +2,11 @@ from datetime import datetime
 from django import forms
 from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
+from form_utils.fields import ClearableImageField
 from thecut.menus.models import Menu, MenuItem, ViewLink, WebLink
 from thecut.menus.settings import SELECTABLE_MODELS
 from thecut.menus.widgets import ImageInput
-
+from form_utils.widgets import ImageWidget
 
 class MenuAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -41,6 +42,9 @@ class OldMenuItemAdminForm(forms.ModelForm):
 
 
 class MenuItemAdminForm(forms.ModelForm):
+    image = ClearableImageField(file_field=forms.ImageField(required=False,
+        widget=ImageInput()))
+    
     def __init__(self, *args, **kwargs):
         super(MenuItemAdminForm, self).__init__(*args, **kwargs)
         if not getattr(settings, 'MENUS_IMAGES', False):
@@ -60,11 +64,13 @@ class MenuItemAdminForm(forms.ModelForm):
     class Meta:
         fields = ['name', 'content_type', 'object_id', 'image', 'is_enabled']
         model = MenuItem
-        widgets = {'image': ImageInput()}
 
 
 
 class MenuMenuItemAdminForm(forms.ModelForm):
+    image = ClearableImageField(file_field=forms.ImageField(required=False,
+        widget=ImageInput()))
+    
     def __init__(self, *args, **kwargs):
         super(MenuMenuItemAdminForm, self).__init__(*args, **kwargs)
         if not getattr(settings, 'MENUS_IMAGES', False):
@@ -73,7 +79,6 @@ class MenuMenuItemAdminForm(forms.ModelForm):
     class Meta:
         fields = ['name', 'image', 'is_enabled']
         model = MenuItem
-        widgets = {'image': ImageInput()}
 
 
 class ViewLinkAdminForm(forms.ModelForm):
