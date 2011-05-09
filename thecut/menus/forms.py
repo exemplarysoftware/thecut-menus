@@ -1,8 +1,10 @@
 from datetime import datetime
 from django import forms
+from django.conf import settings
 from django.contrib.contenttypes.models import ContentType
 from thecut.menus.models import Menu, MenuItem, ViewLink, WebLink
 from thecut.menus.settings import SELECTABLE_MODELS
+from thecut.menus.widgets import ImageInput
 
 
 class MenuAdminForm(forms.ModelForm):
@@ -41,6 +43,8 @@ class OldMenuItemAdminForm(forms.ModelForm):
 class MenuItemAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(MenuItemAdminForm, self).__init__(*args, **kwargs)
+        if not getattr(settings, 'MENUS_IMAGES', False):
+            del self.fields['image']
         self.fields['content_type'].label = 'Type'
         self.fields['object_id'].label = 'Target'
         
@@ -54,8 +58,10 @@ class MenuItemAdminForm(forms.ModelForm):
             pk__in=[ct.pk for ct in content_types])
     
     class Meta:
-        fields = ['name', 'content_type', 'object_id', 'is_enabled']
+        fields = ['name', 'content_type', 'object_id', 'image', 'is_enabled']
         model = MenuItem
+        widgets = {'image': ImageInput()}
+
 
 
 class MenuMenuItemAdminForm(forms.ModelForm):

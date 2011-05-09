@@ -1,7 +1,7 @@
 <span class="action close">Close</span>
 <h2>Change Menu Item</h2>
 
-<form action="{{ request.path }}" method="post">
+<form{% if form.is_multipart %} enctype="multipart/form-data"{% endif %} action="{{ request.path }}" method="post">
 {% csrf_token %}
   <ul>
     {{ form.as_ul }}

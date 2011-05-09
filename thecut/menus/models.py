@@ -28,8 +28,8 @@ class MenuItem(AbstractBaseResource):
     """Links a Menu to an object, and provides an order."""
     name = models.CharField(max_length=100, blank=True, null=True)
     title = models.CharField(max_length=200, blank=True, null=True)
+    image = models.ImageField(upload_to='uploads/menus', blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
-    
     menu = models.ForeignKey('Menu', related_name='items')
     
     # Generic relation to an object.
