@@ -162,22 +162,18 @@ def menuitem_admin_edit(request, menu_pk, menuitem_pk):
         pk=menuitem_pk)
     form_class = menuitem.is_menu and MenuMenuItemAdminForm \
         or MenuItemAdminForm
-    if request.is_ajax() or settings.DEBUG:
-        if request.method == 'POST':
-            form = form_class(request.POST, request.FILES, instance=menuitem)
-            if form.is_valid():
-                obj = form.save(commit=False)
-                obj.updated_by = request.user
-                obj.save()
-                return HttpResponse('updated', mimetype='text/plain')
-        else:
-            form = form_class(instance=menuitem)
-        return render_to_response('admin/menus/_menuitem_form.html',
-            {'form': form, 'menuitem': menuitem},
-            context_instance=RequestContext(request))
+    if request.method == 'POST':
+        form = form_class(request.POST, request.FILES, instance=menuitem)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.updated_by = request.user
+            obj.save()
+            return HttpResponse('updated', mimetype='text/plain')
     else:
-        return HttpResponseBadRequest('bad request',
-            mimetype='text/plain')
+        form = form_class(instance=menuitem)
+    return render_to_response('admin/menus/_menuitem_form.html',
+        {'form': form, 'menuitem': menuitem},
+        context_instance=RequestContext(request))
 
 
 @cache_control(no_cache=True)
