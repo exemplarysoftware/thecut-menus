@@ -61,7 +61,7 @@ class MenuAdmin(admin.ModelAdmin):
         css = {'all': ['menus/fancybox/jquery.fancybox-1.3.4.css',
             'menus/admin.css']}
         js = ['menus/jquery.min.js', 'menus/jquery-ui.min.js',
-            'javascripts/jquery.form.js',
+            'menus/jquery.form.js',
             'menus/fancybox/jquery.fancybox-1.3.4.pack.js',
             'menus/admin.js', 'menus/csrf.js']
     
