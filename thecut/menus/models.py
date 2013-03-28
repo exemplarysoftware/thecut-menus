@@ -34,7 +34,7 @@ class MenuItem(AbstractBaseResource):
     
     # Generic relation to an object.
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
-    object_id = models.IntegerField(blank=True, null=True)
+    object_id = models.IntegerField(db_index=True, blank=True, null=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
     
     objects = QuerySetManager()
