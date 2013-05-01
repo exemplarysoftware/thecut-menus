@@ -55,14 +55,23 @@ class MenuItem(PublishableResource):
     def get_absolute_url(self):
         return self.content_object.get_absolute_url()
 
-    @property
-    def is_active(self):
-        is_active = self in self.__class__.objects.active().filter(
-            pk=self.pk)
-        object_active = getattr(self.content_object, 'is_active', True)
-        return object_active and is_active or False
+    def get_css_classes(self):
+        css_classes = ['featured' if self.is_featured else '',
+                       'has-image' if self.image else '',
+                       'has-menu' if self.is_menu() else '']
+        return ' '.join(filter(bool, css_classes))
 
-    @property
+    def is_active(self, *args, **kwargs):
+        item_active = super(MenuItem, self).is_active(*args, **kwargs)
+
+        if item_active:
+            object_active = getattr(self.content_object, 'is_active', True)
+            if callable(object_active):
+                object_active = object_active()
+            return bool(object_active)
+        else:
+            return False
+
     def is_menu(self):
         return isinstance(self.content_object, Menu)
 
