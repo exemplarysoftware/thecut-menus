@@ -28,7 +28,7 @@ class MenuItemQuerySet(PublishableResourceQuerySet):
 
         """
 
-        # The prefetch_related is only available in Django 1.4+
+        # The prefetch_related method is only available in Django 1.4+
         if hasattr(self, 'prefetch_related'):
             queryset = self.prefetch_related('content_object')
         else:
