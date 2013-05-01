@@ -14,10 +14,10 @@ def menu(context, slug, extra_class=None):
     except Menu.DoesNotExist:
         menuitem_list = None
     else:
-        menuitem_list = menu.items.active().select_generic_related()
+        menuitem_list = menu.items.active().prefetch_content_objects()
 
     return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
-        'request': context.get('request')}
+            'request': context.get('request')}
 
 
 @register.inclusion_tag('menus/_menu.html', takes_context=True)
@@ -30,11 +30,13 @@ def section_menu(context, obj, extra_class=None):
     """
     content_type = ContentType.objects.get_for_model(obj)
     matching_menuitems = MenuItem.objects.active().filter(
-        content_type=content_type, object_id=obj.pk)
+        content_type=content_type, object_id=obj.pk)[:1]
 
-    menuitem_list = matching_menuitems and \
-        matching_menuitems[0].menu.items.active().select_generic_related() or \
-        None
+    if matching_menuitems:
+        menu = matching_menuitems[0].menu
+        menuitem_list = menu.items.active().prefetch_content_objects()
+    else:
+        menuitem_list = None
 
     return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
-        'request': context.get('request')}
+            'request': context.get('request')}

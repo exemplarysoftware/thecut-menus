@@ -1,7 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from django.contrib.contenttypes.models import ContentType
+from django.db import models
 from thecut.publishing.querysets import PublishableResourceQuerySet
+import warnings
 
 
 class MenuItemQuerySet(PublishableResourceQuerySet):
@@ -12,10 +14,28 @@ class MenuItemQuerySet(PublishableResourceQuerySet):
         """
 
         queryset = super(MenuItemQuerySet, self).active(*args, **kwargs)
-        return queryset.exclude(content_type__isnull=True).exclude(
-            object_id__isnull=True)
+        return queryset.exclude(models.Q(content_type__isnull=True) |
+                                models.Q(object_id__isnull=True))
+
+    def prefetch_content_objects(self):
+        """Attempt to prefetch related content objects, if available.
+
+        """
+
+        # The prefetch_related is only available in Django 1.4+
+        if hasattr(self, 'prefetch_related'):
+            queryset = self.prefetch_related('content_object')
+        else:
+            queryset = self.select_generic_related()
+
+        return queryset
 
     def select_generic_related(self):
+        # Deprecated method, will be removed as this functionality is now
+        # covered by prefetch_related since Django 1.4.
+        warnings.warn('select_generic_related is deprecated - use '
+                      'prefetch_related (available in Django 1.4+) instead.',
+                      DeprecationWarning, stacklevel=2)
         queryset = self.all()
 
         # Simulating select_related() on GenericForeignKey
