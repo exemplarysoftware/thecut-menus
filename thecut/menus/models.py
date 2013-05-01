@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
+from django.core.urlresolvers import reverse
 from django.db import models
 from model_utils.managers import PassThroughManager
 from thecut.menus import querysets
@@ -88,11 +89,10 @@ class ViewLink(PublishableResource):
     def __str__(self):
         return self.name
 
-    @models.permalink
     def get_absolute_url(self):
         args = self.view.split()
         view_name = args.pop(0)
-        return (view_name, args)
+        return reverse(view_name, args)
 
 
 @python_2_unicode_compatible
