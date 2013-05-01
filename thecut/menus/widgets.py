@@ -10,6 +10,7 @@ except ImportError:
 
 
 class ImageInput(FileInput):
+    initial_text = ''
 
     def render(self, name, value, attrs=None):
         output = []
@@ -18,4 +19,5 @@ class ImageInput(FileInput):
                 '<img src="{url}" alt="" /></a>'
             output.append(image_html.format(url=escape(value.url)))
         output.append(super(ImageInput, self).render(name, value, attrs))
+        output = ['<div class="imageinput">'] + output + ['</div>']
         return mark_safe(''.join(output))
