@@ -7,9 +7,15 @@ import warnings
 
 
 class MenuItemQuerySet(PublishableResourceQuerySet):
+    """Customised :py:class:`~django.db.models.db.query.QuerySet` for
+    :py:class:`~thecut.menus.models.MenuItem` model."""
 
     def active(self, *args, **kwargs):
-        """Return active (enabled, published) objects which are linked to an object.
+        """Filter for objects which are active (enabled, published), and linked
+        to an object.
+
+        :returns: Filtered queryset.
+        :rtype: :py:class:`.MenuItemQuerySet`
 
         """
 
@@ -18,7 +24,7 @@ class MenuItemQuerySet(PublishableResourceQuerySet):
                                 models.Q(object_id__isnull=True))
 
     def prefetch_content_objects(self):
-        """Attempt to prefetch related content objects, if available.
+        """Attempt to prefetch the related content objects.
 
         """
 
@@ -36,6 +42,7 @@ class MenuItemQuerySet(PublishableResourceQuerySet):
         warnings.warn('select_generic_related is deprecated - use '
                       'prefetch_related (available in Django 1.4+) instead.',
                       DeprecationWarning, stacklevel=2)
+
         queryset = self.all()
 
         # Simulating select_related() on GenericForeignKey
