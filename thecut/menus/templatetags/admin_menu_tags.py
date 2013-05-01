@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
 from django import template
 from django.core.urlresolvers import NoReverseMatch, resolve, reverse
 
@@ -15,7 +17,7 @@ def menu(context, menu, extra_class=None):
 @register.simple_tag
 def admin_object_change_url(admin_site, app_label, model_name,
     object_id):
-    
+
     try:
         url = reverse(
             '%(admin_site)s:%(app_label)s_%(model_name)s_change' %({
@@ -25,4 +27,3 @@ def admin_object_change_url(admin_site, app_label, model_name,
         return '#'
     else:
         return url
-

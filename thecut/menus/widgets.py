@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
 from django.forms import FileInput
 from django.utils.html import escape
 from django.utils.safestring import mark_safe
@@ -13,4 +15,3 @@ class ImageInput(FileInput):
                 escape(value.url), escape(value.url)))
         output.append(super(ImageInput, self).render(name, value, attrs))
         return mark_safe(u''.join(output))
-

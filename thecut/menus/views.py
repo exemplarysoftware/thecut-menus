@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.decorators import permission_required, user_passes_test
@@ -65,7 +67,7 @@ def menuitem_admin_contenttype_object_list(request, content_type_pk):
         content_type = get_object_or_404(ContentType,
             pk=content_type_pk)
         model_class = content_type.model_class()
-        
+
         objects = []
         for obj in model_class.objects.all():
             name = str(obj)
@@ -81,7 +83,7 @@ def menuitem_admin_contenttype_object_list(request, content_type_pk):
                 except:
                     pass
             objects += [{'pk': obj.pk, 'name': name}]
-        
+
         return HttpResponse(simplejson.dumps(objects),
             mimetype='application/json')
     else:
@@ -191,4 +193,3 @@ def menuitem_admin_delete(request, menu_pk, menuitem_pk):
     else:
         return HttpResponseBadRequest('bad request',
             mimetype='text/plain')
-
