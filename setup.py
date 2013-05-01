@@ -11,5 +11,5 @@ setup(
     version=get_git_version(),
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['distribute', 'django-form-utils==0.2.0'],
+    install_requires=['distribute'],
 )

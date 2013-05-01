@@ -3,7 +3,9 @@ from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 from django.conf.urls.defaults import url, patterns
 from django.contrib import admin
-from thecut.menus.forms import MenuAdminForm, MenuItemAdminForm, ViewLinkAdminForm, WebLinkAdminForm, OldMenuItemAdminForm
+from thecut.menus.forms import (MenuAdminForm, MenuItemAdminForm,
+                                ViewLinkAdminForm, WebLinkAdminForm,
+                                OldMenuItemAdminForm)
 from thecut.menus.models import MenuItem, Menu, ViewLink, WebLink
 
 
