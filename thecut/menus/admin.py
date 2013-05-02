@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from datetime import datetime
 from django.conf.urls.defaults import url, patterns
 from django.contrib import admin
 from thecut.authorship.admin import AuthorshipMixin
-from thecut.menus.forms import (MenuAdminForm, MenuItemAdminForm,
-                                MenuItemInlineForm, ViewLinkAdminForm,
-                                WebLinkAdminForm)
+from thecut.menus.forms import MenuItemAdminForm, MenuItemInlineForm
 from thecut.menus.models import MenuItem, Menu, ViewLink, WebLink
 
 
@@ -27,7 +24,6 @@ class StandardMenuAdmin(AuthorshipMixin, admin.ModelAdmin):
                                    'is_featured'),
                         'classes': ('collapse',)}),
     )
-    form = MenuAdminForm
     inlines = (MenuItemInline,)
     prepopulated_fields = {'slug': ('name',)}
 
@@ -49,8 +45,6 @@ class StandardMenuAdmin(AuthorshipMixin, admin.ModelAdmin):
             if not instance.pk:
                 instance.created_by = request.user
             instance.updated_by = request.user
-            if not instance.publish_at:
-                instance.publish_at = datetime.now()
             instance.save()
         #formset.save()
 
@@ -75,8 +69,8 @@ class MenuAdmin(AuthorshipMixin, admin.ModelAdmin):
         # Set 'current_app' to name of admin site.
         extra_context = kwargs.pop('extra_context', {})
         extra_context.update({'current_app': self.admin_site.name})
-        return super(MenuAdmin, self).change_view(*args,
-            extra_context=extra_context, **kwargs)
+        return super(MenuAdmin, self).change_view(
+            *args, extra_context=extra_context, **kwargs)
 
     def changelist_view(self, request, *args, **kwargs):
         # Remove add menu link from change list if not a superuser.
@@ -139,7 +133,6 @@ class ViewLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
         ('Publishing', {'fields': (('publish_at', 'is_enabled'),),
                         'classes': ('collapse',)}),
     )
-    form = ViewLinkAdminForm
     list_display = ('name', 'view')
 
 admin.site.register(ViewLink, ViewLinkAdmin)
@@ -152,7 +145,6 @@ class WebLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
         ('Publishing', {'fields': (('publish_at', 'is_enabled'),),
                         'classes': ('collapse',)}),
     )
-    form = WebLinkAdminForm
     list_display = ('name', 'url')
 
 admin.site.register(WebLink, WebLinkAdmin)

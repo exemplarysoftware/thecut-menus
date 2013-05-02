@@ -1,21 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from datetime import datetime
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 from thecut.menus import settings
 from thecut.menus.models import Menu, MenuItem, ViewLink, WebLink
 from thecut.menus.widgets import ImageInput
-
-
-class MenuAdminForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(MenuAdminForm, self).__init__(*args, **kwargs)
-        self.fields['publish_at'].initial = datetime.now()
-
-    class Meta:
-        model = Menu
 
 
 class MenuItemInlineForm(forms.ModelForm):
@@ -78,23 +67,3 @@ class SubMenuItemAdminForm(forms.ModelForm):
         fields = ('name', 'image', 'is_enabled')
         model = MenuItem
         widgets = {'image': ImageInput()}
-
-
-class ViewLinkAdminForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(ViewLinkAdminForm, self).__init__(*args, **kwargs)
-        self.fields['publish_at'].initial = datetime.now()
-
-    class Meta:
-        model = ViewLink
-
-
-class WebLinkAdminForm(forms.ModelForm):
-
-    def __init__(self, *args, **kwargs):
-        super(WebLinkAdminForm, self).__init__(*args, **kwargs)
-        self.fields['publish_at'].initial = datetime.now()
-
-    class Meta:
-        model = WebLink
