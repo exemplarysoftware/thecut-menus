@@ -49,9 +49,6 @@ class StandardMenuAdmin(AuthorshipMixin, admin.ModelAdmin):
         #formset.save()
 
 
-admin.site.register(Menu, StandardMenuAdmin)
-
-
 class MenuAdmin(AuthorshipMixin, admin.ModelAdmin):
 
     fields = ('name', 'slug', 'publish_at', 'is_featured')
@@ -117,6 +114,8 @@ class MenuAdmin(AuthorshipMixin, admin.ModelAdmin):
         )
         urlpatterns += super(MenuAdmin, self).get_urls()
         return urlpatterns
+
+admin.site.register(Menu, MenuAdmin)
 
 
 class MenuItemAdmin(AuthorshipMixin, admin.ModelAdmin):

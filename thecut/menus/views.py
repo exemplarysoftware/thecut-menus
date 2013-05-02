@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from datetime import datetime
 from django.conf import settings
 from django.contrib.auth.decorators import permission_required, user_passes_test
 from django.contrib.contenttypes.models import ContentType
@@ -24,16 +23,14 @@ def menu_admin_add_child(request, menu_pk):
     if request.is_ajax() or settings.DEBUG:
         name = 'New sub menu'
         slug = str(uuid.uuid4())
-        menu = Menu(name=slug, slug=slug, publish_at=datetime.now(),
-            created_by=request.user, updated_by=request.user)
-        menu.save()
+        menu = Menu(name=slug, slug=slug)
+        menu.save(user=request.user)
         content_type = ContentType.objects.get_for_model(Menu)
         order = parent_menu.items.count() + 1
         menu_item = MenuItem(menu=parent_menu, is_enabled=False,
-            content_type=content_type, object_id=menu.pk,
-            name=name, order=order, publish_at=datetime.now(),
-            created_by=request.user, updated_by=request.user)
-        menu_item.save()
+                             content_type=content_type, object_id=menu.pk,
+                             name=name, order=order)
+        menu_item.save(user=request.user)
         return HttpResponse('created', mimetype='text/plain')
     else:
         return HttpResponseBadRequest('bad request')
@@ -42,18 +39,18 @@ def menu_admin_add_child(request, menu_pk):
 @cache_control(no_cache=True)
 @cache_page(0)
 @user_passes_test(lambda u: u.has_perm('menus.add_menuitem') or \
-    u.has_perm('menus.change_menuitem'))
+                            u.has_perm('menus.change_menuitem'))
 def menuitem_admin_contenttype_list(request):
     if request.is_ajax() or settings.DEBUG:
         content_types = []
         for app_model in SELECTABLE_MODELS:
             app_label, model = app_model.lower().split('.')
-            content_type = ContentType.objects.get(
-                app_label=app_label, model=model)
+            content_type = ContentType.objects.get(app_label=app_label,
+                                                   model=model)
             content_types += [{'pk': content_type.pk,
-                'name': content_type.name.title()}]
+                               'name': content_type.name.title()}]
         return HttpResponse(simplejson.dumps(content_types),
-            mimetype='application/json')
+                            mimetype='application/json')
     else:
         return HttpResponseBadRequest('bad request')
 
@@ -64,8 +61,7 @@ def menuitem_admin_contenttype_list(request):
     u.has_perm('menus.change_menuitem'))
 def menuitem_admin_contenttype_object_list(request, content_type_pk):
     if request.is_ajax() or settings.DEBUG:
-        content_type = get_object_or_404(ContentType,
-            pk=content_type_pk)
+        content_type = get_object_or_404(ContentType, pk=content_type_pk)
         model_class = content_type.model_class()
 
         objects = []
@@ -85,7 +81,7 @@ def menuitem_admin_contenttype_object_list(request, content_type_pk):
             objects += [{'pk': obj.pk, 'name': name}]
 
         return HttpResponse(simplejson.dumps(objects),
-            mimetype='application/json')
+                            mimetype='application/json')
     else:
         return HttpResponseBadRequest('bad request')
 
@@ -100,12 +96,10 @@ def menuitem_admin_reorder(request):
         for pk in order:
             item = MenuItem.objects.get(pk=pk)
             item.order = order.index(pk)
-            item.updated_by = request.user
-            item.save()
+            item.save(user=request.user)
         return HttpResponse('ok', mimetype='text/plain')
     else:
-        return HttpResponseBadRequest('bad request',
-            mimetype='text/plain')
+        return HttpResponseBadRequest('bad request', mimetype='text/plain')
 
 
 @cache_control(no_cache=True)
@@ -121,18 +115,15 @@ def menuitem_admin_add(request, menu_pk):
                 menuitem = form.save(commit=False)
                 menuitem.menu = menu
                 menuitem.order = menu.items.count() + 1
-                menuitem.publish_at = datetime.now(),
-                menuitem.created_by = request.user
-                menuitem.updated_by = request.user
-                menuitem.save()
+                menuitem.save(user=request.user)
                 return HttpResponse('created', mimetype='text/plain')
         else:
             form = MenuItemAdminForm()
         return render_to_response('admin/menus/_menuitem_form.html',
-            {'form': form}, context_instance=RequestContext(request))
+                                  {'form': form},
+                                  context_instance=RequestContext(request))
     else:
-        return HttpResponseBadRequest('bad request',
-            mimetype='text/plain')
+        return HttpResponseBadRequest('bad request', mimetype='text/plain')
 
 
 @cache_control(no_cache=True)
@@ -146,10 +137,9 @@ def menuitem_admin_add_placeholder(request, menu_pk):
         content_type = ContentType.objects.get_for_model(Menu)
         order = menu.items.count() + 1
         menu_item = MenuItem(menu=menu, is_enabled=False,
-            content_type=None, object_id=None,
-            name=name, order=order, publish_at=datetime.now(),
-            created_by=request.user, updated_by=request.user)
-        menu_item.save()
+                             content_type=None, object_id=None,
+                             name=name, order=order)
+        menu_item.save(user=request.user)
         return HttpResponse('created', mimetype='text/plain')
     else:
         return HttpResponseBadRequest('bad request')
@@ -160,22 +150,20 @@ def menuitem_admin_add_placeholder(request, menu_pk):
 @permission_required('menus.change_menuitem')
 def menuitem_admin_edit(request, menu_pk, menuitem_pk):
     """Edit/update new menu item."""
-    menuitem = get_object_or_404(MenuItem, menu__pk=menu_pk,
-        pk=menuitem_pk)
-    form_class = menuitem.is_menu and SubMenuItemAdminForm \
+    menuitem = get_object_or_404(MenuItem, menu__pk=menu_pk, pk=menuitem_pk)
+    form_class = menuitem.is_menu() and SubMenuItemAdminForm \
         or MenuItemAdminForm
     if request.method == 'POST':
         form = form_class(request.POST, request.FILES, instance=menuitem)
         if form.is_valid():
             obj = form.save(commit=False)
-            obj.updated_by = request.user
-            obj.save()
+            obj.save(user=request.user)
             return HttpResponse('updated', mimetype='text/plain')
     else:
         form = form_class(instance=menuitem)
     return render_to_response('admin/menus/_menuitem_form.html',
-        {'form': form, 'menuitem': menuitem},
-        context_instance=RequestContext(request))
+                              {'form': form, 'menuitem': menuitem},
+                              context_instance=RequestContext(request))
 
 
 @cache_control(no_cache=True)
@@ -183,13 +171,11 @@ def menuitem_admin_edit(request, menu_pk, menuitem_pk):
 @permission_required('menus.delete_menuitem')
 def menuitem_admin_delete(request, menu_pk, menuitem_pk):
     """Delete/destroy existing menu item."""
-    menuitem = get_object_or_404(MenuItem, menu__pk=menu_pk,
-        pk=menuitem_pk)
+    menuitem = get_object_or_404(MenuItem, menu__pk=menu_pk, pk=menuitem_pk)
     if request.is_ajax() and request.method == 'POST':
         data = {'pk': menuitem.pk}
         menuitem.delete()
         return HttpResponse(simplejson.dumps(data),
-            mimetype='application/json')
+                            mimetype='application/json')
     else:
-        return HttpResponseBadRequest('bad request',
-            mimetype='text/plain')
+        return HttpResponseBadRequest('bad request', mimetype='text/plain')
