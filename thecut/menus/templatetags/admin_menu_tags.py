@@ -19,7 +19,7 @@ def admin_object_change_url(admin_site, app_label, model_name, object_id):
     url_name = '%(admin_site)s:%(app_label)s_%(model_name)s_change'.format(
         admin_site=admin_site, app_label=app_label, model_name=model_name)
     try:
-        url = reverse(url_name, args=[object_id])
+        url = reverse(url_name, args=(object_id,))
     except NoReverseMatch:
         url = '#'
     return url

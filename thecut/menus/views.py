@@ -9,7 +9,7 @@ from django.shortcuts import get_object_or_404, render_to_response
 from django.template import RequestContext
 from django.utils import simplejson
 from django.views.decorators.cache import cache_control, cache_page
-from thecut.menus.forms import MenuItemAdminForm, MenuMenuItemAdminForm
+from thecut.menus.forms import MenuItemAdminForm, SubMenuItemAdminForm
 from thecut.menus.models import Menu, MenuItem
 from thecut.menus.settings import SELECTABLE_MODELS
 import uuid
@@ -162,7 +162,7 @@ def menuitem_admin_edit(request, menu_pk, menuitem_pk):
     """Edit/update new menu item."""
     menuitem = get_object_or_404(MenuItem, menu__pk=menu_pk,
         pk=menuitem_pk)
-    form_class = menuitem.is_menu and MenuMenuItemAdminForm \
+    form_class = menuitem.is_menu and SubMenuItemAdminForm \
         or MenuItemAdminForm
     if request.method == 'POST':
         form = form_class(request.POST, request.FILES, instance=menuitem)

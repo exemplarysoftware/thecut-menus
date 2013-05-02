@@ -18,10 +18,10 @@ class MenuAdminForm(forms.ModelForm):
         model = Menu
 
 
-class OldMenuItemAdminForm(forms.ModelForm):
+class MenuItemInlineForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        super(OldMenuItemAdminForm, self).__init__(*args, **kwargs)
+        super(MenuItemInlineForm, self).__init__(*args, **kwargs)
         self.fields['content_type'].label = 'Target'
         self.fields['object_id'].label = 'Object'
 
@@ -34,12 +34,12 @@ class OldMenuItemAdminForm(forms.ModelForm):
         self.fields['content_type'].queryset = queryset.filter(
             pk__in=[ct.pk for ct in content_types])
 
-    class Media:
+    class Media(object):
         css = {'all': ['menus/menuitem_inline.css']}
         js = ['javascripts/jquery.js', 'javascripts/jquery-ui.js',
-            'menus/menuitem_inline.js']
+              'menus/menuitem_inline.js']
 
-    class Meta:
+    class Meta(object):
         model = MenuItem
 
 
@@ -67,10 +67,10 @@ class MenuItemAdminForm(forms.ModelForm):
         widgets = {'image': ImageInput()}
 
 
-class MenuMenuItemAdminForm(forms.ModelForm):
+class SubMenuItemAdminForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        super(MenuMenuItemAdminForm, self).__init__(*args, **kwargs)
+        super(SubMenuItemAdminForm, self).__init__(*args, **kwargs)
         if not settings.MENUITEM_IMAGES:
             del self.fields['image']
 
