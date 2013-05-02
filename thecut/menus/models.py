@@ -6,6 +6,7 @@ from django.core.urlresolvers import reverse
 from django.db import models
 from model_utils.managers import PassThroughManager
 from thecut.menus import querysets
+from thecut.ordering.models import OrderMixin
 from thecut.publishing.models import PublishableResource
 
 try:
@@ -28,7 +29,7 @@ class Menu(PublishableResource):
 
 
 @python_2_unicode_compatible
-class MenuItem(PublishableResource):
+class MenuItem(OrderMixin, PublishableResource):
     """Links a Menu to an object, and provides an order.
 
     """
@@ -36,7 +37,6 @@ class MenuItem(PublishableResource):
     name = models.CharField(max_length=100, blank=True, null=True)
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='uploads/menus', blank=True, null=True)
-    order = models.PositiveIntegerField(default=0)
     menu = models.ForeignKey('Menu', related_name='items')
 
     # Generic relation to an object.
@@ -46,9 +46,6 @@ class MenuItem(PublishableResource):
 
     objects = PassThroughManager().for_queryset_class(
         querysets.MenuItemQuerySet)()
-
-    class Meta(PublishableResource.Meta):
-        ordering = ('order',)
 
     def __str__(self):
         return '{0}'.format(self.name or self.content_object)

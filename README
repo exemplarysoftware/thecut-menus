@@ -4,7 +4,8 @@ The Cut Django App: Menus
 thecut.menus
 ============
 
-This application requires ``thecut.authorship`` and ``thecut.publishing``.
+This application requires ``thecut.authorship``, ``thecut.ordering``, and
+``thecut.publishing``.
 
 
 To install this application (whilst in the project's activated virtualenv)::
