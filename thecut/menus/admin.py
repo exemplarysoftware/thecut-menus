@@ -3,30 +3,33 @@ from __future__ import absolute_import, unicode_literals
 from datetime import datetime
 from django.conf.urls.defaults import url, patterns
 from django.contrib import admin
+from thecut.authorship.admin import AuthorshipMixin
 from thecut.menus.forms import (MenuAdminForm, MenuItemAdminForm,
-                                ViewLinkAdminForm, WebLinkAdminForm,
-                                OldMenuItemAdminForm)
+                                MenuItemInlineForm, ViewLinkAdminForm,
+                                WebLinkAdminForm)
 from thecut.menus.models import MenuItem, Menu, ViewLink, WebLink
 
 
-class OldMenuItemInline(admin.StackedInline):
+class MenuItemInline(admin.TabularInline):
+
     extra = 0
-    fields = ['name', 'order', 'content_type', 'object_id']
-    form = OldMenuItemAdminForm
+    fields = ('name', 'order', 'content_type', 'object_id')
+    form = MenuItemInlineForm
     model = MenuItem
 
 
-class OldMenuAdmin(admin.ModelAdmin):
+class StandardMenuAdmin(AuthorshipMixin, admin.ModelAdmin):
+
     change_form_template = 'admin/menus/menu/change_form_old.html'
-    fieldsets = [
-        (None, {'fields': ['name']}),
-        ('Publishing', {'fields': ['slug', ('publish_at', 'is_enabled'),
-            'is_featured'],
-            'classes': ['collapse']}),
-    ]
+    fieldsets = (
+        (None, {'fields': ('name',)}),
+        ('Publishing', {'fields': ('slug', ('publish_at', 'is_enabled'),
+                                   'is_featured'),
+                        'classes': ('collapse',)}),
+    )
     form = MenuAdminForm
-    inlines = [OldMenuItemInline]
-    prepopulated_fields = {'slug': ['name']}
+    inlines = (MenuItemInline,)
+    prepopulated_fields = {'slug': ('name',)}
 
     def get_urls(self):
         urlpatterns = patterns('thecut.menus.views',
@@ -37,13 +40,8 @@ class OldMenuAdmin(admin.ModelAdmin):
                 'menuitem_admin_contenttype_object_list',
                 name='menus_menuitem_admin_contenttype_object_list'),
         )
-        urlpatterns += super(OldMenuAdmin, self).get_urls()
+        urlpatterns += super(StandardMenuAdmin, self).get_urls()
         return urlpatterns
-
-    def save_model(self, request, obj, form, change):
-        if not change: obj.created_by = request.user
-        obj.updated_by = request.user
-        obj.save()
 
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
@@ -57,17 +55,21 @@ class OldMenuAdmin(admin.ModelAdmin):
         #formset.save()
 
 
-class MenuAdmin(admin.ModelAdmin):
-    fields = ['name', 'slug', 'publish_at', 'is_featured']
-    ordering = ['-is_featured']
+admin.site.register(Menu, StandardMenuAdmin)
+
+
+class MenuAdmin(AuthorshipMixin, admin.ModelAdmin):
+
+    fields = ('name', 'slug', 'publish_at', 'is_featured')
+    ordering = ('-is_featured',)
 
     class Media:
         css = {'all': ['menus/fancybox/jquery.fancybox-1.3.4.css',
-            'menus/admin.css']}
+                       'menus/admin.css']}
         js = ['menus/jquery.min.js', 'menus/jquery-ui.min.js',
-            'menus/jquery.form.js',
-            'menus/fancybox/jquery.fancybox-1.3.4.pack.js',
-            'menus/admin.js', 'menus/csrf.js']
+              'menus/jquery.form.js',
+              'menus/fancybox/jquery.fancybox-1.3.4.pack.js',
+              'menus/admin.js', 'menus/csrf.js']
 
     def change_view(self, *args, **kwargs):
         # Set 'current_app' to name of admin site.
@@ -81,8 +83,8 @@ class MenuAdmin(admin.ModelAdmin):
         extra_context = kwargs.pop('extra_context', {})
         if not request.user.is_superuser:
             extra_context.update({'has_add_permission': False})
-        return super(MenuAdmin, self).changelist_view(request, *args,
-            extra_context=extra_context, **kwargs)
+        return super(MenuAdmin, self).changelist_view(
+            request, *args, extra_context=extra_context, **kwargs)
 
     def queryset(self, request):
         queryset = super(MenuAdmin, self).queryset(request)
@@ -122,52 +124,35 @@ class MenuAdmin(admin.ModelAdmin):
         urlpatterns += super(MenuAdmin, self).get_urls()
         return urlpatterns
 
-    def save_model(self, request, obj, form, change):
-        if not change: obj.created_by = request.user
-        obj.updated_by = request.user
-        obj.save()
 
+class MenuItemAdmin(AuthorshipMixin, admin.ModelAdmin):
 
-class MenuItemAdmin(admin.ModelAdmin):
-    fields = ['name', 'content_type', 'object_id', 'is_enabled']
+    fields = ('name', 'content_type', 'object_id', 'is_enabled')
 
-    def save_model(self, request, obj, form, change):
-        if not change: obj.created_by = request.user
-        obj.updated_by = request.user
-        obj.save()
-
-
-class ViewLinkAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None, {'fields': ['name', 'view']}),
-        ('Publishing', {'fields': [('publish_at', 'is_enabled')],
-            'classes': ['collapse']}),
-    ]
-    form = ViewLinkAdminForm
-    list_display = ['name', 'view']
-
-    def save_model(self, request, obj, form, change):
-        if not change: obj.created_by = request.user
-        obj.updated_by = request.user
-        obj.save()
-
-
-class WebLinkAdmin(admin.ModelAdmin):
-    fieldsets = [
-        (None, {'fields': ['name', 'url']}),
-        ('Publishing', {'fields': [('publish_at', 'is_enabled')],
-            'classes': ['collapse']}),
-    ]
-    form = WebLinkAdminForm
-    list_display = ['name', 'url']
-
-    def save_model(self, request, obj, form, change):
-        if not change: obj.created_by = request.user
-        obj.updated_by = request.user
-        obj.save()
-
-
-admin.site.register(Menu, MenuAdmin)
 admin.site.register(MenuItem, MenuItemAdmin)
+
+
+class ViewLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
+
+    fieldsets = (
+        (None, {'fields': ('name', 'view')}),
+        ('Publishing', {'fields': (('publish_at', 'is_enabled'),),
+                        'classes': ('collapse',)}),
+    )
+    form = ViewLinkAdminForm
+    list_display = ('name', 'view')
+
 admin.site.register(ViewLink, ViewLinkAdmin)
+
+
+class WebLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
+
+    fieldsets = (
+        (None, {'fields': ('name', 'url')}),
+        ('Publishing', {'fields': (('publish_at', 'is_enabled'),),
+                        'classes': ('collapse',)}),
+    )
+    form = WebLinkAdminForm
+    list_display = ('name', 'url')
+
 admin.site.register(WebLink, WebLinkAdmin)
