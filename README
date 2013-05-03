@@ -1,4 +1,20 @@
 The Cut Django App: Menus
 
-Link media/menus directory to MEDIA_ROOT/menus.
+============
+thecut.menus
+============
 
+This application requires ``thecut.authorship``, ``thecut.ordering``, and
+``thecut.publishing``.
+
+
+To install this application (whilst in the project's activated virtualenv)::
+    pip install git+ssh://git@git.thecut.net.au/thecut-menus
+
+
+Add the ``thecut.menus`` to the project's ``INSTALLED_APPS`` setting::
+
+    INSTALLED_APPS = (
+        ...
+        'thecut.menus',
+    )
