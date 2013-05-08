@@ -1,3 +1,4 @@
+{% load url from future %}
 <span class="action close">Close</span>
 <h2>Change Menu Item</h2>
 
@@ -5,7 +6,6 @@
 {% csrf_token %}
   <ul>
     {{ form.as_ul }}
-    <li class="buttons"><input type="submit" value="Save" />{% if menuitem %}<a class="action delete" href="{% url admin:menus_menu_menuitem_admin_delete menuitem.menu.pk menuitem.pk %}">delete</a>{% endif %}</li>
+    <li class="buttons"><input type="submit" value="Save" />{% if menuitem %}<a class="action delete" href="{% url "admin:menus_menu_menuitem_admin_delete" menuitem.menu.pk menuitem.pk %}">delete</a>{% endif %}</li>
   </ul>
 </form>
-

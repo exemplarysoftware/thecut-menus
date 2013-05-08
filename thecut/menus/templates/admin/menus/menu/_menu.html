@@ -1,14 +1,14 @@
-
+{% load url from future %}
 <div class="toolbox">
-  <a class="action additem" href="{% url admin:menus_menu_menuitem_admin_add_placeholder menu.pk %}">add menu item</a>
-  <a class="action addmenu" href="{% url admin:menus_menu_admin_add_child menu.pk %}">add sub-menu</a>
+  <a class="action additem" href="{% url "admin:menus_menu_menuitem_admin_add_placeholder" menu.pk %}">add menu item</a>
+  <a class="action addmenu" href="{% url "admin:menus_menu_admin_add_child" menu.pk %}">add sub-menu</a>
 </div>
 <ol class="menu" id="menu-{{ menu.pk }}">
   {% for menuitem in menu.items.prefetch_content_objects %}
   <li class="menuitem{% if not menuitem.is_menu %}{% if menuitem.content_object %} linked{% endif %}{% endif %}" id="menuitem-{{ menuitem.pk }}">
     <div class="source{% if menuitem.is_active %} active{% endif %}">
       <span class="name">{{ menuitem }}</span>
-      <a class="action edit" href="{% url admin:menus_menu_menuitem_admin_edit menu.pk menuitem.pk %}">edit</a>
+      <a class="action edit" href="{% url "admin:menus_menu_menuitem_admin_edit" menu.pk menuitem.pk %}">edit</a>
     </div>
     {% if menuitem.is_menu %}
     {% load admin_menu_tags %}
