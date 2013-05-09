@@ -88,8 +88,8 @@ class ViewLink(PublishableResource):
 
     def get_absolute_url(self):
         args = self.view.split()
-        view_name = args.pop(0)
-        return reverse(view_name, args)
+        view_name = args.pop()
+        return reverse(view_name, args=args)
 
 
 @python_2_unicode_compatible
