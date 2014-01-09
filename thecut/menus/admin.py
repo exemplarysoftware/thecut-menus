@@ -1,10 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from django.conf.urls.defaults import url, patterns
 from django.contrib import admin
 from thecut.authorship.admin import AuthorshipMixin
 from thecut.menus.forms import MenuItemAdminForm, MenuItemInlineForm
 from thecut.menus.models import MenuItem, Menu, ViewLink, WebLink
+
+try:
+    from django.conf.urls import url, patterns
+except ImportError:
+    from django.conf.urls.defaults import url, patterns
 
 
 class MenuItemInline(admin.TabularInline):
