@@ -99,7 +99,7 @@ function bindSortableFancybox() {
 
 function replaceObjectInput() {
   /* Replace object input with select */
-  var object_input = $('input[name="object_id"][type="text"]');
+  var object_input = $('input[name="object_id"]');
   if (object_input.length) {
     var object_select = $('<select />').attr('id', object_input.attr('id')).attr('name', object_input.attr('name'));
     var input_value = object_input.val();
