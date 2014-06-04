@@ -48,7 +48,8 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='uploads/menus', blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
-    menu = models.ForeignKey('Menu', related_name='items')
+    menu = models.ForeignKey('Menu', blank=True, null=True,
+                             related_name='items')
 
     # Generic relation to an object.
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
