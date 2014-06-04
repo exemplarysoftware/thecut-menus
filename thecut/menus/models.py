@@ -4,11 +4,13 @@ from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
-from model_utils.managers import PassThroughManager
+from model_utils.managers import PassThroughManagerMixin
 from thecut.menus import querysets
 from thecut.ordering.models import OrderMixin
 from thecut.publishing.models import PublishableResource
 from mptt.models import MPTTModel, TreeForeignKey
+from mptt.managers import TreeManager
+
 
 try:
     from django.utils.encoding import python_2_unicode_compatible
@@ -27,6 +29,11 @@ class Menu(PublishableResource):
 
     def __str__(self):
         return self.name
+
+
+class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):
+
+    pass
 
 
 @python_2_unicode_compatible
@@ -48,7 +55,7 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     object_id = models.IntegerField(db_index=True, blank=True, null=True)
     content_object = generic.GenericForeignKey('content_type', 'object_id')
 
-    objects = PassThroughManager().for_queryset_class(
+    objects = PassThroughTreeManager().for_queryset_class(
         querysets.MenuItemQuerySet)()
 
     def __str__(self):
