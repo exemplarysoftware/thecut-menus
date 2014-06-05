@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from django.contrib import admin
+from mptt.admin import MPTTModelAdmin
 from thecut.authorship.admin import AuthorshipMixin
-from thecut.menus.models import ViewLink, WebLink
+from thecut.menus.models import MenuItem, ViewLink, WebLink
 
 try:
     from django.conf.urls import url, patterns
 except ImportError:
     from django.conf.urls.defaults import url, patterns
+
+
+class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
+
+    pass
+
+admin.site.register(MenuItem, MenuItemAdmin)
 
 
 class ViewLinkAdmin(AuthorshipMixin, admin.ModelAdmin):

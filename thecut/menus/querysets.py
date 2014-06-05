@@ -10,19 +10,6 @@ class MenuItemQuerySet(PublishableResourceQuerySet):
     """Customised :py:class:`~django.db.models.db.query.QuerySet` for
     :py:class:`~thecut.menus.models.MenuItem` model."""
 
-    def active(self, *args, **kwargs):
-        """Filter for objects which are active (enabled, published), and linked
-        to an object.
-
-        :returns: Filtered queryset.
-        :rtype: :py:class:`.MenuItemQuerySet`
-
-        """
-
-        queryset = super(MenuItemQuerySet, self).active(*args, **kwargs)
-        return queryset.exclude(models.Q(content_type__isnull=True) |
-                                models.Q(object_id__isnull=True))
-
     def prefetch_content_objects(self):
         """Attempt to prefetch the related content objects.
 
