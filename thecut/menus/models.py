@@ -18,19 +18,6 @@ except ImportError:
     from thecut.publishing.utils import python_2_unicode_compatible
 
 
-@python_2_unicode_compatible
-class Menu(PublishableResource):
-    """A collection of menu items.
-
-    """
-
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True)
-
-    def __str__(self):
-        return self.name
-
-
 class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):
 
     pass
@@ -38,7 +25,10 @@ class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):
 
 @python_2_unicode_compatible
 class MenuItem(MPTTModel, OrderMixin, PublishableResource):
-    """Links a Menu to an object, and provides an order.
+    """An ordered item in a menu.
+
+    If it is not the root of a menu or sub-menu, it is linked to
+    another resource.
 
     """
 
@@ -48,8 +38,6 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='uploads/menus', blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
-    menu = models.ForeignKey('Menu', blank=True, null=True,
-                             related_name='items')
 
     # Generic relation to an object.
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
@@ -83,7 +71,7 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
             return False
 
     def is_menu(self):
-        return isinstance(self.content_object, Menu)
+        return not self.parent is None
 
 
 @python_2_unicode_compatible
