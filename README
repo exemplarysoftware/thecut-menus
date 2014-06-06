@@ -18,3 +18,30 @@ Add the ``thecut.menus`` to the project's ``INSTALLED_APPS`` setting::
         ...
         'thecut.menus',
     )
+
+
+===========
+Development
+===========
+
+To set yourself up for development, check out the repository from git
+and ``cd`` into the directory that was created::
+
+    git clone git@git.thecut.net.au:thecut-menus
+
+
+Create a ``virtualenv`` for the project and install the development
+requirements::
+
+    cd thecut-menus
+    virtualenv .
+    source bin/activate
+    pip install -r requirements.txt
+
+Run the app's tests with ``./run.sh test``. This will run the tests
+with the version of Django specified in requirements.txt (this should
+be kept updated to whichever version we're currently developing
+against.)
+
+To run the tests against all the versions of Python and Django which
+this app supports, run the ``tox`` command.
