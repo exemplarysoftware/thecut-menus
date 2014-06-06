@@ -1,17 +1,13 @@
 {% load menu_tags %}
 
-{% spaceless %}
-  {% for item in menuitem_list %}
-    {% if forloop.first %}<ul class="menu{% if extra_class %} {{ extra_class }}{% endif %}">{% endif %}
-    {% if item.content_object %}
-      <li class="{{ item.get_css_classes }}">
-        {% if item.is_menu %}<a href="#">{% else %}<a href="{{ item.get_absolute_url }}" {% ifequal request.path item.get_absolute_url %} class="active"{% endifequal %}>{% endif %}
-        {% if item.image %}<img src="{{ item.image.url }}" alt="{{ item }}" />{% endif %}
-        <span>{{ item }}</span>
-        </a>
-        {% if item.is_menu %}{% menu item.content_object.slug %}{% endif %}
-      </li>
-    {% endif %}
-    {% if forloop.last %}</ul>{% endif %}
-  {% endfor %}
-{% endspaceless %}
+{% for item in menuitem_list %}{% with item_url=item.get_absolute_url %}
+  {% if forloop.first %}<ul class="menu{% if extra_class %} {{ extra_class }}{% endif %}">{% endif %}
+  <li class="{{ item.get_css_classes }}">
+    {% if item.get_absolute_url %}<a href="{{ item.get_absolute_url }}" {% if request.path == item.get_absolute_url %} class="active"{% endif %}>{% else %}<span>{% endif %}
+    {% if item.image %}<img src="{{ item.image.url }}" alt="{{ item }}" />{% endif %}
+    <span>{{ item }}</span>
+    {% if item.get_absolute_url %}</a>{% else %}</span>{% endif %}
+    {% if item.is_menu %}{% menu item %}{% endif %}
+  </li>
+  {% if forloop.last %}</ul>{% endif %}
+{% endwith %}{% endfor %}
