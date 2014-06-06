@@ -12,6 +12,6 @@ setup(
     packages=find_packages(),
     include_package_data=True,
     install_requires=[
-        'django-mptt==0.6.1',
+        'django-mptt>=0.6.1',
     ]
 )
