@@ -1,4 +1,5 @@
 import os
+from django import VERSION
 
 # Make filepaths relative to settings. Needed?
 ROOT = os.path.dirname(os.path.abspath(__file__))
@@ -20,7 +21,7 @@ SECRET_KEY = 'thecut-menus'
 ROOT_URLCONF = 'test_app.urls'
 STATIC_URL = '/static/'
 
-INSTALLED_APPS = (
+INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,9 +30,13 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_nose',
-    'south',
-    'thecut.menus',
-)
+    'thecut.menus', # TODO: get the `run.sh shell` command running.
+]
+
+if VERSION < (1,7,0):
+    INSTALLED_APPS.append('south')
+
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 NOSE_ARGS = ('--nocapture', )
+SOUTH_TESTS_MIGRATE = False
