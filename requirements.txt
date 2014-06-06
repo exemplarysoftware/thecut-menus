@@ -1,0 +1,5 @@
+# Requirements for development and running the tests.
+Django==1.6.5
+
+# Everything but Django is shared with tox.
+-r base-requirements.txt
