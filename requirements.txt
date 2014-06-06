@@ -1,5 +1,6 @@
 # Requirements for development and running the tests.
 Django==1.6.5
+tox==1.7.1
 
 # Everything but Django is shared with tox.
 -r base-requirements.txt
