@@ -71,7 +71,7 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
             return False
 
     def is_menu(self):
-        return not self.parent is None
+        return not hasattr(self, 'content_object')
 
 
 @python_2_unicode_compatible
