@@ -60,17 +60,6 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
                        'has-menu' if self.is_menu() else '']
         return ' '.join(filter(bool, css_classes))
 
-    def is_active(self, *args, **kwargs):
-        item_active = super(MenuItem, self).is_active(*args, **kwargs)
-
-        if item_active:
-            object_active = getattr(self.content_object, 'is_active', True)
-            if callable(object_active):
-                object_active = object_active()
-            return bool(object_active)
-        else:
-            return False
-
     def is_menu(self):
         return not hasattr(self, 'content_object')
 
