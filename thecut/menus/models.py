@@ -51,7 +51,8 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
         return '{0}'.format(self.name or self.content_object)
 
     def get_absolute_url(self):
-        return self.content_object.get_absolute_url()
+        if not self.is_menu():
+            return self.content_object.get_absolute_url()
 
     def get_css_classes(self):
         css_classes = ['featured' if self.is_featured else '',
