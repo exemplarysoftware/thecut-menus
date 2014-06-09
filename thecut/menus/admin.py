@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from thecut.authorship.admin import AuthorshipMixin
+from thecut.menus.forms import MenuItemAdminForm
 from thecut.menus.models import MenuItem, ViewLink, WebLink
 
 try:
@@ -13,7 +14,7 @@ except ImportError:
 
 class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
 
-    pass
+    form = MenuItemAdminForm
 
 admin.site.register(MenuItem, MenuItemAdmin)
 
