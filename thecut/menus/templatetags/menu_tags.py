@@ -9,6 +9,9 @@ register = template.Library()
 
 @register.inclusion_tag('menus/_menu.html', takes_context=True)
 def menu(context, slug_or_menuitem, extra_class=None):
+
+    menu = None
+
     if type(slug_or_menuitem) == MenuItem:
         menu = slug_or_menuitem
     else:
@@ -16,9 +19,9 @@ def menu(context, slug_or_menuitem, extra_class=None):
         try:
             menu = MenuItem.objects.active().get(slug=slug_or_menuitem)
         except MenuItem.DoesNotExist:
-            menuitem_list = None
+            menu = None
 
-    menuitem_list = menu.children.active()#.prefetch_content_objects()
+    menuitem_list = menu.children.active() if menu else []#.prefetch_content_objects()
 
     return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
             'request': context.get('request')}
