@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from django.contrib.contenttypes.models import ContentType
+from ..models import MenuItemContentType
 from rest_framework import serializers
 
 
@@ -16,7 +16,7 @@ class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta(object):
         fields = ['id',  'url', 'verbose_name', 'verbose_name_plural']
-        model = ContentType
+        model = MenuItemContentType
 
     def __init__(self, *args, **kwargs):
         return super(ContentTypeSerializer, self).__init__(*args, **kwargs)

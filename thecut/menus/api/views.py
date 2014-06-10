@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from . import serializers
-from django.contrib.contenttypes.models import ContentType
+from ..models import MenuItemContentType
 from rest_framework import authentication, generics, permissions
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -33,11 +33,11 @@ class RootAPIView(APIMixin, APIView):
 
 class ContentTypeListAPIView(APIMixin, generics.ListAPIView):
 
-    model = ContentType
+    model = MenuItemContentType
     serializer_class = serializers.ContentTypeSerializer
 
 
 class ContentTypeRetrieveAPIView(APIMixin, generics.RetrieveAPIView):
 
-    model = ContentType
+    model = MenuItemContentType
     serializer_class = serializers.ContentTypeWithObjectsSerializer

@@ -10,12 +10,25 @@ from thecut.ordering.models import OrderMixin
 from thecut.publishing.models import PublishableResource
 from mptt.models import MPTTModel, TreeForeignKey
 from mptt.managers import TreeManager
+from . import managers
 
 
 try:
     from django.utils.encoding import python_2_unicode_compatible
 except ImportError:
     from thecut.publishing.utils import python_2_unicode_compatible
+
+
+@python_2_unicode_compatible
+class MenuItemContentType(ContentType):
+
+    objects = managers.MenuItemContentTypeManager()
+
+    class Meta(object):
+        proxy = True
+
+    def __str__(self):
+        return self.name.title()
 
 
 class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):
