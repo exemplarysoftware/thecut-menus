@@ -16,6 +16,14 @@ class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
 
     form = MenuItemAdminForm
 
+    def get_urls(self):
+        urlpatterns = patterns(
+            '',
+            (r'^api/', include('thecut.menus.api.urls')),
+        )
+        urlpatterns += super(MenuItemAdmin, self).get_urls()
+        return urlpatterns
+
 admin.site.register(MenuItem, MenuItemAdmin)
 
 

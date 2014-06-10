@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from django import forms
 from thecut import backslash
-from thecut.authorship.admin import AuthorshipMixin
+from .admin import MenuItemAdmin
 from .models import MenuItem
 
 
@@ -18,7 +18,7 @@ class MenuBackslashForm(forms.ModelForm):
         self.fields['slug'].required = True
 
 
-class MenuItemBackslash(AuthorshipMixin, backslash.ModelAdmin):
+class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
     """Add and a top-level root MenuItem and manage it's children."""
 
     form = MenuBackslashForm
