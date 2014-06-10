@@ -7,6 +7,7 @@ from .models import MenuItem
 
 
 class MenuBackslashForm(forms.ModelForm):
+    """Form for adding/editing a top-level root MenuItem."""
 
     class Meta(object):
         model = MenuItem
@@ -17,13 +18,8 @@ class MenuBackslashForm(forms.ModelForm):
         self.fields['slug'].required = True
 
 
-class MenuBackslash(AuthorshipMixin, backslash.ModelAdmin):
-    """Backslash class for adding a 'menu'.
-
-    A 'menu' is just a `MenuItem` without a `parent` or
-    `context_object`.
-
-    """
+class MenuItemBackslash(AuthorshipMixin, backslash.ModelAdmin):
+    """Add and a top-level root MenuItem and manage it's children."""
 
     form = MenuBackslashForm
     fieldsets = [
@@ -39,3 +35,13 @@ class MenuBackslash(AuthorshipMixin, backslash.ModelAdmin):
         queryset = super(MenuItemBackslash, self).get_queryset(*args, **kwargs)
         # Only display top-level menus for editing in backslash.
         return queryset.filter(object_id__isnull=True, parent__isnull=True)
+
+    def change_view(self, request, object_id, form_url='', extra_content=None):
+        # Use a custom view to manage the menu items completely
+        # separately from Django's admin app.
+        from .views import ManageMenuView
+        view = ManageMenuView.as_view()
+        response = view(request, pk=object_id, admin=self)
+        if hasattr(response, 'render') and callable(response.render):
+            return response.render()
+        return response
