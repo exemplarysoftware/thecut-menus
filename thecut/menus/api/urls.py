@@ -14,6 +14,10 @@ urls = patterns(
 
     url(r'^contenttypes/(?P<pk>\d+)/$',
         views.ContentTypeRetrieveAPIView.as_view(), name='contenttype_detail'),
+
+    url(r'^menuitems/$',
+        views.MenuItemListAPIView.as_view(), name='menuitem_list'),
+
 )
 
 urlpatterns = patterns(

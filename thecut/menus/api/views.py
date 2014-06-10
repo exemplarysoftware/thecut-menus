@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from . import serializers
-from ..models import MenuItemContentType
+from ..models import MenuItem, MenuItemContentType
 from rest_framework import authentication, generics, permissions
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
@@ -25,9 +25,13 @@ class RootAPIView(APIMixin, APIView):
 
     def get(self, request, format=None):
         return Response({
-            'contentttypes':
-            reverse('admin:menus_menuitem_api:contenttype_list',
-                    request=request)
+            # ContentType
+            'contentttypes': reverse(
+                'admin:menus_menuitem_api:contenttype_list', request=request),
+
+            # MenuItem
+            'menuitems': reverse(
+                'admin:menus_menuitem_api:menuitem_list', request=request)
         })
 
 
@@ -41,3 +45,9 @@ class ContentTypeRetrieveAPIView(APIMixin, generics.RetrieveAPIView):
 
     model = MenuItemContentType
     serializer_class = serializers.ContentTypeWithObjectsSerializer
+
+
+class MenuItemListAPIView(APIMixin, generics.ListAPIView):
+
+    model = MenuItem
+    serializer_class = serializers.MenuItemSerializer

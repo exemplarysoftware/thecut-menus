@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from ..models import MenuItemContentType
+from ..models import MenuItem, MenuItemContentType
 from rest_framework import serializers
 
 
@@ -52,3 +52,21 @@ class GenericSerializer(serializers.ModelSerializer):
         self.Meta.model = instance.model
         return super(GenericSerializer, self).__init__(instance, *args,
                                                        **kwargs)
+
+
+class MenuItemSerializer(serializers.ModelSerializer):
+
+    id = serializers.Field(source='pk')
+    is_menu = serializers.SerializerMethodField('get_is_menu')
+    content_object = serializers.SerializerMethodField('get_content_object')
+
+    class Meta(object):
+        fields = ['id', 'is_menu', 'name', 'parent', 'order', 'lft', 'rght',
+                  'content_type', 'content_object']
+        model = MenuItem
+
+    def get_is_menu(self, menuitem):
+        return menuitem.is_menu()
+
+    def get_content_object(self, menuitem):
+        return menuitem.content_object
