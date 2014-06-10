@@ -10,13 +10,22 @@ class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(
         view_name='admin:menus_menuitem_api:contenttype_detail',
         lookup_field='pk')
+    verbose_name = serializers.SerializerMethodField('get_verbose_name')
+    verbose_name_plural = serializers.SerializerMethodField(
+        'get_verbose_name_plural')
 
     class Meta(object):
-        fields = ['id',  'url', 'name']
+        fields = ['id',  'url', 'verbose_name', 'verbose_name_plural']
         model = ContentType
 
     def __init__(self, *args, **kwargs):
         return super(ContentTypeSerializer, self).__init__(*args, **kwargs)
+
+    def get_verbose_name(self, content_type):
+        return content_type.model_class()._meta.verbose_name.title()
+
+    def get_verbose_name_plural(self, content_type):
+        return content_type.model_class()._meta.verbose_name_plural.title()
 
 
 class ContentTypeWithObjectsSerializer(ContentTypeSerializer):
