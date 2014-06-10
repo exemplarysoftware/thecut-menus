@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from django import forms
 from mptt.forms import MPTTAdminForm
 from thecut.menus.models import MenuItem
 

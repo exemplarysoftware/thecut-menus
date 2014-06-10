@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from django import template
-from django.core.urlresolvers import NoReverseMatch, resolve, reverse
+from django.core.urlresolvers import NoReverseMatch, reverse
 
 
 register = template.Library()

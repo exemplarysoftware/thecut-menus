@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from thecut.menus.models import MenuItem
 from thecut.menus.templatetags.menu_tags import menu
 from thecut.menus.tests.factories import MenuItemFactory
 from unittest import TestCase
@@ -11,7 +10,6 @@ class TestMenuTag(TestCase):
     def setUp(self):
         self.root = MenuItemFactory(slug='root')
         self.child = MenuItemFactory(parent=self.root)
-
 
     def test_returns_a_menuitems_children_when_given_a_slug(self):
 

@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from django.contrib.contenttypes.models import ContentType
-from django.db import models
 from thecut.publishing.querysets import PublishableResourceQuerySet
 import warnings
 
@@ -51,7 +50,7 @@ class MenuItemQuerySet(PublishableResourceQuerySet):
             if item.content_type_id and item.object_id:
                 try:
                     setattr(item, '_content_object_cache',
-                        relations[item.content_type_id][item.object_id])
+                            relations[item.content_type_id][item.object_id])
                 except KeyError:
                     pass
 

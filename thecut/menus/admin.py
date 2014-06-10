@@ -7,9 +7,9 @@ from thecut.menus.forms import MenuItemAdminForm
 from thecut.menus.models import MenuItem, ViewLink, WebLink
 
 try:
-    from django.conf.urls import url, patterns
+    from django.conf.urls import include, patterns
 except ImportError:
-    from django.conf.urls.defaults import url, patterns
+    from django.conf.urls.defaults import include, patterns
 
 
 class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):

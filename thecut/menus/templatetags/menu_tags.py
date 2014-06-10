@@ -7,6 +7,7 @@ from thecut.menus.models import MenuItem
 
 register = template.Library()
 
+
 @register.inclusion_tag('menus/_menu.html', takes_context=True)
 def menu(context, slug_or_menuitem, extra_class=None):
 
@@ -21,7 +22,8 @@ def menu(context, slug_or_menuitem, extra_class=None):
         except MenuItem.DoesNotExist:
             menu = None
 
-    menuitem_list = menu.children.active() if menu else []#.prefetch_content_objects()
+    # TODO: menu.children.active().prefetch_content_objects()
+    menuitem_list = menu.children.active() if menu else []
 
     return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
             'request': context.get('request')}
