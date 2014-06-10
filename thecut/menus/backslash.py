@@ -9,7 +9,7 @@ from .models import MenuItem
 class MenuBackslashForm(forms.ModelForm):
 
     class Meta(object):
-        models = MenuItem
+        model = MenuItem
 
     def __init__(self, *args, **kwargs):
         super(MenuBackslashForm, self).__init__(*args, **kwargs)
