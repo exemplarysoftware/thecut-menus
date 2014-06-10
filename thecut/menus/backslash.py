@@ -3,7 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from django import forms
 from thecut import backslash
 from thecut.authorship.admin import AuthorshipMixin
-from thecut.menus.models import MenuItem
+from .models import MenuItem
 
 
 class MenuBackslashForm(forms.ModelForm):
