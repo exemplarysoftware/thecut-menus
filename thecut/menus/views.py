@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from .models import MenuItem
 from django.views import generic
 from django.contrib.contenttypes.models import ContentType
 from django.utils.encoding import force_unicode
 
 
-class ManageMenuView(generic.TemplateView):
+class ManageMenuView(generic.DetailView):
 
+    model = MenuItem
     template_name = 'menus/managemenu.html'
 
     def get_context_data(self, *args, **kwargs):
@@ -35,4 +37,5 @@ class ManageMenuView(generic.TemplateView):
 
         for key, value in defaults.items():
             context_data.setdefault(key, value)
+
         return context_data

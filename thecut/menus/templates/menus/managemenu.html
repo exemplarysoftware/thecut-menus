@@ -1,5 +1,26 @@
 {% extends "backslash/change_form.html" %}
 
+{% block extrahead %}{{ block.super }}
+
+<script type="text/template" id="menuitem-template">
+  <li>
+    <span>name: <%= name %></span> |
+    <span>parent: <%= parent %></span> |
+    <span>order: <%=order %></span> |
+    <span>lft: <%=  lft %></span> |
+    <span>rght: <%= rght %></span> |
+    <span>content object: <%= content_object %></span>
+</li>
+</script>
+
+<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="/static/menus/underscore-min.js"></script>
+<script type="text/javascript" src="/static/menus/backbone-min.js"></script>
+<script type="text/javascript" src="/static/menus/backbone.pagination.js"></script>
+<script type="text/javascript" src="/static/menus/menus.js"></script>
+{% endblock %}
+
 {% block content %}
 
+<ul id="menuitems"></ul>
 {% endblock %}
