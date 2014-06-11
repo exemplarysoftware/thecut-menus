@@ -12,9 +12,6 @@ from .permissions import MenuItemAPIPermissions
 class APIMixin(object):
 
     authentication_classes = [authentication.SessionAuthentication]
-    paginate_by = 10
-    paginate_by_param = 'limit'
-    max_paginate_by = 100
     permission_classes = [permissions.IsAdminUser, MenuItemAPIPermissions]
 
 
