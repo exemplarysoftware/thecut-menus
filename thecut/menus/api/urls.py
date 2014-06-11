@@ -18,6 +18,9 @@ urls = patterns(
     url(r'^menuitems/$',
         views.MenuItemListAPIView.as_view(), name='menuitem_list'),
 
+    url(r'^menuitems/menuitem/(?P<pk>\d+)/$',
+        views.MenuItemRetrieveAPIView.as_view(), name='menuitem_detail'),
+
 )
 
 urlpatterns = patterns(

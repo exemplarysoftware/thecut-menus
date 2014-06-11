@@ -63,3 +63,9 @@ class MenuItemListAPIView(APIMixin, generics.ListAPIView):
         queryset = super(MenuItemListAPIView, self).get_queryset(*args,
                                                                  **kwargs)
         return self.form.filter_queryset(queryset)
+
+
+class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveAPIView):
+
+    model = MenuItem
+    serializer_class = serializers.MenuItemSerializer
