@@ -37,7 +37,7 @@ class ContentTypeWithObjectsSerializer(ContentTypeSerializer):
 
     def get_objects(self, content_type):
         queryset = content_type.model_class().objects.all()
-        return GenericSerializer(queryset).data
+        return GenericSerializer(queryset, content_type.model_class()).data
 
 
 class GenericSerializer(serializers.ModelSerializer):
@@ -48,16 +48,17 @@ class GenericSerializer(serializers.ModelSerializer):
     class Meta(object):
         fields = ['id', 'name']
 
-    def __init__(self, instance, *args, **kwargs):
-        self.Meta.model = instance.model
-        return super(GenericSerializer, self).__init__(instance, *args,
-                                                       **kwargs)
+    def __init__(self, queryset_or_instance, model, *args, **kwargs):
+        self.Meta.model = model
+        return super(GenericSerializer, self).__init__(queryset_or_instance,
+                                                       *args, **kwargs)
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
 
     id = serializers.Field(source='pk')
     is_menu = serializers.SerializerMethodField('get_is_menu')
+    content_type = ContentTypeSerializer()
     content_object = serializers.SerializerMethodField('get_content_object')
 
     class Meta(object):
@@ -69,4 +70,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
         return menuitem.is_menu()
 
     def get_content_object(self, menuitem):
-        return menuitem.content_object
+        if menuitem.content_object:
+            serializer = GenericSerializer(menuitem.content_object,
+                                           menuitem.content_object.__class__)
+            return serializer.data
