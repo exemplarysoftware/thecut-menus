@@ -5,7 +5,7 @@
 <script type="text/template" id="menuitem-template">
   <li data-menuitem-id="<%= id %>" data-parent="<%= parent %>" data-order="<%= order %>" data-lft="<%= lft %>" data-rght="<%= rght %>">
     <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
-    <label class="disabled"><%= content_type %> / <%= content_object %></label>
+    <label class="disabled"><%= content_type ? content_type.verbose_name:'' %> <%= content_type ? '/':'' %> <%= content_object ? content_object.name:'' %></label>
     <input class="button edit" type="submit" value="Edit" />
     <input class="button save" disabled="disabled" type="submit" value="Save" />
 </li>
