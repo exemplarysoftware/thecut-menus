@@ -8,6 +8,8 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
 from .permissions import MenuItemAPIPermissions
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import never_cache
 
 
 class APIMixin(object):
@@ -51,6 +53,10 @@ class MenuItemListAPIView(APIMixin, generics.ListAPIView):
     serializer_class = serializers.MenuItemSerializer
     form_class = forms.MenuItemFilterForm
 
+    @method_decorator(never_cache)
+    def dispatch(self, *args, **kwargs):
+        return super(MenuItemListAPIView, self).dispatch(*args, **kwargs)
+
     def list(self, request, *args, **kwargs):
         root = request.QUERY_PARAMS.get('root')
         self.form = self.form_class(data={'root': root})
@@ -65,7 +71,11 @@ class MenuItemListAPIView(APIMixin, generics.ListAPIView):
         return self.form.filter_queryset(queryset)
 
 
-class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveAPIView):
+class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateAPIView):
 
     model = MenuItem
     serializer_class = serializers.MenuItemSerializer
+
+    @method_decorator(never_cache)
+    def dispatch(self, *args, **kwargs):
+        return super(MenuItemRetrieveAPIView, self).dispatch(*args, **kwargs)

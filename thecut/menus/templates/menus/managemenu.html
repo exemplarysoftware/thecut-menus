@@ -3,24 +3,20 @@
 {% block extrahead %}{{ block.super }}
 
 <script type="text/template" id="menuitem-template">
-  <li>
-    <span>name: <%= name %></span> |
-    <span>parent: <%= parent %></span> |
-    <span>order: <%=order %></span> |
-    <span>lft: <%=  lft %></span> |
-    <span>rght: <%= rght %></span> |
-    <span>content object: <%= content_object %></span>
+  <li data-menuitem-id="<%= id %>" data-parent="<%= parent %>" data-order="<%= order %>" data-lft="<%= lft %>" data-rght="<%= rght %>">
+    <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
+    <label class="disabled"><%= content_type %> / <%= content_object %></label>
+    <input class="button edit" type="submit" value="Edit" />
+    <input class="button save" disabled="disabled" type="submit" value="Save" />
 </li>
 </script>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script type="text/javascript" src="/static/menus/underscore-min.js"></script>
 <script type="text/javascript" src="/static/menus/backbone-min.js"></script>
-<script type="text/javascript" src="/static/menus/backbone.pagination.js"></script>
 <script type="text/javascript" src="/static/menus/menus.js"></script>
 {% endblock %}
 
 {% block content %}
-
 <ul id="menuitems" data-root-menuitem-id="{{ object.pk }}"></ul>
 {% endblock %}
