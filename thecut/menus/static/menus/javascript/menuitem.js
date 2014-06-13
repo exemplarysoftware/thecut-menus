@@ -31,7 +31,7 @@ var MenuItemView = Backbone.View.extend({
     tagName: 'li',
     template: _.template($("#menuitem-template").html()),
     events: {
-	'click .edit.button': 'edit',
+	'click .edit.button': 'allowEditing',
 	'click .save.button': 'save',
 	'change select.contenttype': 'update_contenttype',
 	'change select.contentobject': 'update_contentobject',
@@ -71,8 +71,7 @@ var MenuItemView = Backbone.View.extend({
 	this.model.set({object_id: parseInt(selector.val(), 10)});
     },
 
-
-    edit: function() {
+    allowEditing: function() {
 	// Put the form into an editable state.
 
 	// Make the 'name' field editable.
@@ -103,9 +102,7 @@ var MenuItemView = Backbone.View.extend({
 	this.populateContentObjectSelect(contentTypes);
     },
 
-    save: function() {
-	// Put the form into a non-editable state.
-
+    preventEditing: function() {
 	// Make the 'name' field non-editable.
 	var nameField = $(this.el).find("input.name");
 	nameField.addClass("disabled").removeClass("enabled");
@@ -121,11 +118,25 @@ var MenuItemView = Backbone.View.extend({
 	saveButton.addClass("disabled").removeClass("enabled");
 	saveButton.prop("disabled", true);
 
+	// Disable the content type select.
+	var contentTypeSelect = $(this.el).find("select.contenttype");
+	contentTypeSelect.addClass("disabled").removeClass("enabled");
+	contentTypeSelect.prop("disabled", true);
+
+	// Disable the content object select.
+	var contentObjectSelect = $(this.el).find("select.contentobject");
+	contentObjectSelect.addClass("disabled").removeClass("enabled");
+	contentObjectSelect.prop("disabled", true);
+
+    },
+
+    save: function() {
 	// Persist the changes made to the model.
 	var name_value = $(this.el).find("input.name").val().trim();
-
-	console.log('Saving model: ' + JSON.stringify(this.model));
 	this.model.save({name: name_value});
+
+	// Put the form fields into a non-editable state.
+	this.preventEditing();
     },
 
 });
