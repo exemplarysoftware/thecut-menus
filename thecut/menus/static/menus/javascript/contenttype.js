@@ -8,7 +8,6 @@ var ContentType = Backbone.Model.extend({
 	// Return the given <select> element with options
 	// corresponding to this ContentType's possible choices of
 	// object_id.
-
 	this.get('objects').forEach(function(contentObject) {
 	    if (activeId != null && contentObject.id == activeId) {
 		el.append('<option selected="selected" value="' + contentObject.id + '">' + contentObject.name + '</option>');

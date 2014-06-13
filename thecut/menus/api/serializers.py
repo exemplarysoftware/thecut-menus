@@ -58,7 +58,6 @@ class MenuItemSerializer(serializers.ModelSerializer):
 
     id = serializers.Field(source='pk')
     is_menu = serializers.SerializerMethodField('get_is_menu')
-    content_type = ContentTypeSerializer()
     content_object = serializers.SerializerMethodField('get_content_object')
 
     class Meta(object):

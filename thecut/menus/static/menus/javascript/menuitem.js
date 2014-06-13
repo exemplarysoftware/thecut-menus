@@ -50,14 +50,14 @@ var MenuItemView = Backbone.View.extend({
 	el.empty();
 	el.removeClass("disabled").addClass("enabled");
 	el.prop("disabled", false);
-	var contentType = new ContentType({id: this.model.get('content_type').id});
+	var contentType = new ContentType({id: this.model.get('content_type')});
 	contentType.fetch({async: false});
 	return contentType.getContentObjectSelect(el, this.model.get('object_id'));
     },
 
     updateContentType: function() {
 	var selector = $(this.el).find('select.contenttype');
-	this.model.set({content_type: {id: selector.val()}});
+	this.model.set({content_type: selector.val()});
 	var contentTypes = new ContentTypeCollection();
 	contentTypes.fetch({async: false});
 	this.populateContentObjectSelect(contentTypes);
@@ -89,14 +89,13 @@ var MenuItemView = Backbone.View.extend({
 
 	// Populate and enable the content type selector.
 	var selector = $(this.el).find("select.contenttype");
-	selector.empty();	
+	selector.empty();
 	var contentTypes = new ContentTypeCollection();
-	var active = this.model.get('content_type').id;
+	var active = this.model.get('content_type');
 	contentTypes.fetch({async: false});
 	contentTypes.populateContentTypeSelect(selector, active);
 	selector.removeClass("disabled").addClass("enabled");
 	selector.prop("disabled", false);
-
 	this.populateContentObjectSelect(contentTypes);
     },
 
