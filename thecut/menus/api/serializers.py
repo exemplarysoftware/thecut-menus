@@ -63,7 +63,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
 
     class Meta(object):
         fields = ['id', 'is_menu', 'name', 'parent', 'order', 'lft', 'rght',
-                  'content_type', 'content_object']
+                  'content_type', 'content_object', 'object_id']
         model = MenuItem
 
     def get_is_menu(self, menuitem):
