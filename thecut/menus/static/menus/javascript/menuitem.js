@@ -44,24 +44,33 @@ var MenuItemView = Backbone.View.extend({
 	return this;
     },
 
+    populateContentObjectSelect: function(contentTypes) {
+	// Populate and enable the content object selector.
+	var el = $(this.el).find("select.contentobject");
+	el.empty();
+	el.removeClass("disabled").addClass("enabled");
+	el.prop("disabled", false);
+	var contentType = new ContentType({id: this.model.get('content_type').id});
+	contentType.fetch({async: false});
+	return contentType.getContentObjectSelect(el);
+    },
+
     update_contenttype: function() {
 	var selector = $(this.el).find('select.contenttype');
-	console.log('Update content type to: ' + selector.val());
-	this.model.set({content_type: selector.val()});
+	this.model.set({content_type: {id: selector.val()}});
+	var contentTypes = new ContentTypeCollection();
+	contentTypes.fetch({async: false});
+	this.populateContentObjectSelect(contentTypes);
     },
 
     update_contentobject: function() {
 	var selector = $(this.el).find('select.contentobject');
-	console.log('Current value of object_id: ' + JSON.stringify(this.model.get('object_id')));
-	console.log('Update content object to: ' + selector.val());
 	var new_object_id = {
 	    "id": parseInt(selector.val(), 10),
-//	    "name": $(selector).find('option:selected').text()
 	};
 	this.model.set({object_id: parseInt(selector.val(), 10)});
-//	this.model.get('object_id').name = 
-	console.log('New value of object_id:' + JSON.stringify(this.model.get('object_id')));
     },
+
 
     edit: function() {
 	// Put the form into an editable state.
@@ -91,14 +100,7 @@ var MenuItemView = Backbone.View.extend({
 	selector.removeClass("disabled").addClass("enabled");
 	selector.prop("disabled", false);
 
-	// Populate and enable the content object selector.
-	var selector = $(this.el).find("select.contentobject");
-	selector.empty();
-	var active_content_object = this.model.get('object_id');
-	contentTypes.populateContentObjectSelect(selector, active, active_content_object);
-	selector.removeClass("disabled").addClass("enabled");
-	selector.prop("disabled", false);
-
+	this.populateContentObjectSelect(contentTypes);
     },
 
     save: function() {

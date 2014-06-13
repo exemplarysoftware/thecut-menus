@@ -2,7 +2,23 @@ var ContentType = Backbone.Model.extend({
 
     url: function() {
     	return "/admin/menus/menuitem/api/contenttypes/contenttype/" + this.id + "/";
+    },
+
+    getContentObjectSelect: function(el, activeId) {
+	// Return the given <select> element with options
+	// corresponding to this ContentType's possible choices of
+	// object_id.
+
+	this.get('objects').forEach(function(contentObject) {
+	    if (activeId != null && contentObject.id == activeId) {
+		el.append('<option selected="selected" value="' + contentObject.id + '">' + contentObject.name + '</option>');
+	    } else {
+		el.append('<option value="' + contentObject.id + '">' + contentObject.name + '</option>');
+	    }
+	});
+	return el;
     }
+
 
 })
 
@@ -25,24 +41,6 @@ var ContentTypeCollection = Backbone.Collection.extend({
 	return el;
     },
 
-    populateContentObjectSelect: function(el, active, active_content_object) {
-	// Populate and return the given <select> element with options
-	// corresponding to this collection of ContentType models.
-
-	// Force update of the ContentType to get the list of objects.
-	var active_content_type = this.findWhere({id: active});
-	active_content_type.fetch({async: false});
-	//console.log(JSON.stringify(active_content_type, null, 4));
-
-	active_content_type.get('objects').forEach(function(contentObject) {
-	    if (contentObject.id == active_content_object) {
-		el.append('<option selected="selected" value="' + contentObject.id + '">' + contentObject.name + '</option>');
-	    } else {
-		el.append('<option value="' + contentObject.id + '">' + contentObject.name + '</option>');
-	    }
-	});
-	return el;
-    }
 
 });
 
