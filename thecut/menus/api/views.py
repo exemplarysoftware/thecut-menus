@@ -71,7 +71,7 @@ class MenuItemListAPIView(APIMixin, generics.ListAPIView):
         return self.form.filter_queryset(queryset)
 
 
-class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateAPIView):
+class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateDestroyAPIView):
 
     model = MenuItem
     serializer_class = serializers.MenuItemSerializer

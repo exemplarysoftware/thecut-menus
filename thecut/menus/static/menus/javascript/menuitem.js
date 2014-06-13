@@ -33,14 +33,17 @@ var MenuItemView = Backbone.View.extend({
     events: {
 	'click .edit.button': 'allowEditing',
 	'click .save.button': 'save',
+	'click .delete.button': 'destroy',
 	'change select.contenttype': 'updateContentType',
 	'change select.contentobject': 'updateContentObject',
     },
 
+    destroy: function() {
+	this.model.destroy();
+    },
+
     render: function() {
-	var ul = $("#menuitems");
-	var li = $(this.el).html(this.template(this.model.toJSON()));
-	ul.append(li);
+	this.$el.html(this.template(this.model.toJSON()));
 	return this;
     },
 
@@ -139,18 +142,29 @@ var MenuItemView = Backbone.View.extend({
 });
 
 
-var MenuItemsView = Backbone.View.extend({
+var MenuItemCollectionView = Backbone.View.extend({
 
     tagName: 'ul',
 
-    render: function() {
-	var menuitems = new MenuItemCollection();
-	menuitems.fetch({async: false});
+    initialize: function() {
+	this.collection = new MenuItemCollection();
+	this.collection.on('destroy', this.menuItemDestroyed, this);
+    },
 
-	menuitems.forEach(function(menuitem) {
+    render: function() {
+	this.$el.empty();
+	this.collection.fetch({async: false});
+
+	this.collection.each(function(menuitem) {
 	    var itemView = new MenuItemView({model: menuitem});
-	    itemView.render();
-	    $(this.el).append(itemView.render().el);
-	});
+	    this.$el.append(itemView.render().el);
+	}, this);
+
+	return this;
+    },
+
+    menuItemDestroyed: function() {
+	this.render();
     }
+
 });

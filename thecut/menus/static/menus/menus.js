@@ -34,7 +34,7 @@ $(document).ready(function() {
     });
 
     // Set us up the page.
-    var itemsview = new MenuItemsView();
+    var itemsview = new MenuItemCollectionView({'el': $('#menuitems')});
     itemsview.render();
 
 });
