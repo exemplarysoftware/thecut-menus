@@ -17,6 +17,10 @@ class APIMixin(object):
     authentication_classes = [authentication.SessionAuthentication]
     permission_classes = [permissions.IsAdminUser, MenuItemAPIPermissions]
 
+    @method_decorator(never_cache)
+    def dispatch(self, *args, **kwargs):
+        return super(APIMixin, self).dispatch(*args, **kwargs)
+
 
 class RootAPIView(APIMixin, APIView):
 
@@ -53,10 +57,6 @@ class MenuItemListAPIView(APIMixin, generics.ListAPIView):
     serializer_class = serializers.MenuItemSerializer
     form_class = forms.MenuItemFilterForm
 
-    @method_decorator(never_cache)
-    def dispatch(self, *args, **kwargs):
-        return super(MenuItemListAPIView, self).dispatch(*args, **kwargs)
-
     def list(self, request, *args, **kwargs):
         root = request.QUERY_PARAMS.get('root')
         self.form = self.form_class(data={'root': root})
@@ -75,7 +75,3 @@ class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateAPIView):
 
     model = MenuItem
     serializer_class = serializers.MenuItemSerializer
-
-    @method_decorator(never_cache)
-    def dispatch(self, *args, **kwargs):
-        return super(MenuItemRetrieveAPIView, self).dispatch(*args, **kwargs)
