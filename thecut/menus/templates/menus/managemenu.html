@@ -5,7 +5,15 @@
 <script type="text/template" id="menuitem-template">
   <li data-menuitem-id="<%= id %>" data-parent="<%= parent %>" data-order="<%= order %>" data-lft="<%= lft %>" data-rght="<%= rght %>">
     <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
-    <label class="disabled"><%= content_type ? content_type.verbose_name:'' %> <%= content_type ? '/':'' %> <%= content_object ? content_object.name:'' %></label>
+    <% if (!is_menu) { %>
+    <label class="disabled" for="contenttype"><%= content_type ? content_type.verbose_name:'' %></label> <%= content_type ? '/':'' %> <label class="disabled" for="contentobject"><%= object_id ? object_id:'' %></label>
+    <select class="disabled contenttype" disabled="disabled">
+      <option value="<%= content_type.id %>"><%= content_type.verbose_name %></option>
+    </select>
+    <select class="disabled contentobject" disabled="disabled">
+      <option value="<%= object_id %>"><%= object_id %></option>
+    </select>
+    <% } %>
     <input class="button edit" type="submit" value="Edit" />
     <input class="button save" disabled="disabled" type="submit" value="Save" />
 </li>
@@ -14,6 +22,8 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 <script type="text/javascript" src="/static/menus/underscore-min.js"></script>
 <script type="text/javascript" src="/static/menus/backbone-min.js"></script>
+<script type="text/javascript" src="/static/menus/javascript/menuitem.js"></script>
+<script type="text/javascript" src="/static/menus/javascript/contenttype.js"></script>
 <script type="text/javascript" src="/static/menus/menus.js"></script>
 {% endblock %}
 
