@@ -33,8 +33,8 @@ var MenuItemView = Backbone.View.extend({
     events: {
 	'click .edit.button': 'allowEditing',
 	'click .save.button': 'save',
-	'change select.contenttype': 'update_contenttype',
-	'change select.contentobject': 'update_contentobject',
+	'change select.contenttype': 'updateContentType',
+	'change select.contentobject': 'updateContentObject',
     },
 
     render: function() {
@@ -55,20 +55,18 @@ var MenuItemView = Backbone.View.extend({
 	return contentType.getContentObjectSelect(el, this.model.get('object_id'));
     },
 
-    update_contenttype: function() {
+    updateContentType: function() {
 	var selector = $(this.el).find('select.contenttype');
 	this.model.set({content_type: {id: selector.val()}});
 	var contentTypes = new ContentTypeCollection();
 	contentTypes.fetch({async: false});
 	this.populateContentObjectSelect(contentTypes);
+	this.updateContentObject();
     },
 
-    update_contentobject: function() {
-	var selector = $(this.el).find('select.contentobject');
-	var new_object_id = {
-	    "id": parseInt(selector.val(), 10),
-	};
-	this.model.set({object_id: parseInt(selector.val(), 10)});
+    updateContentObject: function() {
+	var select = $(this.el).find('select.contentobject');
+	this.model.set({object_id: parseInt(select.val(), 10)});
     },
 
     allowEditing: function() {
