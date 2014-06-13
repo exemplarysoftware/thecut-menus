@@ -52,7 +52,7 @@ var MenuItemView = Backbone.View.extend({
 	el.prop("disabled", false);
 	var contentType = new ContentType({id: this.model.get('content_type').id});
 	contentType.fetch({async: false});
-	return contentType.getContentObjectSelect(el);
+	return contentType.getContentObjectSelect(el, this.model.get('object_id'));
     },
 
     update_contenttype: function() {
