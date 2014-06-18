@@ -26,6 +26,6 @@ class MenuItemFilterForm(forms.Form):
         # been specified.
         root = self.cleaned_data.get('root')
         if root:
-            return root.get_descendants()
+            return root.get_children()
 
         return MenuItem.objects.all()
