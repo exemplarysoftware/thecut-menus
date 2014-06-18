@@ -3,7 +3,6 @@
 {% block extrahead %}{{ block.super }}
 
 <script type="text/template" id="menuitem-template">
-  <li data-menuitem-id="<%= id %>" data-parent="<%= parent %>" data-order="<%= order %>" data-lft="<%= lft %>" data-rght="<%= rght %>">
     <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
     <% if (!is_menu) { %>
     <label class="disabled" for="contenttype"><%= content_type ? content_type.verbose_name:'' %></label> <%= content_type ? '/':'' %> <label class="disabled" for="contentobject"><%= content_object ? content_object.name:'' %></label>
@@ -17,7 +16,6 @@
     <input class="button edit" type="submit" value="Edit" />
     <input class="button save" disabled="disabled" type="submit" value="Save" />
     <input class="button delete" type="submit" value="Delete" />
-</li>
 </script>
 
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>

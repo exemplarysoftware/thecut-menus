@@ -28,8 +28,17 @@ var MenuItemCollection = Backbone.Collection.extend({
 
 var MenuItemView = Backbone.View.extend({
 
-    tagName: 'li',
+    // HTML & CSS attributes.
     template: _.template($("#menuitem-template").html()),
+    tagName: 'li',
+    className: 'menuitem',
+
+    attributes: function() {
+	return {
+	    'data-pk': 'menuitem_' + this.model.get('id'),
+	};
+    },
+
     events: {
 	'click .edit.button': 'allowEditing',
 	'click .save.button': 'save',
