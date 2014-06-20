@@ -1,8 +1,14 @@
 var MenuItem = Backbone.Model.extend({
 
+    initialize: function() {
+	console.log('Initializing MenuItem model with ID: ' + this.id);
+	this.children = new MenuItemCollection();
+	this.children.parentId = this.id;
+    },
+
     url: function() {
 	return "/admin/menus/menuitem/api/menuitems/menuitem/" + this.id + "/";
-    }
+    },
 
 });
 
@@ -11,16 +17,16 @@ var MenuItemCollection = Backbone.Collection.extend({
 
     model: MenuItem,
 
-    url: function() {
-	// Only list the MenuItems which are descendants of the
-	// MenuItem which is being edited.
-	var base_url = "/admin/menus/menuitem/api/menuitems/";
-	model_id = $("#menuitems").attr("data-root-menuitem-id" || null);
-	if (model_id != null) {
-	    return base_url + "?root=" + model_id;
-	};
+    initialize: function(parentId) {
+	console.log('Initiliazing MenuItemCollection with parent ID: ' + parentId);
+	this.parentId = parentId;
+    },
 
-	return base_url;
+    url: function() {
+	// Only the children of this collection's parent should be
+	// included.
+	var base_url = "/admin/menus/menuitem/api/menuitems/";
+	return base_url + "?root=" + this.parentId;
     }
 
 });
@@ -35,7 +41,7 @@ var MenuItemView = Backbone.View.extend({
 
     attributes: function() {
 	return {
-	    'data-pk': 'menuitem_' + this.model.get('id'),
+	    'data-pk': this.model.get('id'),
 	};
     },
 
@@ -47,14 +53,41 @@ var MenuItemView = Backbone.View.extend({
 	'change select.contentobject': 'updateContentObject',
     },
 
+
+
+    // Standard view functions.
+
+    render: function() {
+	// Render the contents of this single MenuItem.
+	console.log('Rendering MenuItem.')
+	this.$el.html(this.template(this.model.toJSON()));
+
+	// Insert any children this MenuItem might have.
+	if ( this.model.get('is_menu') ) {
+	    console.log('Inserting child MenuItems.');
+	    ul = $('<ul />', {'data-pk': this.model.get('id')});
+	    this.children = new MenuItemCollectionView({'el': ul});
+	    this.children.render();
+	    this.$el.append(ul);
+	}
+	return this;
+    },
+
+    save: function() {
+	// Persist the changes made to the model.
+	var nameValue = $(this.el).find("input.name").val().trim();
+	this.model.save({name: nameValue});
+
+	// Put the form fields into a non-editable state.
+	this.preventEditing();
+    },
+
     destroy: function() {
 	this.model.destroy();
     },
 
-    render: function() {
-	this.$el.html(this.template(this.model.toJSON()));
-	return this;
-    },
+
+    // Custom functions.
 
     populateContentObjectSelect: function(contentTypes) {
 	// Populate and enable the content object selector.
@@ -139,15 +172,6 @@ var MenuItemView = Backbone.View.extend({
 
     },
 
-    save: function() {
-	// Persist the changes made to the model.
-	var name_value = $(this.el).find("input.name").val().trim();
-	this.model.save({name: name_value});
-
-	// Put the form fields into a non-editable state.
-	this.preventEditing();
-    },
-
 });
 
 
@@ -156,7 +180,9 @@ var MenuItemCollectionView = Backbone.View.extend({
     tagName: 'ul',
 
     initialize: function() {
-	this.collection = new MenuItemCollection();
+	var menuItemId = this.$el.attr("data-pk" || null);
+	console.log('Initializing MenuItemCollectionView with ID: ' + menuItemId);
+	this.collection = new MenuItemCollection(menuItemId);
 	this.collection.on('destroy', this.menuItemDestroyed, this);
     },
 
