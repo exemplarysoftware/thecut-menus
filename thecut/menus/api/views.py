@@ -10,6 +10,9 @@ from rest_framework.views import APIView
 from .permissions import MenuItemAPIPermissions
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
+from django.views import generic
+from django.http import HttpResponse, HttpResponseForbidden
+from django.shortcuts import get_object_or_404
 
 
 class APIMixin(object):
@@ -75,3 +78,28 @@ class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateDestroyAPIView):
 
     model = MenuItem
     serializer_class = serializers.MenuItemSerializer
+
+
+class MenuItemMoveAPIView(generic.list.MultipleObjectMixin, generic.View):
+    """Move a MenuItem to a different position in the tree."""
+
+    model = MenuItem
+
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.has_perm('menus.change_menuitem'):
+           return HttpResponseForbidden(content_type='text/plain')
+
+        return super(MenuItemMoveAPIView, self).dispatch(request, *args, **kwargs)
+
+    def post(self, *args, **kwargs):
+        root_pk = self.kwargs.get('target_pk')
+        root = get_object_or_404(MenuItem, pk=root_pk)
+
+        ordered_pks = self.request.POST.getlist('pk')
+        for pk in ordered_pks:
+            item = get_object_or_404(MenuItem, pk=pk)
+            item.move_to(root, 'last-child')
+            item.save()
+
+        return HttpResponse(content_type='text/plain')
