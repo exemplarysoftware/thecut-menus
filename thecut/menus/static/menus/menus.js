@@ -37,4 +37,20 @@ $(document).ready(function() {
     var itemsview = new MenuItemCollectionView({'el': $('#menuitems')});
     itemsview.render();
 
+    // Make menu items sortable.
+    $('#menuitems, #menuitems ul').sortable({
+	'cursor': 'move',
+	'handle': '.move.button',
+        'update': function(event, ui) {
+            $.ajax({
+                'data': $(this).closest('ul').sortable('serialize', {'key': 'pk', 'attribute': 'data-sortable-pk'}),
+                'error': function(XMLHttpRequest, textStatus, errorThrown) {
+                  alert('An error occured whilst processing this request.');
+                },
+                'type': 'POST',
+                'url': '/admin/menus/menuitem/api/menuitems/menuitem/' + $(this).closest('ul').attr('data-pk') + '/reorder/',
+            });
+	}
+    });
+
 });

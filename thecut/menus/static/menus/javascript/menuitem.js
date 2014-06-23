@@ -42,6 +42,7 @@ var MenuItemView = Backbone.View.extend({
     attributes: function() {
 	return {
 	    'data-pk': this.model.get('id'),
+	    'data-sortable-pk': 'pk_' + this.model.get('id'),
 	};
     },
 

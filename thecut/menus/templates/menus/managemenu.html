@@ -16,9 +16,11 @@
     <input class="button edit" type="submit" value="Edit" />
     <input class="button save" disabled="disabled" type="submit" value="Save" />
     <input class="button delete" type="submit" value="Delete" />
+    <span class="button move">Move</span>
 </script>
 
-<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script type="text/javascript" src="/static/menus/javascript/jquery-1.10.2.js"></script>
+<script type="text/javascript" src="/static/menus/javascript/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="/static/menus/underscore-min.js"></script>
 <script type="text/javascript" src="/static/menus/backbone-min.js"></script>
 <script type="text/javascript" src="/static/menus/javascript/menuitem.js"></script>
@@ -27,5 +29,5 @@
 {% endblock %}
 
 {% block content %}
-<ul id="menuitems" data-pk="{{ object.pk }}"></ul>
+<ul id="menuitems" data-pk="{{ object.pk }}" data-sortable-pk="pk_{{ object.pk }"></ul>
 {% endblock %}
