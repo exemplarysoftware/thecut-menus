@@ -1,7 +1,6 @@
 var MenuItem = Backbone.Model.extend({
 
     initialize: function() {
-	console.log('Initializing MenuItem model with ID: ' + this.id);
 	this.children = new MenuItemCollection();
 	this.children.parentId = this.id;
     },
@@ -18,7 +17,6 @@ var MenuItemCollection = Backbone.Collection.extend({
     model: MenuItem,
 
     initialize: function(parentId) {
-	console.log('Initiliazing MenuItemCollection with parent ID: ' + parentId);
 	this.parentId = parentId;
     },
 
@@ -60,12 +58,10 @@ var MenuItemView = Backbone.View.extend({
 
     render: function() {
 	// Render the contents of this single MenuItem.
-	console.log('Rendering MenuItem.')
 	this.$el.html(this.template(this.model.toJSON()));
 
 	// Insert any children this MenuItem might have.
 	if ( this.model.get('is_menu') ) {
-	    console.log('Inserting child MenuItems.');
 	    ul = $('<ul />', {'data-pk': this.model.get('id')});
 	    this.children = new MenuItemCollectionView({'el': ul});
 	    this.children.render();
@@ -170,7 +166,6 @@ var MenuItemView = Backbone.View.extend({
 	var contentObjectSelect = $(this.el).find("select.contentobject");
 	contentObjectSelect.addClass("disabled").removeClass("enabled");
 	contentObjectSelect.prop("disabled", true);
-
     },
 
 });
@@ -182,7 +177,6 @@ var MenuItemCollectionView = Backbone.View.extend({
 
     initialize: function() {
 	var menuItemId = this.$el.attr("data-pk" || null);
-	console.log('Initializing MenuItemCollectionView with ID: ' + menuItemId);
 	this.collection = new MenuItemCollection(menuItemId);
 	this.collection.on('destroy', this.menuItemDestroyed, this);
     },
