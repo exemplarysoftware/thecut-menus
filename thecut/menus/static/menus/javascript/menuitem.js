@@ -45,8 +45,8 @@ var MenuItemView = Backbone.View.extend({
     },
 
     events: {
-	'click .edit.button': 'allowEditing',
-	'click .save.button': 'save',
+	'click .edit.button': 'editClicked',
+	'click .save.button': 'saveClicked',
 	'click .delete.button': 'destroy',
 	'change select.contenttype': 'updateContentType',
 	'change select.contentobject': 'updateContentObject',
@@ -74,9 +74,6 @@ var MenuItemView = Backbone.View.extend({
 	// Persist the changes made to the model.
 	var nameValue = $(this.el).find("input.name").val().trim();
 	this.model.save({name: nameValue});
-
-	// Put the form fields into a non-editable state.
-	this.preventEditing();
     },
 
     destroy: function() {
@@ -153,14 +150,12 @@ var MenuItemView = Backbone.View.extend({
 	nameField.prop("disabled", false);
 
 	// Disable the 'Edit' button.
-	var editButton = $(this.el).find("input.edit.button");
+	var editButton = $(this.el).find(".edit.button");
 	editButton.addClass("disabled").removeClass("enabled");
-	editButton.prop("disabled", true);
 
 	// Enable the 'Save' button.
-	var saveButton = $(this.el).find("input.save.button");
+	var saveButton = $(this.el).find(".save.button");
 	saveButton.removeClass("disabled").addClass("enabled");
-	saveButton.prop("disabled", false);
 
 	// Populate and enable the content type selector.
 	var selector = $(this.el).find("select.contenttype");
@@ -183,14 +178,12 @@ var MenuItemView = Backbone.View.extend({
 	nameField.prop("disabled", true);
 
 	// Enable the 'Edit' button.
-	var editButton = $(this.el).find("input.edit.button");
+	var editButton = $(this.el).find(".edit.button");
 	editButton.removeClass("disabled").addClass("enabled");
-	editButton.prop("disabled", false);
 
 	// Disable the 'Save' button.
-	var saveButton = $(this.el).find("input.save.button");
+	var saveButton = $(this.el).find(".save.button");
 	saveButton.addClass("disabled").removeClass("enabled");
-	saveButton.prop("disabled", true);
 
 	// Disable the content type select.
 	var contentTypeSelect = $(this.el).find("select.contenttype");
