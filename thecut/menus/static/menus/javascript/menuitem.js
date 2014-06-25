@@ -208,6 +208,7 @@ var MenuItemCollectionView = Backbone.View.extend({
     className: 'menu',
     events: {
 	'click .add.menuitem.button': 'addMenuItemButtonClicked',
+	'change .add.menuitem select.contenttype': 'contentTypeChanged',
     },
 
     initialize: function() {
@@ -227,20 +228,52 @@ var MenuItemCollectionView = Backbone.View.extend({
 	    list.append(itemView.render().el);
 	}, this);
 
-	// TODO: populate the content type and content object selects.
+	// Render a <select> element for the Content Types.
 	var select = this.$el.find('li.menuitem.add select.contenttype');
 	var contentTypeSelect = new ContentTypeCollectionView({
 	    el: select, contentTypeId: null});
 	contentTypeSelect.render();
+
+	// Render a <select> element for the Content Type's Content Objects.
+	var selectedContentType = new ContentType({id: select.val()});
+	this.renderContentObjectSelect(selectedContentType);
+
 	return this;
     },
 
     // TODO: handle the add button by calling this.collection.create( formData );
     addMenuItemButtonClicked: function() {
-	var name = this.$el.find('li.add.menuitem input.name').val()
-	var contentType = this.$el.find('li.add.menuitem select.contenttype').val()
+	var name = this.$el.find('li.add.menuitem input.name').val();
+	var contentType = this.$el.find('li.add.menuitem select.contenttype').val();
+	var contentObject = this.$el.find('li.add.menuitem select.contentobject').val();
 	console.log('add menu item button clicked with name: ' + name +
-		    ', content type: ' + contentType);
+		    ', content type: ' + contentType +
+		    ', content object: ' + contentObject);
+    },
+
+    contentTypeChanged: function() {
+	// TODO: why is this getting called twice? seems to be getting
+	// called for both "forms" on the page, but with the data from
+	// only the "form" which was actually changed.
+	var selected = this.$el.find('li.add.menuitem select.contenttype').val();
+	console.log('Content Type changed to: ' + selected);
+	var contentType = new ContentType({id: selected});
+	this.renderContentObjectSelect(contentType);
+    },
+
+    // Render a <select> element which allows selection of a Content Object for
+    // the given Content Type.
+    renderContentObjectSelect: function(contentType) {
+	contentType.fetch({async: false});
+	var objects = contentType.get('objects');
+	console.log(objects);
+	var contentObjectCollection = new ContentObjectCollection(objects);
+	var contentObjectSelect = this.$el.find('li.add.menuitem select.contentobject');
+	var contentObjectView = new ContentObjectView({
+	    collection: contentObjectCollection,
+	    el: contentObjectSelect,
+	});
+	contentObjectView.render();
     },
 
     menuItemDestroyed: function() {

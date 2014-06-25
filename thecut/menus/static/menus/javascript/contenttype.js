@@ -88,4 +88,45 @@ var ContentObjectSelectView = Backbone.View.extend({
 	console.log('Refresh the <select> of content objects.')
     }
 
-})
+});
+
+
+var ContentObject = Backbone.Model.extend({
+
+    defaults: {
+	'id': null,
+	'name': '',
+    }
+
+});
+
+
+var ContentObjectCollection = Backbone.Collection.extend({
+
+    model: ContentObject,
+
+});
+
+
+var ContentObjectView = Backbone.View.extend({
+
+    tagName: 'select',
+    className: 'contentobject',
+
+    render: function() {
+	console.log('Rendering content object view');
+	console.log(JSON.stringify(this.collection));
+	this.$el.empty();
+
+	this.collection.each(function(contentObject) {
+	    // TODO: replace with template?
+	    this.$el.append('<option value="' +
+			    contentObject.get('id') + '">' +
+			    contentObject.get('name') +
+			    '</option>');
+	}, this);
+
+	return this;
+    }
+
+});
