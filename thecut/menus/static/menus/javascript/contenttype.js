@@ -44,7 +44,40 @@ var ContentTypeCollection = Backbone.Collection.extend({
 });
 
 
-var ContentTypeView = Backbone.View.extend({
+var ContentTypeCollectionView = Backbone.View.extend({
+
+    tagName: 'select',
+    className: 'contenttype',
+
+    initialize: function(contentTypeId) {
+	this.selected = contentTypeId;
+	this.collection = new ContentTypeCollection();
+    },
+
+    render: function() {
+	this.$el.empty();
+	this.collection.fetch({async: false});
+
+	this.collection.each(function(contentType) {
+	    if ( this.selected == contentType.get('id')) {
+		this.$el.append('<option selected="selected" value="' +
+				contentType.get('id') + '">' +
+				contentType.get('verbose_name') +
+				'</option>');
+	    } else {
+		this.$el.append('<option value="' +
+				contentType.get('id') + '">' +
+				contentType.get('verbose_name') +
+				'</option>');
+	    }
+	}, this);
+
+	return this;
+    }
+
+});
+
+var ContentObjectSelectView = Backbone.View.extend({
 
     tagName: 'select',
     events: {
@@ -54,4 +87,5 @@ var ContentTypeView = Backbone.View.extend({
     refreshContentObjects: function() {
 	console.log('Refresh the <select> of content objects.')
     }
+
 })

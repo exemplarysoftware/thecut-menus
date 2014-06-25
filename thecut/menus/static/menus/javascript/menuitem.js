@@ -206,6 +206,9 @@ var MenuItemCollectionView = Backbone.View.extend({
     tagName: 'div',
     template: _.template($("#menu-template").html()),
     className: 'menu',
+    events: {
+	'click .add.menuitem.button': 'addMenuItemButtonClicked',
+    },
 
     initialize: function() {
 	this.collection = new MenuItemCollection(this.id);
@@ -224,7 +227,20 @@ var MenuItemCollectionView = Backbone.View.extend({
 	    list.append(itemView.render().el);
 	}, this);
 
+	// TODO: populate the content type and content object selects.
+	var select = this.$el.find('li.menuitem.add select.contenttype');
+	var contentTypeSelect = new ContentTypeCollectionView({
+	    el: select, contentTypeId: null});
+	contentTypeSelect.render();
 	return this;
+    },
+
+    // TODO: handle the add button by calling this.collection.create( formData );
+    addMenuItemButtonClicked: function() {
+	var name = this.$el.find('li.add.menuitem input.name').val()
+	var contentType = this.$el.find('li.add.menuitem select.contenttype').val()
+	console.log('add menu item button clicked with name: ' + name +
+		    ', content type: ' + contentType);
     },
 
     menuItemDestroyed: function() {
@@ -244,7 +260,6 @@ var MenuView = Backbone.View.extend({
 	// Create and render the root-level menu. This will in turn
 	// create and render it's own child menus.
 	var pk = this.$el.attr("data-pk" || null);
-	console.log('Rendering MenuView with ID: ' + pk);
 	this.rootMenu = new MenuItemCollectionView({id: pk});
 	this.$el.html(this.rootMenu.render().el);
     }

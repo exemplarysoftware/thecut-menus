@@ -1,6 +1,7 @@
 {% extends "backslash/change_form.html" %}
 
 {% block extrahead %}{{ block.super }}
+<link href="/static/menus/backslash.css" type="text/css" rel="stylesheet" />
 
 <script type="text/template" id="menuitem-template">
     <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
@@ -23,8 +24,19 @@
 <script type="text/template" id="menu-template">
   <ul class="menu" data-pk="<%= id %>"></ul>
   <ul class="controls">
-    <li><span class="button.add.menuitem">+ Menu Item</span></li>
-    <li><span class="button.add.submenu">+ Menu Item</span></li>
+    <li><span class="button add submenu">+ Menu </span></li>
+    <li class="add menuitem">
+      <span class="button add menuitem">+ Menu Item</span>
+      <div class="hidden">
+	<input class="name" />
+	<label for="contenttype"></label>
+	<label for="contentobject"></label>
+	<select class="contenttype"></select>
+	<select class="contentobject"></select>
+	<span class="button save">Save</span>
+	<span class="button cancel">Cancel</span>
+      </div>
+    </li>
   </ul>
 </script>
 
