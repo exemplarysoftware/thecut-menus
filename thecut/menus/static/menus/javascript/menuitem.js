@@ -1,31 +1,12 @@
 var MenuItem = Backbone.Model.extend({
 
     initialize: function() {
-	this.children = new MenuItemCollection();
-	this.children.parentId = this.id;
+	this.children = new MenuItemCollection(this.id);
     },
 
     url: function() {
 	return "/admin/menus/menuitem/api/menuitems/menuitem/" + this.id + "/";
     },
-
-});
-
-
-var MenuItemCollection = Backbone.Collection.extend({
-
-    model: MenuItem,
-
-    initialize: function(parentId) {
-	this.parentId = parentId;
-    },
-
-    url: function() {
-	// Only the children of this collection's parent should be
-	// included.
-	var base_url = "/admin/menus/menuitem/api/menuitems/";
-	return base_url + "?root=" + this.parentId;
-    }
 
 });
 
@@ -63,7 +44,10 @@ var MenuItemView = Backbone.View.extend({
 	// Insert any children this MenuItem might have.
 	if ( this.model.get('is_menu') ) {
 	    ul = $('<ul />', {'data-pk': this.model.get('id')});
-	    this.children = new MenuItemCollectionView({'el': ul});
+	    this.children = new MenuItemCollectionView({
+		'el': ul,
+		'id': this.model.get('id')
+	    });
 	    this.children.render();
 	    this.$el.append(ul);
 	}
@@ -199,23 +183,45 @@ var MenuItemView = Backbone.View.extend({
 });
 
 
+var MenuItemCollection = Backbone.Collection.extend({
+
+    model: MenuItem,
+
+    initialize: function(parentId) {
+	this.parentId = parentId;
+    },
+
+    url: function() {
+	// Only the children of this collection's parent should be
+	// included.
+	var base_url = "/admin/menus/menuitem/api/menuitems/";
+	return base_url + "?root=" + this.parentId;
+    }
+
+});
+
+
 var MenuItemCollectionView = Backbone.View.extend({
 
-    tagName: 'ul',
+    tagName: 'div',
+    template: _.template($("#menu-template").html()),
+    className: 'menu',
 
     initialize: function() {
-	var menuItemId = this.$el.attr("data-pk" || null);
-	this.collection = new MenuItemCollection(menuItemId);
+	this.collection = new MenuItemCollection(this.id);
 	this.collection.on('destroy', this.menuItemDestroyed, this);
     },
 
     render: function() {
-	this.$el.empty();
-	this.collection.fetch({async: false});
+	// Render the containing template.
+	this.$el.html(this.template({id: this.id}));
 
+	// Render the list of menu items inside this collection.
+	var list = this.$el.find("ul.menu");
+	this.collection.fetch({async: false});
 	this.collection.each(function(menuitem) {
 	    var itemView = new MenuItemView({model: menuitem});
-	    this.$el.append(itemView.render().el);
+	    list.append(itemView.render().el);
 	}, this);
 
 	return this;
@@ -223,6 +229,24 @@ var MenuItemCollectionView = Backbone.View.extend({
 
     menuItemDestroyed: function() {
 	this.render();
+    }
+
+});
+
+
+// The "application" view, which sets up and renders the initial
+// content.
+var MenuView = Backbone.View.extend({
+
+    el: '#menu',
+
+    render: function() {
+	// Create and render the root-level menu. This will in turn
+	// create and render it's own child menus.
+	var pk = this.$el.attr("data-pk" || null);
+	console.log('Rendering MenuView with ID: ' + pk);
+	this.rootMenu = new MenuItemCollectionView({id: pk});
+	this.$el.html(this.rootMenu.render().el);
     }
 
 });

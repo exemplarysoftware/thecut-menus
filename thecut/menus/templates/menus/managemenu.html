@@ -19,6 +19,16 @@
     <span class="button move">Move</span>
 </script>
 
+
+<script type="text/template" id="menu-template">
+  <ul class="menu" data-pk="<%= id %>"></ul>
+  <ul class="controls">
+    <li><span class="button.add.menuitem">+ Menu Item</span></li>
+    <li><span class="button.add.submenu">+ Menu Item</span></li>
+  </ul>
+</script>
+
+
 <script type="text/javascript" src="/static/menus/javascript/jquery-1.10.2.js"></script>
 <script type="text/javascript" src="/static/menus/javascript/jquery-ui-1.10.4.custom.min.js"></script>
 <script type="text/javascript" src="/static/menus/underscore-min.js"></script>
@@ -29,5 +39,5 @@
 {% endblock %}
 
 {% block content %}
-<ul id="menuitems" data-pk="{{ object.pk }}" data-sortable-pk="pk_{{ object.pk }"></ul>
+<div id="menu" data-pk="{{ object.pk }}"></div>
 {% endblock %}

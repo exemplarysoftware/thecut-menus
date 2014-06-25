@@ -34,11 +34,11 @@ $(document).ready(function() {
     });
 
     // Set us up the page.
-    var itemsview = new MenuItemCollectionView({'el': $('#menuitems')});
-    itemsview.render();
+    var rootMenu = new MenuView();
+    rootMenu.render();
 
     // Make menu items sortable.
-    $('#menuitems, #menuitems ul').sortable({
+    $('ul.menu').sortable({
 	'cursor': 'move',
 	'handle': '.move.button',
         'update': function(event, ui) {
