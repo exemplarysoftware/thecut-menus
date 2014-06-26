@@ -249,6 +249,11 @@ var MenuItemCollectionView = Backbone.View.extend({
 	console.log('add menu item button clicked with name: ' + name +
 		    ', content type: ' + contentType +
 		    ', content object: ' + contentObject);
+
+	// Prevent the event from propagating and firing multiple times. For
+	// some reason event.stopPropagation() does not work
+	// here. JavaScript. See https://stackoverflow.com/questions/10522562/
+	return false;
     },
 
     contentTypeChanged: function() {
