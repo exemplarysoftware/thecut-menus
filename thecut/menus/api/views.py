@@ -80,6 +80,31 @@ class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateDestroyAPIView):
     serializer_class = serializers.MenuItemSerializer
 
 
+class MenuItemCreateAPIView(APIMixin, generics.CreateAPIView):
+
+    model = MenuItem
+    serializer_class = serializers.MenuItemSerializer
+
+    def create(self, request, *args, **kwargs):
+        # The `create` method of the CreateModelMixin is not very extensible,
+        # so we're going to have blast over the entire method here.
+        serializer = self.get_serializer(data=request.DATA,
+                                         files=request.FILES)
+
+        if not serializer.is_valid():
+            return Response(serializer.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        menuitem = serializer.object
+        menuitem.created_by = menuitem.updated_by = request.user
+        menuitem.insert_at(menuitem.parent, position='last-child', save=True)
+
+        headers = self.get_success_headers(serializer.data)
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED,
+                        headers=headers)
+
+
 class MenuItemMoveAPIView(generic.list.MultipleObjectMixin, generic.View):
     """Move a MenuItem to a different position in the tree."""
 
