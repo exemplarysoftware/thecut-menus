@@ -1,11 +1,27 @@
 var MenuItem = Backbone.Model.extend({
 
+    // For reference, these fields are used when POST/PUTting data up to the
+    // server.
+    defaults: {
+	'id': null,            // The auto-generated ID.
+	'name': '',            // Optional name.
+	'parent': null,        // Optional ID of parent MenuItem.
+	'content_type': null,  // Optional ID of ContentType.
+	'object_id': null,     // Optional ID of Content Object.
+    },
+
     initialize: function() {
 	this.children = new MenuItemCollection(this.id);
     },
 
     url: function() {
-	return "/admin/menus/menuitem/api/menuitems/menuitem/" + this.id + "/";
+	var url = '/admin/menus/menuitem/api/menuitems/menuitem/'
+
+	if ( this.id == null ) {
+	    return url;
+	}
+
+	return url + this.id + '/';
     },
 
 });
@@ -51,6 +67,7 @@ var MenuItemView = Backbone.View.extend({
 	    this.children.render();
 	    this.$el.append(ul);
 	}
+
 	return this;
     },
 
@@ -196,7 +213,7 @@ var MenuItemCollection = Backbone.Collection.extend({
 	// included.
 	var base_url = "/admin/menus/menuitem/api/menuitems/";
 	return base_url + "?root=" + this.parentId;
-    }
+    },
 
 });
 
@@ -246,13 +263,13 @@ var MenuItemCollectionView = Backbone.View.extend({
 	var name = this.$el.find('li.add.menuitem input.name').val();
 	var contentType = this.$el.find('li.add.menuitem select.contenttype').val();
 	var contentObject = this.$el.find('li.add.menuitem select.contentobject').val();
-	console.log('add menu item button clicked with name: ' + name +
-		    ', content type: ' + contentType +
-		    ', content object: ' + contentObject);
-
+	this.collection.create({'name': name, 'content_type': contentType,
+				'object_id': contentObject,
+				'parent': this.collection.parentId});
 	// Prevent the event from propagating and firing multiple times. For
 	// some reason event.stopPropagation() does not work
 	// here. JavaScript. See https://stackoverflow.com/questions/10522562/
+	this.render();
 	return false;
     },
 
@@ -261,7 +278,6 @@ var MenuItemCollectionView = Backbone.View.extend({
 	// called for both "forms" on the page, but with the data from
 	// only the "form" which was actually changed.
 	var selected = this.$el.find('li.add.menuitem select.contenttype').val();
-	console.log('Content Type changed to: ' + selected);
 	var contentType = new ContentType({id: selected});
 	this.renderContentObjectSelect(contentType);
     },
@@ -271,7 +287,6 @@ var MenuItemCollectionView = Backbone.View.extend({
     renderContentObjectSelect: function(contentType) {
 	contentType.fetch({async: false});
 	var objects = contentType.get('objects');
-	console.log(objects);
 	var contentObjectCollection = new ContentObjectCollection(objects);
 	var contentObjectSelect = this.$el.find('li.add.menuitem select.contentobject');
 	var contentObjectView = new ContentObjectView({

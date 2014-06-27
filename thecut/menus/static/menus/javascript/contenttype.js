@@ -114,8 +114,6 @@ var ContentObjectView = Backbone.View.extend({
     className: 'contentobject',
 
     render: function() {
-	console.log('Rendering content object view');
-	console.log(JSON.stringify(this.collection));
 	this.$el.empty();
 
 	this.collection.each(function(contentObject) {
