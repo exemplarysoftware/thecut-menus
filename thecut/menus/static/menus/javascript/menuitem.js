@@ -6,12 +6,10 @@ var MenuItem = Backbone.Model.extend({
 	'id': null,            // The auto-generated ID.
 	'name': '',            // Optional name.
 	'parent': null,        // Optional ID of parent MenuItem.
-	'content_type': null,  // Optional ID of ContentType.
-	'object_id': null,     // Optional ID of Content Object.
-    },
-
-    initialize: function() {
-	this.children = new MenuItemCollection(this.id);
+	'content_type': '',    // Optional ID of ContentType.
+	'object_id': '',       // Optional ID of Content Object.
+	'is_menu': false,
+	'content_object': '',
     },
 
     url: function() {
