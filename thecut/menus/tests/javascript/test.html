@@ -1,0 +1,84 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Tests</title>
+  <link rel="stylesheet" href="lib/mocha.css" />
+
+  <!-- TODO: how to share these between tests and production? -->
+
+  <script type="text/template" id="menuitem-template">
+    <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
+    <% if (!is_menu) { %>
+    <label class="disabled" for="contenttype"><%= content_type ? content_type.verbose_name:'' %></label> <%= content_type ? '/':'' %> <label class="disabled" for="contentobject"><%= content_object ? content_object.name:'' %></label>
+    <select class="disabled contenttype" disabled="disabled">
+      <option value="<%= content_type.id %>"><%= content_type.verbose_name %></option>
+    </select>
+    <select class="disabled contentobject" disabled="disabled">
+      <option value="<%= object_id %>"><%= object_id %></option>
+    </select>
+    <% } %>
+    <span class="button edit">Edit</span>
+    <span class="button save disabled">Save</span>
+    <span class="button delete">Delete</span>
+    <span class="button move">Move</span>
+  </script>
+
+
+  <script type="text/template" id="menu-template">
+    <ul class="menu" data-pk="<%= id %>"></ul>
+    <ul class="controls">
+      <li><span class="button add submenu">+ Menu </span></li>
+      <li class="add menuitem">
+	<span class="button add menuitem">+ Menu Item</span>
+	<div class="hidden">
+	  <input class="name" />
+	  <label for="contenttype"></label>
+	  <label for="contentobject"></label>
+	  <select class="contenttype"></select>
+	  <select class="contentobject"></select>
+	  <span class="button save">Save</span>
+	  <span class="button cancel">Cancel</span>
+	</div>
+      </li>
+    </ul>
+  </script>
+
+  <!-- Libraries -->
+
+  <script type="text/javascript" src="../../static/menus/javascript/jquery-1.10.2.js"></script>
+  <script type="text/javascript" src="../../static/menus/javascript/jquery-ui-1.10.4.custom.min.js"></script>
+  <script type="text/javascript" src="../../static/menus/underscore-min.js"></script>
+  <script type="text/javascript" src="../../static/menus/backbone-min.js"></script>
+
+  <!-- Test Libs -->
+
+  <script src="lib/chai.js"></script>
+  <script src="lib/sinon-1.10.2.js"></script>
+  <script src="lib/mocha.js"></script>
+
+  <!-- Code under test -->
+
+  <script src="../../static/menus/javascript/contenttype.js"></script>
+  <script src="../../static/menus/javascript/menuitem.js"></script>
+
+  <script>mocha.setup('bdd')</script>
+  <script>
+    var expect = chai.expect;
+    mocha.setup('bdd');
+    mocha.checkLeaks();
+    mocha.globals(['jQuery']);
+    window.onload = function () {
+        mocha.run();
+    };
+  </script>
+
+
+</head>
+<body>
+  <div id="mocha"></div>
+
+
+  <script src="spec/menuitem.spec.js"></script>
+
+</body>
+</html>
