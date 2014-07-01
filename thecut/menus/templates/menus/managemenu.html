@@ -26,7 +26,14 @@
 <script type="text/template" id="menu-template">
   <ul class="menu" data-pk="<%= id %>"></ul>
   <ul class="controls">
-    <li><span class="button add submenu">+ Menu </span></li>
+    <li class="add submenu">
+      <span class="button add submenu">+ Menu </span>
+      <div class="hidden">
+	<input class="name" />
+	<span class="button save">Save</span>
+	<span class="button cancel">Cancel</span>
+      </div>
+    </li>
     <li class="add menuitem">
       <span class="button add menuitem">+ Menu Item</span>
       <div class="hidden">

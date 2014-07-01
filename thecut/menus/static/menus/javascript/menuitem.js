@@ -223,6 +223,7 @@ var MenuItemCollectionView = Backbone.View.extend({
     className: 'menu',
     events: {
 	'click .add.menuitem.button': 'addMenuItemButtonClicked',
+	'click .add.submenu.button': 'addSubMenuButtonClicked',
 	'change .add.menuitem select.contenttype': 'contentTypeChanged',
     },
 
@@ -257,7 +258,21 @@ var MenuItemCollectionView = Backbone.View.extend({
     },
 
     // TODO: handle the add button by calling this.collection.create( formData );
-    addMenuItemButtonClicked: function() {
+    addSubMenuButtonClicked: function(event) {
+	var name = $(this.el).children('ul.controls').children('li.add.submenu').find('input.name').val();
+	console.log(name);
+	this.collection.create({'name': name,
+				'parent': this.collection.parentId});
+	// Prevent the event from propagating and firing multiple times. For
+	// some reason event.stopPropagation() does not work
+	// here. JavaScript. See https://stackoverflow.com/questions/10522562/
+	this.render();
+	event.stopPropagation();
+	return false;
+    },
+
+    // TODO: handle the add button by calling this.collection.create( formData );
+    addMenuItemButtonClicked: function(event) {
 	var name = this.$el.find('li.add.menuitem input.name').val();
 	var contentType = this.$el.find('li.add.menuitem select.contenttype').val();
 	var contentObject = this.$el.find('li.add.menuitem select.contentobject').val();
