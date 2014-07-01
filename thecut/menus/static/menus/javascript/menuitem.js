@@ -83,7 +83,7 @@ var MenuItemView = Backbone.View.extend({
     // Custom functions.
 
     isEditable: function() {
-	var saveButton = $(this.el).find("span.save.button");
+	var saveButton = $(this.el).children('.form').find(".save.button");
 	return saveButton.hasClass("enabled");
     },
 
@@ -103,7 +103,7 @@ var MenuItemView = Backbone.View.extend({
 
     populateContentObjectSelect: function(contentTypes) {
 	// Populate and enable the content object selector.
-	var el = $(this.el).find("select.contentobject");
+	var el = $(this.el).children('.form').find("select.contentobject");
 
 	// The <select> for choosing the content object, won't exist
 	// if this is a sub-menu.
@@ -120,7 +120,7 @@ var MenuItemView = Backbone.View.extend({
     updateContentType: function() {
 	// Update this item's content type and populate the content
 	// object selector with items of the selected type.
-	var el = $(this.el).find('select.contenttype');
+	var el = $(this.el).children('.form').find('select.contenttype');
 
 	// The <select> for choosing the content type, won't exist if
 	// this is a sub-menu.
@@ -133,8 +133,8 @@ var MenuItemView = Backbone.View.extend({
 	}
     },
 
-    updateContentObject: function() {
-	var select = $(this.el).find('select.contentobject');
+    updateContentObject: function(event) {
+	var select = $(this.el).children('.form').find('select.contentobject');
 	if ( select != null) {
 	    this.model.set({object_id: parseInt(select.val(), 10)});
 	}
@@ -144,20 +144,20 @@ var MenuItemView = Backbone.View.extend({
 	// Put the form into an editable state.
 
 	// Make the 'name' field editable.
-	var nameField = $(this.el).find("input.name");
+	var nameField = $(this.el).children('.form').find("input.name");
 	nameField.removeClass("disabled").addClass("enabled");
 	nameField.prop("disabled", false);
 
 	// Disable the 'Edit' button.
-	var editButton = $(this.el).find(".edit.button");
+	var editButton = $(this.el).children('.form').find(".edit.button");
 	editButton.addClass("disabled").removeClass("enabled");
 
 	// Enable the 'Save' button.
-	var saveButton = $(this.el).find(".save.button");
+	var saveButton = $(this.el).children('.form').find(".save.button");
 	saveButton.removeClass("disabled").addClass("enabled");
 
 	// Populate and enable the content type selector.
-	var selector = $(this.el).find("select.contenttype");
+	var selector = $(this.el).children('.form').find("select.contenttype");
 	if ( selector != null )
 	selector.empty(); {
 	    var contentTypes = new ContentTypeCollection();
@@ -172,25 +172,25 @@ var MenuItemView = Backbone.View.extend({
 
     preventEditing: function() {
 	// Make the 'name' field non-editable.
-	var nameField = $(this.el).find("input.name");
+	var nameField = $(this.el).children('.form').find("input.name");
 	nameField.addClass("disabled").removeClass("enabled");
 	nameField.prop("disabled", true);
 
 	// Enable the 'Edit' button.
-	var editButton = $(this.el).find(".edit.button");
+	var editButton = $(this.el).children('.form').find(".edit.button");
 	editButton.removeClass("disabled").addClass("enabled");
 
 	// Disable the 'Save' button.
-	var saveButton = $(this.el).find(".save.button");
+	var saveButton = $(this.el).children('.form').find(".save.button");
 	saveButton.addClass("disabled").removeClass("enabled");
 
 	// Disable the content type select.
-	var contentTypeSelect = $(this.el).find("select.contenttype");
+	var contentTypeSelect = $(this.el).children('.form').find("select.contenttype");
 	contentTypeSelect.addClass("disabled").removeClass("enabled");
 	contentTypeSelect.prop("disabled", true);
 
 	// Disable the content object select.
-	var contentObjectSelect = $(this.el).find("select.contentobject");
+	var contentObjectSelect = $(this.el).children('.form').find("select.contentobject");
 	contentObjectSelect.addClass("disabled").removeClass("enabled");
 	contentObjectSelect.prop("disabled", true);
     },

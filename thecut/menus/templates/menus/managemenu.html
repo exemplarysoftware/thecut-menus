@@ -4,6 +4,7 @@
 <link href="/static/menus/backslash.css" type="text/css" rel="stylesheet" />
 
 <script type="text/template" id="menuitem-template">
+  <div class="form">
     <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
     <% if (!is_menu) { %>
     <label class="disabled" for="contenttype"><%= content_type ? content_type.verbose_name:'' %></label> <%= content_type ? '/':'' %> <label class="disabled" for="contentobject"><%= content_object ? content_object.name:'' %></label>
@@ -18,6 +19,7 @@
     <span class="button save disabled">Save</span>
     <span class="button delete">Delete</span>
     <span class="button move">Move</span>
+  </div>
 </script>
 
 
