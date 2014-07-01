@@ -75,8 +75,9 @@ var MenuItemView = Backbone.View.extend({
 	this.model.save({name: nameValue});
     },
 
-    destroy: function() {
+    destroy: function(event) {
 	this.model.destroy();
+	event.stopPropagation();
     },
 
 
@@ -87,18 +88,20 @@ var MenuItemView = Backbone.View.extend({
 	return saveButton.hasClass("enabled");
     },
 
-    editClicked: function() {
+    editClicked: function(event) {
 	if ( !this.isEditable() ) {
 	    // Put into editable state.
 	    this.allowEditing();
 	}
+	event.stopPropagation(); // TODO: doesn't seem to be working?
     },
 
-    saveClicked: function () {
+    saveClicked: function (event) {
 	if ( this.isEditable() ) {
 	    this.preventEditing();
 	    this.save();
 	}
+	event.stopPropagation();
     },
 
     populateContentObjectSelect: function(contentTypes) {
@@ -117,7 +120,7 @@ var MenuItemView = Backbone.View.extend({
 	}
     },
 
-    updateContentType: function() {
+    updateContentType: function(event) {
 	// Update this item's content type and populate the content
 	// object selector with items of the selected type.
 	var el = $(this.el).children('.form').find('select.contenttype');
@@ -131,6 +134,7 @@ var MenuItemView = Backbone.View.extend({
 	    this.populateContentObjectSelect(contentTypes);
 	    this.updateContentObject();
 	}
+	event.stopPropagation();
     },
 
     updateContentObject: function(event) {
@@ -138,6 +142,7 @@ var MenuItemView = Backbone.View.extend({
 	if ( select != null) {
 	    this.model.set({object_id: parseInt(select.val(), 10)});
 	}
+	event.stopPropagation();
     },
 
     allowEditing: function() {
@@ -283,6 +288,7 @@ var MenuItemCollectionView = Backbone.View.extend({
 	// some reason event.stopPropagation() does not work
 	// here. JavaScript. See https://stackoverflow.com/questions/10522562/
 	this.render();
+	event.stopPropagation();
 	return false;
     },
 
