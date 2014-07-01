@@ -228,7 +228,7 @@ var MenuItemCollectionView = Backbone.View.extend({
 
     initialize: function() {
 	this.collection = new MenuItemCollection(this.id);
-	this.collection.on('destroy', this.menuItemDestroyed, this);
+	this.listenTo(this.collection, 'destroy', this.menuItemDestroyed);
     },
 
     render: function() {
