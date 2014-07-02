@@ -7,7 +7,6 @@
   <div class="form">
     <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
     <% if (!is_menu) { %>
-    <label class="disabled" for="contenttype"><%= content_type ? content_type.verbose_name:'' %></label> <%= content_type ? '/':'' %> <label class="disabled" for="contentobject"><%= content_object ? content_object.name:'' %></label>
     <select class="disabled contenttype" disabled="disabled">
       <option value="<%= content_type.id %>"><%= content_type.verbose_name %></option>
     </select>
