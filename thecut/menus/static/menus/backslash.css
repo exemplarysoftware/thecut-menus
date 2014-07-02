@@ -245,6 +245,10 @@ body.change-form.menus-menu #fancybox-content .action.delete {
 	right: 10px;
     }
 
+    #menu div.form div.content {
+	color: #A1AAB3;
+    }
+
     ul.controls div.form.hidden {
 	display: none;
     }
