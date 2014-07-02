@@ -43,7 +43,7 @@ class ContentTypeWithObjectsSerializer(ContentTypeSerializer):
 class GenericSerializer(serializers.ModelSerializer):
 
     id = serializers.Field(source='pk')
-    name = serializers.Field(source='__str__')
+    name = serializers.SerializerMethodField('get_name')
 
     class Meta(object):
         fields = ['id', 'name']
@@ -52,6 +52,9 @@ class GenericSerializer(serializers.ModelSerializer):
         self.Meta.model = model
         return super(GenericSerializer, self).__init__(queryset_or_instance,
                                                        *args, **kwargs)
+
+    def get_name(self, instance):
+        return instance.__str__().title()
 
 
 class MenuItemSerializer(serializers.ModelSerializer):
