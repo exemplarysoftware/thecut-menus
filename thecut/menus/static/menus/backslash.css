@@ -230,4 +230,11 @@ body.change-form.menus-menu #fancybox-content .action.delete {
 
   #menu div.form {
       padding-left: 10px;
+      position:relative;
   }
+
+    #menu div.form div.controls {
+	display: inline-block;
+	position: absolute;
+	right: 10px;
+    }
