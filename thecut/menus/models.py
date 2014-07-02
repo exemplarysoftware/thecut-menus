@@ -60,6 +60,10 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     objects = PassThroughTreeManager().for_queryset_class(
         querysets.MenuItemQuerySet)()
 
+    class Meta(MPTTModel.Meta, PublishableResource.Meta):
+        verbose_name = 'menu'
+        verbose_name_plural = 'menus'
+
     def __str__(self):
         return '{0}'.format(self.name or self.content_object)
 
