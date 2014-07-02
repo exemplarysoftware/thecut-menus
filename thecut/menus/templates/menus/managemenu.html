@@ -27,19 +27,21 @@
 
 
 <script type="text/template" id="menu-template">
+
   <ul class="menu" data-pk="<%= id %>"></ul>
+
   <ul class="controls">
+
     <li class="add submenu">
-      <span class="button add submenu">+ Menu </span>
-      <div class="hidden">
+      <div class="form hidden">
 	<input class="name" />
 	<span class="button save">Save</span>
 	<span class="button cancel">Cancel</span>
       </div>
     </li>
+
     <li class="add menuitem">
-      <span class="button add menuitem">+ Menu Item</span>
-      <div class="hidden">
+      <div class="form hidden">
 	<input class="name" />
 	<label for="contenttype"></label>
 	<label for="contentobject"></label>
@@ -48,7 +50,12 @@
 	<span class="button save">Save</span>
 	<span class="button cancel">Cancel</span>
       </div>
+
+    <li>
+      <span class="button add menuitem">New Item</span>
+      <span class="button add submenu">New Submenu</span>
     </li>
+
   </ul>
 </script>
 

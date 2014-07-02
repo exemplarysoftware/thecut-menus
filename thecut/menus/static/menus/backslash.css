@@ -244,3 +244,7 @@ body.change-form.menus-menu #fancybox-content .action.delete {
 	position: absolute;
 	right: 10px;
     }
+
+    ul.controls div.form.hidden {
+	display: none;
+    }

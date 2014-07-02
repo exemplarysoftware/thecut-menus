@@ -241,6 +241,8 @@ var MenuItemCollectionView = Backbone.View.extend({
     events: {
 	'click .add.menuitem.button': 'addMenuItemButtonClicked',
 	'click .add.submenu.button': 'addSubMenuButtonClicked',
+	'click .add.submenu .save.button': 'addSubMenuSaveClicked',
+	'click .add.submenu .cancel.button': 'addSubMenuCancelClicked',
 	'change .add.menuitem select.contenttype': 'contentTypeChanged',
     },
 
@@ -274,16 +276,31 @@ var MenuItemCollectionView = Backbone.View.extend({
 	return this;
     },
 
-    // TODO: handle the add button by calling this.collection.create( formData );
     addSubMenuButtonClicked: function(event) {
-	var name = $(this.el).children('ul.controls').children('li.add.submenu').find('input.name').val();
-	console.log(name);
+	var form = $(this.el).children('ul.controls')
+	    .children('li.add.submenu').find('div.form').removeClass('hidden');
+	event.stopPropagation();
+	return false;
+    },
+
+    // Save the new sub menu to the server.
+    addSubMenuSaveClicked: function(event) {
+	var name = $(this.el).children('ul.controls')
+	    .children('li.add.submenu').find('input.name').val();
 	this.collection.create({'name': name,
 				'parent': this.collection.parentId});
-	// Prevent the event from propagating and firing multiple times. For
-	// some reason event.stopPropagation() does not work
-	// here. JavaScript. See https://stackoverflow.com/questions/10522562/
 	this.render();
+	event.stopPropagation();
+	return false;
+    },
+
+    // Cancel adding a new sub menu.
+    addSubMenuCancelClicked: function(event) {
+	var form = $(this.el).children('ul.controls')
+	    .children('li.add.submenu').find('div.form');
+	form.addClass('hidden');
+	form.find('input.name').val('');
+
 	event.stopPropagation();
 	return false;
     },
