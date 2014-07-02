@@ -15,11 +15,11 @@ var MenuItem = Backbone.Model.extend({
     url: function() {
 	var url = '/admin/menus/menuitem/api/menuitems/menuitem/'
 
-	if ( this.id == null ) {
+	if ( this.get('id') == null ) {
 	    return url;
 	}
 
-	return url + this.id + '/';
+	return url + this.get('id') + '/';
     },
 
 });
