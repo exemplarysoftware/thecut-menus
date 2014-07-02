@@ -59,6 +59,8 @@
 <script type="text/javascript" src="/static/menus/menus.js"></script>
 {% endblock %}
 
-{% block content %}
+{% block page_title %}{{ object.name }}{% endblock %}
+
+{% block page_content %}
 <div id="menu" data-pk="{{ object.pk }}"></div>
 {% endblock %}
