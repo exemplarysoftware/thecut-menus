@@ -240,10 +240,12 @@ var MenuItemCollectionView = Backbone.View.extend({
     className: 'menu',
     events: {
 	'click .add.menuitem.button': 'addMenuItemButtonClicked',
+	'click .add.menuitem .save.button': 'addMenuItemSaveClicked',
+	'click .add.menuitem .cancel.button': 'addMenuItemCancelClicked',
+	'change .add.menuitem select.contenttype': 'contentTypeChanged',
 	'click .add.submenu.button': 'addSubMenuButtonClicked',
 	'click .add.submenu .save.button': 'addSubMenuSaveClicked',
 	'click .add.submenu .cancel.button': 'addSubMenuCancelClicked',
-	'change .add.menuitem select.contenttype': 'contentTypeChanged',
     },
 
     initialize: function() {
@@ -305,26 +307,39 @@ var MenuItemCollectionView = Backbone.View.extend({
 	return false;
     },
 
-    // TODO: handle the add button by calling this.collection.create( formData );
     addMenuItemButtonClicked: function(event) {
+	var form = $(this.el).children('ul.controls')
+	    .children('li.add.menuitem').find('div.form').removeClass('hidden');
+
+	event.stopPropagation();
+	return false;
+    },
+
+    addMenuItemSaveClicked: function(event) {
 	var name = this.$el.find('li.add.menuitem input.name').val();
 	var contentType = this.$el.find('li.add.menuitem select.contenttype').val();
 	var contentObject = this.$el.find('li.add.menuitem select.contentobject').val();
 	this.collection.create({'name': name, 'content_type': contentType,
 				'object_id': contentObject,
 				'parent': this.collection.parentId});
+	this.render();
 	// Prevent the event from propagating and firing multiple times. For
 	// some reason event.stopPropagation() does not work
 	// here. JavaScript. See https://stackoverflow.com/questions/10522562/
+	event.stopPropagation();
+	return false;
+    },
+
+    addMenuItemCancelClicked: function(event) {
+	// Render this view again which will hide the "form" used to add new
+	// menu items. NB: may need to just add/remove class here if the page
+	// flicker is deemed unbearable when re-rendering.
 	this.render();
 	event.stopPropagation();
 	return false;
     },
 
     contentTypeChanged: function() {
-	// TODO: why is this getting called twice? seems to be getting
-	// called for both "forms" on the page, but with the data from
-	// only the "form" which was actually changed.
 	var selected = this.$el.find('li.add.menuitem select.contenttype').val();
 	var contentType = new ContentType({id: selected});
 	this.renderContentObjectSelect(contentType);
