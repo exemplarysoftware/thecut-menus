@@ -11,14 +11,15 @@ var MenuItem = Backbone.Model.extend({
     // For reference, these fields are used when POST/PUTting data up to the
     // server.
     defaults: {
-	'id': null,            // The auto-generated ID.
-	'name': '',            // Optional name.
-	'parent': null,        // Optional ID of parent MenuItem.
-	'content_type': '',    // Optional ID of ContentType.
-	'object_id': '',       // Optional ID of Content Object.
-	'content_object': '',  // Display name of content object.
-	'is_menu': false,      // Whether the menu item is a sub-menu.
-	'state': null,         // Current state of this menu item.
+	'id': null,              // The auto-generated ID.
+	'name': '',              // Optional name.
+	'parent': null,          // Optional ID of parent MenuItem.
+	'content_type': '',      // Optional ID of ContentType.
+	'content_type_name': '', // Optional name of ContentType.
+	'object_id': '',         // Optional ID of Content Object.
+	'content_object': '',    // Display name of content object.
+	'is_menu': false,        // Whether the menu item is a sub-menu.
+	'state': null,           // Current state of this menu item.
     },
 
     url: function() {

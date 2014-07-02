@@ -62,10 +62,13 @@ class MenuItemSerializer(serializers.ModelSerializer):
     id = serializers.Field(source='pk')
     is_menu = serializers.SerializerMethodField('get_is_menu')
     content_object = serializers.SerializerMethodField('get_content_object')
+    content_type_name = serializers.SerializerMethodField(
+        'get_content_type_name')
 
     class Meta(object):
         fields = ['id', 'is_menu', 'name', 'parent', 'order', 'lft', 'rght',
-                  'content_type', 'content_object', 'object_id']
+                  'content_type', 'content_object', 'object_id',
+                  'content_type_name']
         read_only_fields = ['order', 'lft', 'rght']
         model = MenuItem
 
@@ -77,3 +80,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
             serializer = GenericSerializer(menuitem.content_object,
                                            menuitem.content_object.__class__)
             return serializer.data
+
+    def get_content_type_name(self, menuitem):
+        if menuitem.content_type:
+            return menuitem.content_type.name.title()

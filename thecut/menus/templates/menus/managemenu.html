@@ -11,10 +11,10 @@
     <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
     <% if (!is_menu) { %>
     <select class="disabled contenttype" disabled="disabled">
-      <option value="<%= content_type.id %>"><%= content_type.verbose_name %></option>
+      <option value="<%= content_type %>"><%= content_type_name %></option>
     </select>
     <select class="disabled contentobject" disabled="disabled">
-      <option value="<%= object_id %>"><%= object_id %></option>
+      <option value="<%= object_id %>"><%= content_object.name %></option>
     </select>
     <% } %>
     <div class="controls">
