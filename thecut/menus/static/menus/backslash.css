@@ -197,7 +197,13 @@ body.change-form.menus-menu #fancybox-content .action.delete {
     border-top: 1px solid #e5e5e5;
 }
 
-  #menu li.menuitem {
+
+  /* Indent child menus. */
+  #menu li.menuitem > ul {
+      margin-left: 20px;
+  }
+
+  #menu li.menuitem div.form {
       margin-bottom: 15px;
       padding: 10px;
       background-color: #ffffff;
