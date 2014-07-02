@@ -1,5 +1,13 @@
 var MenuItem = Backbone.Model.extend({
 
+    initialize: function() {
+	this.states = {
+	    DISPLAY: 'displaying',
+	    EDIT: 'editing',
+	}
+	this.set({state: this.states.DISPLAY});
+    },
+
     // For reference, these fields are used when POST/PUTting data up to the
     // server.
     defaults: {
@@ -8,8 +16,9 @@ var MenuItem = Backbone.Model.extend({
 	'parent': null,        // Optional ID of parent MenuItem.
 	'content_type': '',    // Optional ID of ContentType.
 	'object_id': '',       // Optional ID of Content Object.
-	'is_menu': false,
-	'content_object': '',
+	'content_object': '',  // Display name of content object.
+	'is_menu': false,      // Whether the menu item is a sub-menu.
+	'state': null,         // Current state of this menu item.
     },
 
     url: function() {
@@ -20,6 +29,15 @@ var MenuItem = Backbone.Model.extend({
 	}
 
 	return url + this.get('id') + '/';
+    },
+
+    // Toggle between the 'edit' and 'display' states.
+    toggleState: function() {
+	if ( this.get('state') == this.states.DISPLAY ) {
+	    this.set({state: this.states.EDIT});
+	} else {
+	    this.set({state: this.states.DISPLAY});
+	}
     },
 
 });
@@ -40,8 +58,7 @@ var MenuItemView = Backbone.View.extend({
     },
 
     events: {
-	'click .edit.button': 'editClicked',
-	'click .save.button': 'saveClicked',
+	'click .edit-save.button': 'editSaveClicked',
 	'click .delete.button': 'destroy',
 	'change select.contenttype': 'updateContentType',
 	'change select.contentobject': 'updateContentObject',
@@ -88,19 +105,14 @@ var MenuItemView = Backbone.View.extend({
 	return saveButton.hasClass("enabled");
     },
 
-    editClicked: function(event) {
-	if ( !this.isEditable() ) {
-	    // Put into editable state.
-	    this.allowEditing();
-	}
-	event.stopPropagation(); // TODO: doesn't seem to be working?
-    },
-
-    saveClicked: function (event) {
-	if ( this.isEditable() ) {
-	    this.preventEditing();
+    editSaveClicked: function(event) {
+	if ( this.model.get('state') == this.model.states.EDIT ) {
 	    this.save();
+	    this.preventEditing(); // TODO: listen to model change.
+	} else {
+	    this.allowEditing();   // TODO: listen to model change.
 	}
+	this.model.toggleState();
 	event.stopPropagation();
     },
 
