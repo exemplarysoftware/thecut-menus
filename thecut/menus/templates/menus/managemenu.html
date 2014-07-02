@@ -5,6 +5,9 @@
 
 <script type="text/template" id="menuitem-template">
   <div class="form">
+    <% if ( is_menu ) { %>
+    <span class="label">Submenu</span>
+    <% } %>
     <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
     <% if (!is_menu) { %>
     <select class="disabled contenttype" disabled="disabled">
