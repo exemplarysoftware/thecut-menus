@@ -246,8 +246,35 @@ body.change-form.menus-menu #fancybox-content .action.delete {
 	right: 10px;
     }
 
+    #menu div.form div.controls .button.edit-save,
+    #menu div.form div.controls .button.delete {
+	  font-weight: bold;
+	  background-color: #ffffff;
+	  border: none;
+	  background-repeat: no-repeat;
+	  background-position: 0% 50%;
+	  text-shadow: none;
+	  padding-left: 25px;
+	  padding-right: 0;
+	  opacity: 0.4;
+    }
+
+    #menu div.form div.controls .button.edit-save:hover,
+    #menu div.form div.controls .button.delete:hover {
+	opacity: 1;
+    }
+
+    #menu div.form div.controls .button.edit-save {
+	  background-image: url('images/edit-icon.png');
+    }
+
+    #menu div.form div.controls .button.delete {
+	  background-image: url('images/delete-icon.png');
+    }
+
     #menu div.form div.content {
 	color: #A1AAB3;
+	font-size: 0.857em; /* 12/14 */
     }
 
     ul.controls div.form.hidden {
@@ -269,5 +296,4 @@ body.change-form.menus-menu #fancybox-content .action.delete {
 	  background-position: 0% 50%;
 	  text-shadow: none;
 	  padding-left: 30px;
-	  height: auto;
       }
