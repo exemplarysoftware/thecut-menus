@@ -109,8 +109,6 @@ var MenuItemView = Backbone.View.extend({
     editSaveClicked: function(event) {
 	if ( this.model.get('state') == this.model.states.EDIT ) {
 	    this.save();
-	    this.render();
-
 	    this.preventEditing(); // TODO: listen to model change.
 	} else {
 	    this.allowEditing();   // TODO: listen to model change.
@@ -152,12 +150,11 @@ var MenuItemView = Backbone.View.extend({
 	event.stopPropagation();
     },
 
-    updateContentObject: function(event) {
+    updateContentObject: function() {
 	var select = $(this.el).children('.form').find('select.contentobject');
 	if ( select != null) {
 	    this.model.set({object_id: parseInt(select.val(), 10)});
 	}
-	event.stopPropagation();
     },
 
     allowEditing: function() {
