@@ -216,3 +216,18 @@ body.change-form.menus-menu #fancybox-content .action.delete {
 	display: inline-block;
 	padding: 1px 5px 1px 15px;
     }
+
+    #menu li.menuitem input {
+	font-weight: normal;
+	font-size: 1.286em; /* 18/14 */
+	color: #171F26;
+    }
+
+    #menu li.menuitem input.disabled {
+	border: none;
+	background-color: #ffffff;
+    }
+
+  #menu div.form {
+      padding-left: 10px;
+  }
