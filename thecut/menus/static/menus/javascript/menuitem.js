@@ -120,6 +120,7 @@ var MenuItemView = Backbone.View.extend({
 	if ( this.model.get('state') == this.model.states.EDIT ) {
 	    this.save();
 	    this.preventEditing(); // TODO: listen to model change.
+	    this.render();
 	}
 	this.model.toggleState();
 	event.stopPropagation();

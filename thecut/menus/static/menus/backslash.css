@@ -13,7 +13,7 @@
   #menu li.menuitem div.form,
   #menu li.submenu div.form {
       margin-bottom: 15px;
-      padding: 10px;
+      padding: 10px 20px;
       background-color: #ffffff;
       -webkit-border-radius: 5px;
               border-radius: 5px;
@@ -29,6 +29,7 @@
 	font-size: 75%;
 	display: inline-block;
 	padding: 1px 5px 1px 15px;
+	vertical-align: text-bottom;
     }
 
     #menu li.menuitem input {
@@ -43,14 +44,17 @@
     }
 
   #menu div.form {
-      padding-left: 10px;
       position:relative;
   }
 
     #menu div.form div.controls {
 	display: inline-block;
 	position: absolute;
-	right: 10px;
+	right: 20px;
+    }
+
+    #menu div.form select.disabled {
+	display: none;
     }
 
     #menu div.form div.controls .button.hidden {
@@ -67,8 +71,8 @@
 	  background-repeat: no-repeat;
 	  background-position: 0% 50%;
 	  text-shadow: none;
-	  padding-left: 25px;
-	  padding-right: 0;
+	  height: 25px;
+	  width: 25px;
     }
 
     #menu div.form div.controls .button.edit,
