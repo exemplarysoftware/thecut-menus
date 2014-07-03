@@ -115,6 +115,14 @@
 	padding-bottom: 20px;
     }
 
+      ul.controls .button {
+	  opacity: 0.6;
+      }
+
+      ul.controls .button:hover {
+	  opacity: 1;
+      }
+
       ul.controls .button.add {
 	  color: #A1AAB3;
 	  font-weight: bold;
