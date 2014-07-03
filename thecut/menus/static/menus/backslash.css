@@ -6,7 +6,7 @@
 
 
   /* Indent child menus. */
-  #menu li.menuitem > ul {
+  #menu li.menuitem > div > ul {
       margin-left: 20px;
   }
 

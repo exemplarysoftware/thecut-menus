@@ -74,18 +74,14 @@ var MenuItemView = Backbone.View.extend({
     render: function() {
 	// Render the contents of this single MenuItem.
 	this.$el.html(this.template(this.model.toJSON()));
-
 	// Insert any children this MenuItem might have.
 	if ( this.model.get('is_menu') ) {
-	    ul = $('<ul />', {'data-pk': this.model.get('id')});
 	    this.children = new MenuItemCollectionView({
-		'el': ul,
 		'id': this.model.get('id')
 	    });
 	    this.children.render();
-	    this.$el.append(ul);
+	    this.$el.append(this.children.el);
 	}
-
 	return this;
     },
 
