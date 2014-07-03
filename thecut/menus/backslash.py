@@ -27,6 +27,7 @@ class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
         ('Publishing', {'fields': [('publish_at', 'is_enabled'),
                                    ('expire_at')]}),
     ]
+    change_list_template = 'backslash/change_list.html'
 
     class Meta(object):
         model = MenuItem
