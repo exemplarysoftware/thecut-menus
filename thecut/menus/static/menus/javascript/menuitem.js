@@ -59,7 +59,9 @@ var MenuItemView = Backbone.View.extend({
     },
 
     events: {
-	'click .edit-save.button': 'editSaveClicked',
+	'click .edit.button': 'editClicked',
+	'click .save.button': 'saveClicked',
+	'click .cancel.button': 'cancelClicked',
 	'click .delete.button': 'destroy',
 	'change select.contenttype': 'updateContentType',
 	'change select.contentobject': 'updateContentObject',
@@ -106,14 +108,26 @@ var MenuItemView = Backbone.View.extend({
 	return saveButton.hasClass("enabled");
     },
 
-    editSaveClicked: function(event) {
-	if ( this.model.get('state') == this.model.states.EDIT ) {
-	    this.save();
-	    this.preventEditing(); // TODO: listen to model change.
-	} else {
+    editClicked: function(event) {
+	if ( this.model.get('state') == this.model.states.DISPLAY ) {
 	    this.allowEditing();   // TODO: listen to model change.
 	}
 	this.model.toggleState();
+	event.stopPropagation();
+    },
+
+    saveClicked: function(event) {
+	if ( this.model.get('state') == this.model.states.EDIT ) {
+	    this.save();
+	    this.preventEditing(); // TODO: listen to model change.
+	}
+	this.model.toggleState();
+	event.stopPropagation();
+    },
+
+    cancelClicked: function(event) {
+	this.model.toggleState();
+	this.render();
 	event.stopPropagation();
     },
 
@@ -167,11 +181,19 @@ var MenuItemView = Backbone.View.extend({
 
 	// Disable the 'Edit' button.
 	var editButton = $(this.el).children('.form').find(".edit.button");
-	editButton.addClass("disabled").removeClass("enabled");
+	editButton.addClass("disabled").removeClass("enabled").addClass("hidden");
+
+	// Disable the 'Delete' button.
+	var deleteButton = $(this.el).children('.form').find(".delete.button");
+	deleteButton.addClass("disabled").removeClass("enabled").addClass("hidden");
 
 	// Enable the 'Save' button.
 	var saveButton = $(this.el).children('.form').find(".save.button");
-	saveButton.removeClass("disabled").addClass("enabled");
+	saveButton.removeClass("disabled").addClass("enabled").removeClass("hidden");
+
+	// Enable the 'Cancel' button.
+	var cancelButton = $(this.el).children('.form').find(".cancel.button");
+	cancelButton.removeClass("disabled").addClass("enabled").removeClass("hidden");
 
 	// Populate and enable the content type selector.
 	var selector = $(this.el).children('.form').find("select.contenttype");
@@ -197,9 +219,17 @@ var MenuItemView = Backbone.View.extend({
 	var editButton = $(this.el).children('.form').find(".edit.button");
 	editButton.removeClass("disabled").addClass("enabled");
 
+	// Enable the 'Delete' button.
+	var deleteButton = $(this.el).children('.form').find(".delete.button");
+	deleteButton.removeClass("disabled").addClass("enabled");
+
 	// Disable the 'Save' button.
 	var saveButton = $(this.el).children('.form').find(".save.button");
 	saveButton.addClass("disabled").removeClass("enabled");
+
+	// Enable the 'Cancel' button.
+	var cancelButton = $(this.el).children('.form').find(".cancel.button");
+	cancelButton.addClass("disabled").removeClass("enabled");
 
 	// Disable the content type select.
 	var contentTypeSelect = $(this.el).children('.form').find("select.contenttype");

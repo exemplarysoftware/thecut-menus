@@ -53,8 +53,14 @@
 	right: 10px;
     }
 
-    #menu div.form div.controls .button.edit-save,
-    #menu div.form div.controls .button.delete {
+    #menu div.form div.controls .button.hidden {
+	display: none;
+    }
+
+    #menu div.form div.controls .button.edit,
+    #menu div.form div.controls .button.delete,
+    #menu div.form div.controls .button.save,
+    #menu div.form div.controls .button.cancel {
 	  font-weight: bold;
 	  background-color: #ffffff;
 	  border: none;
@@ -63,20 +69,32 @@
 	  text-shadow: none;
 	  padding-left: 25px;
 	  padding-right: 0;
-	  opacity: 0.4;
     }
 
-    #menu div.form div.controls .button.edit-save:hover,
+    #menu div.form div.controls .button.edit,
+    #menu div.form div.controls .button.delete {
+	opacity: 0.4;
+    }
+
+    #menu div.form div.controls .button.edit:hover,
     #menu div.form div.controls .button.delete:hover {
 	opacity: 1;
     }
 
-    #menu div.form div.controls .button.edit-save {
+    #menu div.form div.controls .button.edit {
 	  background-image: url('images/edit-icon.png');
     }
 
     #menu div.form div.controls .button.delete {
 	  background-image: url('images/delete-icon.png');
+    }
+
+    #menu div.form div.controls .button.save {
+	  background-image: url('images/save-icon.png');
+    }
+
+    #menu div.form div.controls .button.cancel {
+	  background-image: url('images/cancel-icon.png');
     }
 
     #menu div.form div.content {

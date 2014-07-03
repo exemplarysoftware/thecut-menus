@@ -18,9 +18,11 @@
     </select>
     <% } %>
     <div class="controls">
-      <span class="button edit-save">&nbsp;</span>
-      <span class="button delete">&nbsp;</span>
-      <span class="button move">Move</span>
+      <span class="button save hidden" title="Save">&nbsp;</span>
+      <span class="button cancel hidden" title="Cancel">&nbsp;</span>
+      <span class="button edit" title="Edit">&nbsp;</span>
+      <span class="button delete" title="Delete">&nbsp;</span>
+      <span class="button move" title="Move">Move</span>
     </div>
 
     <% if ( !is_menu ) { %>
@@ -43,8 +45,8 @@
       <div class="form hidden">
 	<input class="name" />
 	<div class="controls">
-	  <span class="button save">Save</span>
-	  <span class="button cancel">Cancel</span>
+	  <span class="button save">&nbsp;</span>
+	  <span class="button cancel">&nbsp;</span>
 	</div>
       </div>
     </li>
@@ -55,8 +57,8 @@
 	<select class="contenttype"></select>
 	<select class="contentobject"></select>
 	<div class="controls">
-	  <span class="button save">Save</span>
-	  <span class="button cancel">Cancel</span>
+	  <span class="button save">&nbsp;</span>
+	  <span class="button cancel">&nbsp;</span>
 	</div>
       </div>
 
