@@ -347,7 +347,8 @@ var MenuItemCollectionView = Backbone.View.extend({
     },
 
     addMenuItemSaveClicked: function(event) {
-	var name = this.$el.find('li.add.menuitem input.name').val();
+	var name = $(this.el).children('ul.controls')
+	    .children('li.add.menuitem').find('input.name').val();
 	var contentType = this.$el.find('li.add.menuitem select.contenttype').val();
 	var contentObject = this.$el.find('li.add.menuitem select.contentobject').val();
 	this.collection.create({'name': name, 'content_type': contentType,
