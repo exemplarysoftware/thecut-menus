@@ -138,7 +138,7 @@ var MenuItemView = Backbone.View.extend({
 
 	// The <select> for choosing the content object, won't exist
 	// if this is a sub-menu.
-	if ( el !== null ) {
+	if ( el.length > 0 ) {
 	    el.empty();
 	    el.removeClass("disabled").addClass("enabled");
 	    el.prop("disabled", false);
@@ -155,7 +155,7 @@ var MenuItemView = Backbone.View.extend({
 
 	// The <select> for choosing the content type, won't exist if
 	// this is a sub-menu.
-	if ( el !== null ) {
+	if ( el.length > 0 ) {
 	    this.model.set({content_type: el.val()});
 	    var contentTypes = new ContentTypeCollection();
 	    contentTypes.fetch({async: false});
@@ -167,7 +167,7 @@ var MenuItemView = Backbone.View.extend({
 
     updateContentObject: function() {
 	var select = $(this.el).children('.form').find('select.contentobject');
-	if ( select != null) {
+	if ( select.length > 0) {
 	    this.model.set({object_id: parseInt(select.val(), 10)});
 	}
     },
@@ -198,8 +198,8 @@ var MenuItemView = Backbone.View.extend({
 
 	// Populate and enable the content type selector.
 	var selector = $(this.el).children('.form').find("select.contenttype");
-	if ( selector != null )
-	selector.empty(); {
+	if ( selector.length > 0 ) {
+	    selector.empty();
 	    var contentTypes = new ContentTypeCollection();
 	    var active = this.model.get('content_type');
 	    contentTypes.fetch({async: false});
