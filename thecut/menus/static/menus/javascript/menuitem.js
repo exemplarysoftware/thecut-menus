@@ -1,3 +1,18 @@
+var sortableOptions = {
+    'cursor': 'move',
+    'handle': '.move.button',
+    'update': function(event, ui) {
+        $.ajax({
+            'data': $(this).closest('ul').sortable('serialize', {'key': 'pk', 'attribute': 'data-sortable-pk'}),
+            'error': function(XMLHttpRequest, textStatus, errorThrown) {
+                alert('An error occured whilst processing this request.');
+            },
+            'type': 'POST',
+            'url': '/admin/menus/menuitem/api/menuitems/menuitem/' + $(this).closest('ul').attr('data-pk') + '/reorder/',
+	});
+    },
+}
+
 var MenuItem = Backbone.Model.extend({
 
     initialize: function() {
@@ -301,6 +316,9 @@ var MenuItemCollectionView = Backbone.View.extend({
 	// Render a <select> element for the Content Type's Content Objects.
 	var selectedContentType = new ContentType({id: select.val()});
 	this.renderContentObjectSelect(selectedContentType);
+
+	// Bind jQuery UI sortable to the menut items in this collection.
+	this.$el.children('ul.menu').sortable(sortableOptions);
 
 	return this;
     },

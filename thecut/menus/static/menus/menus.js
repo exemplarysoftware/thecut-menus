@@ -37,20 +37,4 @@ $(document).ready(function() {
     var rootMenu = new MenuView();
     rootMenu.render();
 
-    // Make menu items sortable.
-    $('ul.menu').sortable({
-	'cursor': 'move',
-	'handle': '.move.button',
-        'update': function(event, ui) {
-            $.ajax({
-                'data': $(this).closest('ul').sortable('serialize', {'key': 'pk', 'attribute': 'data-sortable-pk'}),
-                'error': function(XMLHttpRequest, textStatus, errorThrown) {
-                  alert('An error occured whilst processing this request.');
-                },
-                'type': 'POST',
-                'url': '/admin/menus/menuitem/api/menuitems/menuitem/' + $(this).closest('ul').attr('data-pk') + '/reorder/',
-            });
-	}
-    });
-
 });
