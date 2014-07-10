@@ -17,7 +17,7 @@ class UserFactory(factory.django.DjangoModelFactory):
     FACTORY_FOR = user_model
     FACTORY_DJANGO_GET_OR_CREATE = ('username', )
 
-    username = factory.Sequence(lambda n: 'user_{}@example.com'.format(n))
+    username = factory.Sequence(lambda n: 'user_{0}@example.com'.format(n))
 
 
 class MenuItemFactory(factory.django.DjangoModelFactory):

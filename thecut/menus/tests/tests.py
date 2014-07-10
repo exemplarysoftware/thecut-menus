@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from thecut.menus.templatetags.menu_tags import menu
 from thecut.menus.tests.factories import MenuItemFactory
-from unittest import TestCase
+from django.test import TestCase
 
 
 class TestMenuTag(TestCase):
