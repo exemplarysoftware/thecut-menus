@@ -14,6 +14,8 @@ except ImportError:
 
 class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
 
+    prepopulated_fields = {'slug': ('title',)}
+
     form = MenuItemAdminForm
 
     def get_urls(self):
