@@ -82,6 +82,7 @@
 
 {% block title %}{{ object.name }} - {% endblock %}
 
+{% block breadcrumbs %}{{ block.super }} <h1 class="page-title">{{ object.name }}</h1> {% endblock %}
 
 {% block content %}
 <div id="menu" data-pk="{{ object.pk }}"></div>
