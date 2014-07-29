@@ -78,10 +78,11 @@
 <script type="text/javascript" src="/static/menus/javascript/menuitem.js"></script>
 <script type="text/javascript" src="/static/menus/javascript/contenttype.js"></script>
 <script type="text/javascript" src="/static/menus/menus.js"></script>
-{% endblock %}
+{% endblock extrahead %}
 
-{% block page_title %}{{ object.name }}{% endblock %}
+{% block title %}{{ object.name }} - {% endblock %}
 
-{% block page_content %}
+
+{% block content %}
 <div id="menu" data-pk="{{ object.pk }}"></div>
 {% endblock %}
