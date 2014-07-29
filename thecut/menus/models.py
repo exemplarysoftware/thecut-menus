@@ -47,8 +47,8 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
 
     parent = TreeForeignKey('self', null=True, blank=True,
                             related_name='children')
-    title = models.CharField(max_length=200, blank=True, null=True)
-    image = models.ImageField(upload_to='uploads/menus', blank=True, null=True)
+    title = models.CharField(max_length=200, blank=True)
+    image = models.ImageField(upload_to='uploads/menus', blank=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
 
     # Generic relation to an object.
