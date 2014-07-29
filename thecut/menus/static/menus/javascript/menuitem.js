@@ -27,7 +27,7 @@ var MenuItem = Backbone.Model.extend({
     // server.
     defaults: {
 	'id': null,              // The auto-generated ID.
-	'name': '',              // Optional name.
+	'title': '',             // Optional title.
 	'parent': null,          // Optional ID of parent MenuItem.
 	'content_type': '',      // Optional ID of ContentType.
 	'content_type_name': '', // Optional name of ContentType.
@@ -102,8 +102,8 @@ var MenuItemView = Backbone.View.extend({
 
     save: function() {
 	// Persist the changes made to the model.
-	var nameValue = $(this.el).find("input.name").val().trim();
-	this.model.save({name: nameValue});
+	var titleValue = $(this.el).find("input.title").val().trim();
+	this.model.save({title: titleValue});
     },
 
     destroy: function(event) {
@@ -186,10 +186,10 @@ var MenuItemView = Backbone.View.extend({
     allowEditing: function() {
 	// Put the form into an editable state.
 
-	// Make the 'name' field editable.
-	var nameField = $(this.el).children('.form').find("input.name");
-	nameField.removeClass("disabled").addClass("enabled");
-	nameField.prop("disabled", false);
+	// Make the 'title' field editable.
+	var titleField = $(this.el).children('.form').find("input.title");
+	titleField.removeClass("disabled").addClass("enabled");
+	titleField.prop("disabled", false);
 
 	// Disable the 'Edit' button.
 	var editButton = $(this.el).children('.form').find(".edit.button");
@@ -222,10 +222,10 @@ var MenuItemView = Backbone.View.extend({
     },
 
     preventEditing: function() {
-	// Make the 'name' field non-editable.
-	var nameField = $(this.el).children('.form').find("input.name");
-	nameField.addClass("disabled").removeClass("enabled");
-	nameField.prop("disabled", true);
+	// Make the 'title' field non-editable.
+	var titleField = $(this.el).children('.form').find("input.title");
+	titleField.addClass("disabled").removeClass("enabled");
+	titleField.prop("disabled", true);
 
 	// Enable the 'Edit' button.
 	var editButton = $(this.el).children('.form').find(".edit.button");
@@ -332,9 +332,9 @@ var MenuItemCollectionView = Backbone.View.extend({
 
     // Save the new sub menu to the server.
     addSubMenuSaveClicked: function(event) {
-	var name = $(this.el).children('ul.controls')
-	    .children('li.add.submenu').find('input.name').val();
-	this.collection.create({'name': name,
+	var title = $(this.el).children('ul.controls')
+	    .children('li.add.submenu').find('input.title').val();
+	this.collection.create({'title': title,
 				'parent': this.collection.parentId});
 	this.render();
 	event.stopPropagation();
@@ -346,7 +346,7 @@ var MenuItemCollectionView = Backbone.View.extend({
 	var form = $(this.el).children('ul.controls')
 	    .children('li.add.submenu').find('div.form');
 	form.addClass('hidden');
-	form.find('input.name').val('');
+	form.find('input.title').val('');
 
 	event.stopPropagation();
 	return false;
@@ -361,11 +361,11 @@ var MenuItemCollectionView = Backbone.View.extend({
     },
 
     addMenuItemSaveClicked: function(event) {
-	var name = $(this.el).children('ul.controls')
-	    .children('li.add.menuitem').find('input.name').val();
+	var title = $(this.el).children('ul.controls')
+	    .children('li.add.menuitem').find('input.title').val();
 	var contentType = this.$el.find('li.add.menuitem select.contenttype').val();
 	var contentObject = this.$el.find('li.add.menuitem select.contentobject').val();
-	this.collection.create({'name': name, 'content_type': contentType,
+	this.collection.create({'title': title, 'content_type': contentType,
 				'object_id': contentObject,
 				'parent': this.collection.parentId});
 	this.render();

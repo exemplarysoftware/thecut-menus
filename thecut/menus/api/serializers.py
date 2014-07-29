@@ -66,7 +66,7 @@ class MenuItemSerializer(serializers.ModelSerializer):
         'get_content_type_name')
 
     class Meta(object):
-        fields = ['id', 'is_menu', 'name', 'parent', 'order', 'lft', 'rght',
+        fields = ['id', 'is_menu', 'title', 'parent', 'order', 'lft', 'rght',
                   'content_type', 'content_object', 'object_id',
                   'content_type_name']
         read_only_fields = ['order', 'lft', 'rght']

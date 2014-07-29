@@ -14,7 +14,7 @@ class MenuBackslashForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(MenuBackslashForm, self).__init__(*args, **kwargs)
-        self.fields['name'].required = True
+        self.fields['title'].required = True
         self.fields['slug'].required = True
 
 
@@ -23,7 +23,7 @@ class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
 
     form = MenuBackslashForm
     fieldsets = [
-        (None, {'fields': ['name', 'slug']}),
+        (None, {'fields': ['title', 'slug']}),
         ('Publishing', {'fields': [('publish_at', 'is_enabled'),
                                    ('expire_at')]}),
     ]

@@ -8,7 +8,7 @@
     <% if ( is_menu ) { %>
     <span class="label">Submenu</span>
     <% } %>
-    <input class="disabled name" disabled="disabled" value="<%= name %>"></input>
+    <input class="disabled title" disabled="disabled" value="<%= title %>"></input>
     <% if (!is_menu) { %>
     <select class="disabled contenttype" disabled="disabled">
       <option value="<%= content_type %>"><%= content_type_name %></option>
@@ -43,7 +43,7 @@
 
     <li class="add submenu">
       <div class="form hidden">
-	<input class="name" />
+	<input class="title" />
 	<div class="controls">
 	  <span class="button save">&nbsp;</span>
 	  <span class="button cancel">&nbsp;</span>
@@ -53,7 +53,7 @@
 
     <li class="add menuitem">
       <div class="form hidden">
-	<input class="name" />
+	<input class="title" />
 	<select class="contenttype"></select>
 	<select class="contentobject"></select>
 	<div class="controls">
@@ -80,9 +80,9 @@
 <script type="text/javascript" src="/static/menus/menus.js"></script>
 {% endblock extrahead %}
 
-{% block title %}{{ object.name }} - {% endblock %}
+{% block title %}{{ object.title }} - {% endblock %}
 
-{% block breadcrumbs %}{{ block.super }} <h1 class="page-title">{{ object.name }}</h1> {% endblock %}
+{% block breadcrumbs %}{{ block.super }} <h1 class="page-title">{{ object.title }}</h1> {% endblock %}
 
 {% block content %}
 <div id="menu" data-pk="{{ object.pk }}"></div>

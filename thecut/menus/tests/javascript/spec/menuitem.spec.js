@@ -12,7 +12,7 @@ describe('MenuItem Model', function() {
     it('should set its defaults which are rendered to renderable values', function() {
 	var menuItem = new MenuItem();
 
-	expect(menuItem.get('name')).to.equal('');
+	expect(menuItem.get('title')).to.equal('');
 	expect(menuItem.get('content_type')).to.equal('');
 	expect(menuItem.get('content_object')).to.equal('');
 	expect(menuItem.get('object_id')).to.equal('');

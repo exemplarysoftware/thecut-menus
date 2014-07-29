@@ -47,7 +47,6 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
 
     parent = TreeForeignKey('self', null=True, blank=True,
                             related_name='children')
-    name = models.CharField(max_length=100, blank=True, null=True)
     title = models.CharField(max_length=200, blank=True, null=True)
     image = models.ImageField(upload_to='uploads/menus', blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
@@ -65,7 +64,7 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
         verbose_name_plural = 'menus'
 
     def __str__(self):
-        return '{0}'.format(self.name or self.content_object)
+        return '{0}'.format(self.title or self.content_object)
 
     def get_absolute_url(self):
         if not self.is_menu():
