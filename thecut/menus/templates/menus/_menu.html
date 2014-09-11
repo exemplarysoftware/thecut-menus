@@ -5,7 +5,7 @@
   <li class="{{ item.get_css_classes }}">
     {% if item.get_absolute_url %}<a href="{{ item.get_absolute_url }}" {% if request.path == item.get_absolute_url %} class="active"{% endif %}>{% else %}<span>{% endif %}
     {% if item.image %}<img src="{{ item.image.url }}" alt="{{ item }}" />{% endif %}
-    <span>{{ item }}</span>
+    {{ item }}
     {% if item.get_absolute_url %}</a>{% else %}</span>{% endif %}
     {% if item.is_menu %}{% menu item %}{% endif %}
   </li>
