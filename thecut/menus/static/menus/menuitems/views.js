@@ -64,7 +64,7 @@ define([
             this.$el.html(this.template(this.model.toJSON()));
             // Insert any children this MenuItem might have.
             if ( this.model.get('is_menu') ) {
-                this.children = new menuitemsCollections.MenuItemCollectionView({
+                this.children = new MenuItemCollectionView({
                     'id': this.model.get('id')
                 });
                 this.children.render();
