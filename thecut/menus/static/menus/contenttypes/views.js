@@ -1,0 +1,81 @@
+define(['backbone', 'contenttypes/collections'], function (Backbone, collections) {
+
+    'use strict';
+
+    var ContentTypeCollectionView = Backbone.View.extend({
+
+        tagName: 'select',
+        className: 'contenttype',
+
+        initialize: function (contentTypeId) {
+            this.selected = contentTypeId;
+            this.collection = new collections.ContentTypeCollection();
+        },
+
+        render: function () {
+            this.$el.empty();
+            this.collection.fetch({async: false});
+
+            this.collection.each(function (contentType) {
+                if (this.selected === contentType.get('id')) {
+                    this.$el.append('<option selected="selected" value="' +
+                                    contentType.get('id') + '">' +
+                                    contentType.get('verbose_name') +
+                                    '</option>');
+                } else {
+                    this.$el.append('<option value="' +
+                                    contentType.get('id') + '">' +
+                                    contentType.get('verbose_name') +
+                                    '</option>');
+                }
+            }, this);
+
+            return this;
+        }
+
+    });
+
+
+    var ContentObjectSelectView = Backbone.View.extend({
+
+        tagName: 'select',
+        events: {
+            'click': 'refreshContentObjects'
+        },
+
+        refreshContentObjects: function () {
+            console.log('Refresh the <select> of content objects.')
+        }
+
+    });
+
+
+    var ContentObjectView = Backbone.View.extend({
+
+        tagName: 'select',
+        className: 'contentobject',
+
+        render: function () {
+            this.$el.empty();
+
+            this.collection.each(function (contentObject) {
+                // TODO: replace with template?
+                this.$el.append('<option value="' +
+                                contentObject.get('id') + '">' +
+                                contentObject.get('name') +
+                                '</option>');
+            }, this);
+
+            return this;
+        }
+
+    });
+
+
+    return {
+        'ContentTypeCollectionView': ContentTypeCollectionView,
+        'ContentObjectSelectView': ContentObjectSelectView,
+        'ContentObjectView': ContentObjectView
+    };
+
+});
