@@ -15,7 +15,7 @@ class Migration(DataMigration):
         menu_content_type = orm['contenttypes.ContentType'].objects.filter(
             app_label='menus', model='menu')
         submenus = orm['menus.MenuItem'].objects.filter(
-            content_type=menu_content_type)
+            content_type=menu_content_type).order_by('order')
         root_menus = orm['menus.Menu'].objects.exclude(
             pk__in=submenus.values_list('object_id', flat=True))
 
@@ -54,7 +54,7 @@ class Migration(DataMigration):
             # Point each leaf-node at it's parent MenuItem.
             leaf_nodes = orm['menus.MenuItem'].objects.exclude(
                 content_type=menu_content_type, 
-                pk__in=root_menus).exclude(pk__in=submenus)
+                pk__in=root_menus).exclude(pk__in=submenus).order_by('order')
 
             for node in leaf_nodes:
                 if node.menu == root_menu:
@@ -65,6 +65,12 @@ class Migration(DataMigration):
                         parent = parent.get()
                         node.parent = parent
                 node.save()
+
+        for menuitem in orm['menus.MenuItem'].objects.filter(
+                content_type=menu_content_type):
+            menuitem.content_type = None
+            menuitem.object_id = None
+            menuitem.save()
 
         # NOTE: We're going to do a Bad Thing here and call some code
         # that lives outside of this migration. Should be safe to
