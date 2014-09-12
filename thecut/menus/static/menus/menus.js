@@ -19,6 +19,10 @@ var menusRequire = requirejs.config({
                 'use strict';
                 return this.jQUery.noConflict();
             }
+        },
+        'jquery-ui': {
+            deps: ['jquery'],
+            exports: 'jQueryUi'
         }
     }
 
