@@ -6,14 +6,14 @@ from .admin import MenuItemAdmin
 from .models import MenuItem
 
 
-class MenuBackslashForm(forms.ModelForm):
+class MenuItemBackslashForm(forms.ModelForm):
     """Form for adding/editing a top-level root MenuItem."""
 
     class Meta(object):
         model = MenuItem
 
     def __init__(self, *args, **kwargs):
-        super(MenuBackslashForm, self).__init__(*args, **kwargs)
+        super(MenuItemBackslashForm, self).__init__(*args, **kwargs)
         self.fields['title'].required = True
         self.fields['slug'].required = True
 
@@ -21,7 +21,7 @@ class MenuBackslashForm(forms.ModelForm):
 class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
     """Add and a top-level root MenuItem and manage it's children."""
 
-    form = MenuBackslashForm
+    form = MenuItemBackslashForm
     fieldsets = [
         (None, {'fields': ['title', 'slug']}),
         ('Publishing', {'fields': [('publish_at', 'is_enabled'),
