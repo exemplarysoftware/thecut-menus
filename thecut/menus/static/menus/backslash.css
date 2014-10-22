@@ -1,136 +1,136 @@
 #menu {
-    padding: 30px;
-    background-color: #f3f3f3;
-    border-top: 1px solid #e5e5e5;
+  padding: 30px;
+  background-color: #f3f3f3;
+  border-top: 1px solid #e5e5e5;
 }
 
 
-  /* Indent child menus. */
-  #menu li.menuitem > div > ul {
-      margin-left: 20px;
-  }
+/* Indent child menus. */
+#menu li.menuitem > div > ul {
+  margin-left: 20px;
+}
 
-  #menu li.menuitem div.form,
-  #menu li.submenu div.form {
-      margin-bottom: 15px;
-      padding: 10px 20px;
-      background-color: #ffffff;
-      -webkit-border-radius: 5px;
-              border-radius: 5px;
-  }
+#menu li.menuitem div.form,
+#menu li.submenu div.form {
+  margin-bottom: 15px;
+  padding: 10px 20px;
+  background-color: #ffffff;
+  -webkit-border-radius: 5px;
+          border-radius: 5px;
+}
 
-    #menu li.menuitem span.label {
-	background-color: #3ECDEB;
-	color: #ffffff;
-	-webkit-border-radius: 2px;
-                border-radius: 2px;
+#menu li.menuitem span.label {
+  background-color: #3ECDEB;
+  color: #ffffff;
+  -webkit-border-radius: 2px;
+          border-radius: 2px;
 
-	text-transform: uppercase;
-	font-size: 75%;
-	display: inline-block;
-	padding: 1px 5px 1px 15px;
-	vertical-align: text-bottom;
-    }
+  text-transform: uppercase;
+  font-size: 75%;
+  display: inline-block;
+  padding: 1px 5px 1px 15px;
+  vertical-align: text-bottom;
+}
 
-    #menu li.menuitem input {
-	font-weight: normal;
-	font-size: 1.286em; /* 18/14 */
-	color: #171F26;
-    }
+#menu li.menuitem input {
+  font-weight: normal;
+  font-size: 1.286em; /* 18/14 */
+  color: #171F26;
+}
 
-    #menu li.menuitem input.disabled {
-	border: none;
-	background-color: #ffffff;
-    }
+#menu li.menuitem input.disabled {
+  border: none;
+  background-color: #ffffff;
+}
 
-  #menu div.form {
-      position:relative;
-  }
+#menu div.form {
+  position:relative;
+}
 
-    #menu div.form div.controls {
-	display: inline-block;
-	position: absolute;
-	right: 20px;
-    }
+#menu div.form div.controls {
+  display: inline-block;
+  position: absolute;
+  right: 20px;
+}
 
-    #menu div.form select.disabled {
-	display: none;
-    }
+#menu div.form select.disabled {
+  display: none;
+}
 
-    #menu div.form div.controls .button.hidden {
-	display: none;
-    }
+#menu div.form div.controls .button.hidden {
+  display: none;
+}
 
-    #menu div.form div.controls .button.edit,
-    #menu div.form div.controls .button.delete,
-    #menu div.form div.controls .button.save,
-    #menu div.form div.controls .button.cancel {
-	  font-weight: bold;
-	  background-color: #ffffff;
-	  border: none;
-	  background-repeat: no-repeat;
-	  background-position: 0% 50%;
-	  text-shadow: none;
-	  height: 25px;
-	  width: 25px;
-    }
+#menu div.form div.controls .button.edit,
+#menu div.form div.controls .button.delete,
+#menu div.form div.controls .button.save,
+#menu div.form div.controls .button.cancel {
+  font-weight: bold;
+  background-color: #ffffff;
+  border: none;
+  background-repeat: no-repeat;
+  background-position: 0 50%;
+  text-shadow: none;
+  height: 25px;
+  width: 25px;
+}
 
-    #menu div.form div.controls .button.edit,
-    #menu div.form div.controls .button.delete {
-	opacity: 0.4;
-    }
+#menu div.form div.controls .button.edit,
+#menu div.form div.controls .button.delete {
+  opacity: 0.4;
+}
 
-    #menu div.form div.controls .button.edit:hover,
-    #menu div.form div.controls .button.delete:hover {
-	opacity: 1;
-    }
+#menu div.form div.controls .button.edit:hover,
+#menu div.form div.controls .button.delete:hover {
+  opacity: 1;
+}
 
-    #menu div.form div.controls .button.edit {
-	  background-image: url('images/edit-icon.png');
-    }
+#menu div.form div.controls .button.edit {
+  background-image: url('images/edit-icon.png');
+}
 
-    #menu div.form div.controls .button.delete {
-	  background-image: url('images/delete-icon.png');
-    }
+#menu div.form div.controls .button.delete {
+  background-image: url('images/delete-icon.png');
+}
 
-    #menu div.form div.controls .button.save {
-	  background-image: url('images/save-icon.png');
-    }
+#menu div.form div.controls .button.save {
+  background-image: url('images/save-icon.png');
+}
 
-    #menu div.form div.controls .button.cancel {
-	  background-image: url('images/cancel-icon.png');
-    }
+#menu div.form div.controls .button.cancel {
+  background-image: url('images/cancel-icon.png');
+}
 
-    #menu div.form div.content {
-	color: #A1AAB3;
-	font-size: 0.857em; /* 12/14 */
-    }
+#menu div.form div.content {
+  color: #A1AAB3;
+  font-size: 0.857em; /* 12/14 */
+}
 
-    ul.controls div.form.hidden {
-	display: none;
-    }
+ul.controls div.form.hidden {
+  display: none;
+}
 
-    ul.controls li.buttons {
-	padding-left: 20px;
-	padding-bottom: 20px;
-    }
+ul.controls li.buttons {
+  padding-left: 20px;
+  padding-bottom: 20px;
+}
 
-      ul.controls .button {
-	  opacity: 0.6;
-      }
+ul.controls .button {
+  opacity: 0.6;
+}
 
-      ul.controls .button:hover {
-	  opacity: 1;
-      }
+ul.controls .button:hover {
+  opacity: 1;
+}
 
-      ul.controls .button.add {
-	  color: #A1AAB3;
-	  font-weight: bold;
-	  background-color: #f3f3f3;
-	  border: none;
-	  background-image: url('images/plus-icon.png');
-	  background-repeat: no-repeat;
-	  background-position: 0% 50%;
-	  text-shadow: none;
-	  padding-left: 30px;
-      }
+ul.controls .button.add {
+  color: #A1AAB3;
+  font-weight: bold;
+  background-color: #f3f3f3;
+  border: none;
+  background-image: url('images/plus-icon.png');
+  background-repeat: no-repeat;
+  background-position: 0% 50%;
+  text-shadow: none;
+  padding-left: 30px;
+}
