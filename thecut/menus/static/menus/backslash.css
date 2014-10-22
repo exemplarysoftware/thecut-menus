@@ -1,72 +1,121 @@
 #menu {
   padding: 30px;
   background-color: #f3f3f3;
-  border-top: 1px solid #e5e5e5;
+  border-top: 1px solid #ccc;
 }
-
 
 /* Indent child menus. */
-#menu li.menuitem > div > ul {
-  margin-left: 20px;
+#menu .menuitem > .menu {
+  padding-left: 40px;
 }
 
-#menu li.menuitem div.form,
-#menu li.submenu div.form {
-  margin-bottom: 15px;
-  padding: 10px 20px;
+#menu .menuitem .form,
+#menu .submenu  .form {
+  overflow: hidden;
+  max-width: 600px;
+  margin-bottom: 12px;
+  padding: 10px 12px;
   background-color: #ffffff;
   -webkit-border-radius: 5px;
           border-radius: 5px;
+  -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+     -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+          box-shadow: 0 1px 1px rgba(0,0,0,0.1);
 }
 
-#menu li.menuitem span.label {
+/* on 'move' */
+#menu .menuitem.ui-sortable-helper .form {
+  -webkit-box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+     -moz-box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+          box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+}
+
+#menu .menuitem .form .form-fields {
+  width: 70%;
+  float: left;
+}
+
+#menu .menuitem .label {
   display: inline-block;
   vertical-align: middle;
-  padding: 3px 8px;
-  margin-right: 5px;
+  padding: 2px 8px 0;
+  margin-bottom: 6px;
+  margin-left: -5px;
   background-color: #3ECDEB;
-  font-size: 0.857em; /* 12/14 */
+  font-size: 0.786em; /* 11/14 */
   color: #ffffff;
   text-transform: uppercase;
-  letter-spacing: 0.2px;
-  -webkit-border-radius: 4px;
-          border-radius: 4px;
+  letter-spacing: 0.3px;
+  -webkit-border-radius: 12px;
+          border-radius: 12px;
 }
 
-#menu li.menuitem input {
+#menu .menuitem input {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
   vertical-align: middle;
-  font-weight: normal;
-  font-size: 1.286em; /* 18/14 */
-  color: #171F26;
-}
-
-#menu li.menuitem input.disabled {
-  border: none;
-  background-color: #ffffff;
-}
-
-#menu div.form {
-  position:relative;
-}
-
-#menu div.form div.controls {
   display: inline-block;
-  position: absolute;
-  right: 20px;
+  width: 100%;
+  padding: 10px;
+  font-weight: normal;
+  font-size: 1.143em; /* 16/14 */
+  color: #171F26;
+  background: #fcfcfc;
+  border: 1px solid #d9d9d9;
+  text-overflow: ellipsis;
+  -webkit-border-radius: 3px;
+          border-radius: 3px;
 }
 
-#menu div.form select.disabled {
+#menu .menuitem input:focus {
+  color: #0A0B0D;
+  background-color: #fff;
+  border-color: #959EA6;
+  -webkit-box-shadow: 0 2px 3px #E6E6E6;
+     -moz-box-shadow: 0 2px 3px #E6E6E6;
+          box-shadow: 0 2px 3px #E6E6E6;
+}
+
+#menu .menuitem input.disabled {
+  padding: 0;
+  margin-right: 0;
+  border: none;
+  background-color: #fff;
+}
+
+#menu .menuitem select {
+  font-size: 0.857em; /* 12/14 */
+  margin-top: 9px;
+}
+
+#menu .menuitem select.contenttype {
+  margin-right: 10px;
+}
+
+#menu .form select.disabled {
   display: none;
 }
 
-#menu div.form div.controls .button.hidden {
+#menu .form .target {
+  display: block;
+  margin-top: 7px;
+  color: #A1AAB3;
+  font-size: 0.857em; /* 12/14 */
+  line-height: 1;
+}
+
+#menu .menuitem .form .controls {
+  float: right;
+}
+
+#menu .form .controls .button.hidden {
   display: none;
 }
 
-#menu div.form div.controls .button.edit,
-#menu div.form div.controls .button.delete,
-#menu div.form div.controls .button.save,
-#menu div.form div.controls .button.cancel {
+#menu .form .controls .button {
+  overflow: hidden;
+  text-indent: 9999em;
   font-weight: bold;
   background-color: #ffffff;
   border: none;
@@ -77,55 +126,53 @@
   width: 25px;
 }
 
-#menu div.form div.controls .button.edit,
-#menu div.form div.controls .button.delete {
+#menu .form .controls .button.edit,
+#menu .form .controls .button.delete,
+#menu .form .controls .button.move {
   opacity: 0.4;
 }
 
-#menu div.form div.controls .button.edit:hover,
-#menu div.form div.controls .button.delete:hover {
+#menu .form .controls .button.edit:hover,
+#menu .form .controls .button.delete:hover,
+#menu .form .controls .button.move:hover {
   opacity: 1;
 }
 
-#menu div.form div.controls .button.edit {
+#menu .form .controls .button.move,
+#menu .form .controls .button.edit {
   background-image: url('images/edit-icon.png');
 }
 
-#menu div.form div.controls .button.delete {
+#menu .form .controls .button.delete {
   background-image: url('images/delete-icon.png');
 }
 
-#menu div.form div.controls .button.save {
+#menu .form .controls .button.save {
   background-image: url('images/save-icon.png');
 }
 
-#menu div.form div.controls .button.cancel {
+#menu .form .controls .button.cancel {
   background-image: url('images/cancel-icon.png');
 }
 
-#menu div.form div.content {
-  color: #A1AAB3;
-  font-size: 0.857em; /* 12/14 */
-}
-
-ul.controls div.form.hidden {
+#menu .add-new-items div.form.hidden {
   display: none;
 }
 
-ul.controls li.buttons {
-  padding-left: 20px;
-  padding-bottom: 20px;
+#menu .add-new-items .toolbar {
+  margin-left: 20px;
+  margin-bottom: 20px;
 }
 
-ul.controls .button {
+#menu .add-new-items .toolbar .button.add {
   opacity: 0.6;
 }
 
-ul.controls .button:hover {
+#menu .add-new-items .toolbar .button.add:hover {
   opacity: 1;
 }
 
-ul.controls .button.add {
+#menu .add-new-items .toolbar .button.add {
   color: #A1AAB3;
   font-weight: bold;
   background-color: #f3f3f3;
