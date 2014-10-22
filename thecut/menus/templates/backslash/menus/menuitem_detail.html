@@ -5,32 +5,28 @@
 
 <script type="text/template" id="menuitem-template">
   <div class="form">
-    <% if ( is_menu ) { %>
-    <span class="label">Submenu</span>
-    <% } %>
-    <input class="disabled title" disabled="disabled" value="<%= title %>"></input>
-    <% if (!is_menu) { %>
-    <select class="disabled contenttype" disabled="disabled">
-      <option value="<%= content_type %>"><%= content_type_name %></option>
-    </select>
-    <select class="disabled contentobject" disabled="disabled">
-      <option value="<%= object_id %>"><%= content_object.name %></option>
-    </select>
-    <% } %>
+    <div class="form-fields">
+      <% if ( is_menu ) { %>
+      <span class="label">Submenu</span>
+      <% } %>
+      <input class="disabled title" disabled="disabled" value="<%= title %>"></input>
+      <% if (!is_menu) { %>
+      <select class="disabled contenttype" disabled="disabled">
+        <option value="<%= content_type %>"><%= content_type_name %></option>
+      </select>
+      <select class="disabled contentobject" disabled="disabled">
+        <option value="<%= object_id %>"><%= content_object.name %></option>
+      </select>
+      <span class="target"><%= content_type_name %>/<%= content_object.name %></span>
+      <% } %>
+    </div>
     <div class="controls">
-      <span class="button save hidden" title="Save">&nbsp;</span>
-      <span class="button cancel hidden" title="Cancel">&nbsp;</span>
-      <span class="button edit" title="Edit">&nbsp;</span>
-      <span class="button delete" title="Delete">&nbsp;</span>
+      <span class="button save hidden" title="Save">Save</span>
+      <span class="button cancel hidden" title="Cancel">Cancel</span>
+      <span class="button edit" title="Edit">Edit</span>
+      <span class="button delete" title="Delete">Delete</span>
       <span class="button move" title="Move">Move</span>
     </div>
-
-    <% if ( !is_menu ) { %>
-    <div class="content">
-      <span><%= content_type_name %>/<%= content_object.name %></span>
-    </div>
-    <% } %>
-
   </div>
 </script>
 
@@ -39,30 +35,35 @@
 
   <ul class="menu" data-pk="<%= id %>"></ul>
 
-  <ul class="controls">
+  <ul class="controls add-new-items">
     <li class="add submenu">
       <div class="form hidden">
-        <input class="title" />
+        <div class="form-fields">
+          <span class="label">Submenu</span>
+          <input class="title" />
+        </div>
         <div class="controls">
-          <span class="button save">&nbsp;</span>
-          <span class="button cancel">&nbsp;</span>
+          <span class="button save">Save</span>
+          <span class="button cancel">Cancel</span>
         </div>
       </div>
     </li>
 
     <li class="add menuitem">
       <div class="form hidden">
-        <input class="title" />
-        <select class="contenttype"></select>
-        <select class="contentobject"></select>
+        <div class="form-fields">
+          <input class="title" />
+          <select class="contenttype"></select>
+          <select class="contentobject"></select>
+        </div>
 
         <div class="controls">
-          <span class="button save">&nbsp;</span>
-          <span class="button cancel">&nbsp;</span>
+          <span class="button save">Save</span>
+          <span class="button cancel">Cancel</span>
         </div>
       </div>
     </li>
-    <li class="buttons">
+    <li class="buttons toolbar">
       <span class="button add menuitem">New Item</span>
       <span class="button add submenu">New Submenu</span>
     </li>
