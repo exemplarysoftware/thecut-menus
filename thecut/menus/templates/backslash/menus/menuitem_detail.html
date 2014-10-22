@@ -40,38 +40,38 @@
   <ul class="menu" data-pk="<%= id %>"></ul>
 
   <ul class="controls">
-
     <li class="add submenu">
       <div class="form hidden">
-	<input class="title" />
-	<div class="controls">
-	  <span class="button save">&nbsp;</span>
-	  <span class="button cancel">&nbsp;</span>
-	</div>
+        <input class="title" />
+        <div class="controls">
+          <span class="button save">&nbsp;</span>
+          <span class="button cancel">&nbsp;</span>
+        </div>
       </div>
     </li>
 
     <li class="add menuitem">
       <div class="form hidden">
-	<input class="title" />
-	<select class="contenttype"></select>
-	<select class="contentobject"></select>
-	<div class="controls">
-	  <span class="button save">&nbsp;</span>
-	  <span class="button cancel">&nbsp;</span>
-	</div>
+        <input class="title" />
+        <select class="contenttype"></select>
+        <select class="contentobject"></select>
+
+        <div class="controls">
+          <span class="button save">&nbsp;</span>
+          <span class="button cancel">&nbsp;</span>
+        </div>
       </div>
 
     <li class="buttons">
       <span class="button add menuitem">New Item</span>
       <span class="button add submenu">New Submenu</span>
     </li>
-
   </ul>
 </script>
 
 <script type="text/javascript" src="/static/menus/lib/require.js"></script>
 <script type="text/javascript" src="/static/menus/menus.js"></script>
+
 {% endblock extrahead %}
 
 {% block title %}{{ object.title }} - {% endblock %}
