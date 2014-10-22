@@ -132,7 +132,7 @@ ul.controls .button.add {
   border: none;
   background-image: url('images/plus-icon.png');
   background-repeat: no-repeat;
-  background-position: 0% 50%;
+  background-position: 0 50%;
   text-shadow: none;
   padding-left: 30px;
 }
