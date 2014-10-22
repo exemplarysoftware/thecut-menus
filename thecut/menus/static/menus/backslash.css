@@ -34,6 +34,7 @@
 }
 
 #menu li.menuitem input {
+  vertical-align: middle;
   font-weight: normal;
   font-size: 1.286em; /* 18/14 */
   color: #171F26;
