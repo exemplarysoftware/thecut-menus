@@ -211,6 +211,10 @@ define([
             var menuTarget = $(this.el).children('.form').find(".target");
             menuTarget.removeClass("hidden");
 
+            // Disable 'edit-controls' container
+            var editControls = $(this.el).children('.form').find(".edit-controls");
+            editControls.addClass("hidden");
+
             // Enable the 'Edit' button.
             var editButton = $(this.el).children('.form').find(".edit.button");
             editButton.removeClass("disabled").addClass("enabled");
@@ -218,14 +222,6 @@ define([
             // Enable the 'Delete' button.
             var deleteButton = $(this.el).children('.form').find(".delete.button");
             deleteButton.removeClass("disabled").addClass("enabled");
-
-            // Disable the 'Save' button.
-            var saveButton = $(this.el).children('.form').find(".save.button");
-            saveButton.addClass("disabled").removeClass("enabled");
-
-            // Enable the 'Cancel' button.
-            var cancelButton = $(this.el).children('.form').find(".cancel.button");
-            cancelButton.addClass("disabled").removeClass("enabled");
 
             // Disable the content type select.
             var contentTypeSelect = $(this.el).children('.form').find("select.contenttype");
