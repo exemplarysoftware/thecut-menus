@@ -84,7 +84,7 @@
 
 {% endblock extrahead %}
 
-{% block title %}{{ object.title }} - {% endblock %}
+{% block title %}{{ object.title }} - {{ block.super }}{% endblock %}
 
 {% block breadcrumbs %}{{ block.super }} <h1 class="page-title">{{ object.title }}</h1> {% endblock %}
 
