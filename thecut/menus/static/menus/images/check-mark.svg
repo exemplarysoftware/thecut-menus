@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg width="16px" height="12px" viewBox="0 0 16 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+<svg width="17px" height="12px" viewBox="0 0 17 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
     <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
     <title>check-mark</title>
     <desc>Created with Sketch.</desc>
-    <defs>
-        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
-            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
-            <feGaussianBlur stdDeviation="0" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
-            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.175 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
-            <feMerge>
-                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
-                <feMergeNode in="SourceGraphic"></feMergeNode>
-            </feMerge>
-        </filter>
-    </defs>
+    <defs></defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
-        <g id="Icons" sketch:type="MSArtboardGroup" transform="translate(-433.000000, -400.000000)" filter="url(#filter-1)" fill="#FFFFFF">
-            <path d="M438.397547,410.810723 C438.796203,411.121671 439.364234,411.086148 439.721045,410.727956 L448.708471,401.70574 C449.098241,401.314462 449.097017,400.681298 448.70574,400.291529 C448.314462,399.901759 447.681298,399.902983 447.291529,400.29426 L438.948908,408.704338 L434.615026,405.32396 C434.179546,404.98429 433.551163,405.06196 433.211493,405.49744 C432.871824,405.932921 432.949494,406.561304 433.384974,406.900973 L438.397547,410.810723 Z" id="check-mark" sketch:type="MSShapeGroup"></path>
+        <g id="Icons" sketch:type="MSArtboardGroup" transform="translate(-433.000000, -400.000000)">
+            <g id="check-mark" sketch:type="MSLayerGroup" transform="translate(433.000000, 400.000000)">
+                <path d="M5.45498885,11.8107234 C5.85364521,12.1216709 6.42167587,12.0861481 6.77848649,11.7279563 L15.7659132,2.70573951 C16.1556824,2.31446156 16.1544593,1.68129776 15.7631814,1.29152859 C15.3719034,0.90175942 14.7387396,0.902982531 14.3489704,1.29426049 L6.00634935,9.70433813 L1.67246806,6.32395999 C1.23698786,5.98429038 0.60860479,6.06196022 0.268935185,6.49744041 C-0.070734421,6.93292061 0.00693541119,7.56130369 0.44241561,7.90097329 L5.45498885,11.8107234 Z" id="check-mark-2" fill-opacity="0.25" fill="#000000" sketch:type="MSShapeGroup"></path>
+                <path d="M5.39754702,10.8107234 C5.79620337,11.1216709 6.36423404,11.0861481 6.72104465,10.7279563 L15.7084714,1.70573951 C16.0982406,1.31446156 16.0970175,0.681297762 15.7057395,0.291528591 C15.3144616,-0.0982405805 14.6812978,-0.0970174695 14.2915286,0.294260486 L5.94890751,8.70433813 L1.61502623,5.32395999 C1.17954603,4.98429038 0.551162953,5.06196022 0.211493348,5.49744041 C-0.128176258,5.93292061 -0.0505064257,6.56130369 0.384973773,6.90097329 L5.39754702,10.8107234 Z" fill="#FFFFFF" sketch:type="MSShapeGroup"></path>
+            </g>
         </g>
     </g>
 </svg>

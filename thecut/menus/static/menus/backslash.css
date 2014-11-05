@@ -242,6 +242,12 @@
   background: url('images/check-mark.png') no-repeat;
 }
 
+@media all and (min-width: 0) {
+  #menu .form .edit-controls .button.save:before {
+    background-image: url('images/check-mark.svg');
+  }
+}
+
 #menu .add-new-items div.form.hidden {
   display: none;
 }
