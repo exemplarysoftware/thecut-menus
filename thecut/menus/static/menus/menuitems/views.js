@@ -177,11 +177,11 @@ define([
 
             // Disable the 'Edit' button.
             var editButton = $(this.el).children('.form').find(".edit.button");
-            editButton.addClass("disabled").removeClass("enabled").addClass("hidden");
+            editButton.addClass("disabled").removeClass("enabled");
 
             // Disable the 'Delete' button.
             var deleteButton = $(this.el).children('.form').find(".delete.button");
-            deleteButton.addClass("disabled").removeClass("enabled").addClass("hidden");
+            deleteButton.addClass("disabled").removeClass("enabled");
 
             // Populate and enable the content type selector.
             var selector = $(this.el).children('.form').find("select.contenttype");
