@@ -166,13 +166,16 @@
   opacity: 1;
 }
 
-#menu .form .controls .button.move,
 #menu .form .controls .button.edit {
   background-image: url('images/edit-icon.png');
 }
 
 #menu .form .controls .button.delete {
   background-image: url('images/delete-icon.png');
+}
+
+#menu .form .controls .button.move {
+  background-image: url('images/reorder-icon.png');
 }
 
 #menu .form .controls .button.save {
