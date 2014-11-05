@@ -174,14 +174,6 @@
   background-image: url('images/reorder-icon.png');
 }
 
-#menu .form .controls .button.save {
-  background-image: url('images/save-icon.png');
-}
-
-#menu .form .controls .button.cancel {
-  background-image: url('images/cancel-icon.png');
-}
-
 #menu .form .edit-controls {
   clear: both;
   padding: 9px 10px 10px;
