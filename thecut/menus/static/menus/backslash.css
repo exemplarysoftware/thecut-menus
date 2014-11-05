@@ -57,7 +57,7 @@
 #menu .menuitem label {
   margin-top: 15px;
   margin-bottom: 6px;
-  font-size: 12px;
+  font-size: 0.857em; /* 12/14 */
   line-height: 1;
   text-transform: uppercase;
   font-weight: bold;
@@ -214,7 +214,7 @@
   margin-right: 10px;
   height: 28px;
   line-height: 28px;
-  font-size: 13px;
+  font-size: 0.929em; /* 13/14 */
 }
 
 #menu .form .edit-controls .button.low {
