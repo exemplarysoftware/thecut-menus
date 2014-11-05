@@ -125,6 +125,10 @@
   line-height: 1;
 }
 
+#menu .form .target.hidden {
+  display: none;
+}
+
 #menu .menuitem .form .controls {
   float: right;
 }
