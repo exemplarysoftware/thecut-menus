@@ -38,13 +38,14 @@
 #menu .menuitem .label {
   display: inline-block;
   vertical-align: middle;
-  padding: 2px 8px 0;
-  margin-bottom: 6px;
+  padding: 4px 8px 3px;
+  margin-bottom: 8px;
   margin-left: -5px;
   background-color: #3ECDEB;
   font-size: 0.786em; /* 11/14 */
   color: #ffffff;
   text-transform: uppercase;
+  line-height: 1;
   letter-spacing: 0.3px;
   -webkit-border-radius: 12px;
           border-radius: 12px;
