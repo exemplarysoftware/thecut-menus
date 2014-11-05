@@ -24,11 +24,13 @@
       <% } %>
     </div>
     <div class="controls">
-      <span class="button save hidden" title="Save">Save</span>
-      <span class="button cancel hidden" title="Cancel">Cancel</span>
       <span class="button edit" title="Edit">Edit</span>
       <span class="button delete" title="Delete">Delete</span>
       <span class="button move" title="Move">Move</span>
+    </div>
+    <div class="edit-controls hidden">
+      <span class="button success save" title="Save">Save</span>
+      <span class="button low cancel" title="Cancel">Cancel</span>
     </div>
   </div>
 </script>
@@ -46,9 +48,9 @@
           <label class="title-label">Title</label>
           <input class="title" />
         </div>
-        <div class="controls">
-          <span class="button save">Save</span>
-          <span class="button cancel">Cancel</span>
+        <div class="edit-controls">
+          <span class="button success save" title="Save">Save</span>
+          <span class="button low cancel" title="Cancel">Cancel</span>
         </div>
       </div>
     </li>
@@ -64,9 +66,9 @@
           <select class="contentobject"></select>
         </div>
 
-        <div class="controls">
-          <span class="button save">Save</span>
-          <span class="button cancel">Cancel</span>
+        <div class="edit-controls">
+          <span class="button success save" title="Save">Save</span>
+          <span class="button low cancel" title="Cancel">Cancel</span>
         </div>
       </div>
     </li>
