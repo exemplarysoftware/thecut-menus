@@ -9,11 +9,14 @@
       <% if ( is_menu ) { %>
       <span class="label">Submenu</span>
       <% } %>
+      <label class="hidden title-label">Title</label>
       <input class="disabled title" disabled="disabled" value="<%= title %>"></input>
       <% if (!is_menu) { %>
+      <label class="hidden contenttype-label">Target Type</label>
       <select class="disabled contenttype" disabled="disabled">
         <option value="<%= content_type %>"><%= content_type_name %></option>
       </select>
+      <label class="hidden contentobject-label">Target</label>
       <select class="disabled contentobject" disabled="disabled">
         <option value="<%= object_id %>"><%= content_object.name %></option>
       </select>
@@ -40,6 +43,7 @@
       <div class="form hidden">
         <div class="form-fields">
           <span class="label">Submenu</span>
+          <label class="title-label">Title</label>
           <input class="title" />
         </div>
         <div class="controls">
@@ -52,8 +56,11 @@
     <li class="add menuitem">
       <div class="form hidden">
         <div class="form-fields">
+          <label class="title-label">Title</label>
           <input class="title" />
+          <label class="contenttype-label">Target Type</label>
           <select class="contenttype"></select>
+          <label class="contentobject-label">Target</label>
           <select class="contentobject"></select>
         </div>
 
