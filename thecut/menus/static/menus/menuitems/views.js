@@ -80,7 +80,9 @@ define([
         },
 
         destroy: function(event) {
-            this.model.destroy();
+            if (confirm("Are you sure you want to delete this item?")) {
+              this.model.destroy();
+            }
             event.stopPropagation();
         },
 
