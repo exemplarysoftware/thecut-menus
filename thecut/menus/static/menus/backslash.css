@@ -137,10 +137,6 @@
   float: right;
 }
 
-#menu .form .controls .button.hidden {
-  display: none;
-}
-
 #menu .form .controls .button {
   overflow: hidden;
   text-indent: 9999em;
