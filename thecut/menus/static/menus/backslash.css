@@ -191,26 +191,40 @@
 }
 
 #menu .add-new-items .toolbar {
-  margin-left: 20px;
-  margin-bottom: 20px;
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+  max-width: 620px;
+  margin-top: 15px;
+  padding: 12px 15px;
+  -webkit-border-radius: 5px;
+          border-radius: 5px;
+  margin-bottom: 25px;
+  background: #E1E2E6;
+  border: 1px solid #d1d2d6;
 }
 
 #menu .add-new-items .toolbar .button.add {
-  opacity: 0.6;
-}
-
-#menu .add-new-items .toolbar .button.add:hover {
-  opacity: 1;
-}
-
-#menu .add-new-items .toolbar .button.add {
-  color: #A1AAB3;
+  height: 25px;
+  line-height: 29px;
+  color: #818793;
   font-weight: bold;
-  background-color: #f3f3f3;
+  background: transparent;
   border: none;
-  background-image: url('images/plus-icon.png');
+  background-image: url('images/add-icon.png');
   background-repeat: no-repeat;
-  background-position: 0 50%;
+  background-position: 0;
   text-shadow: none;
   padding-left: 30px;
+}
+
+@media all and (min-width: 0) {
+  #menu .add-new-items .toolbar .button.add {
+    background-image: url('images/add-icon.svg');
+  }
+}
+
+#menu .add-new-items .toolbar .button.add:hover,
+#menu .add-new-items .toolbar .button.add:focus {
+  color: #171F26;
 }
