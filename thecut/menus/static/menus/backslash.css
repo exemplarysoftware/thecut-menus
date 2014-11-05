@@ -116,10 +116,6 @@
   margin-right: 10px;
 }
 
-#menu .menuitem select.contentobject {
-  margin-bottom: 15px;
-}
-
 #menu .form select.disabled {
   display: none;
 }
