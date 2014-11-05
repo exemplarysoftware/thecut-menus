@@ -211,6 +211,10 @@ define([
             var fieldLabel = $(this.el).children('.form').find("label");
             fieldLabel.addClass("hidden");
 
+            // Enable 'target' element
+            var menuTarget = $(this.el).children('.form').find(".target");
+            menuTarget.removeClass("hidden");
+
             // Enable the 'Edit' button.
             var editButton = $(this.el).children('.form').find(".edit.button");
             editButton.removeClass("disabled").addClass("enabled");
