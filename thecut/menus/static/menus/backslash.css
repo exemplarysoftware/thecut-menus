@@ -62,7 +62,6 @@
   text-transform: uppercase;
   font-weight: bold;
   color: #818793;
-  transition: font-size 0.1s ease-in;
 }
 
 #menu .menuitem label:first-child,
