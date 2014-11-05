@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="16px" height="12px" viewBox="0 0 16 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.1.1 (8761) - http://www.bohemiancoding.com/sketch -->
+    <title>check-mark</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <filter x="-50%" y="-50%" width="200%" height="200%" filterUnits="objectBoundingBox" id="filter-1">
+            <feOffset dx="0" dy="1" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="0" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.175 0" in="shadowBlurOuter1" type="matrix" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Icons" sketch:type="MSArtboardGroup" transform="translate(-433.000000, -400.000000)" filter="url(#filter-1)" fill="#FFFFFF">
+            <path d="M438.397547,410.810723 C438.796203,411.121671 439.364234,411.086148 439.721045,410.727956 L448.708471,401.70574 C449.098241,401.314462 449.097017,400.681298 448.70574,400.291529 C448.314462,399.901759 447.681298,399.902983 447.291529,400.29426 L438.948908,408.704338 L434.615026,405.32396 C434.179546,404.98429 433.551163,405.06196 433.211493,405.49744 C432.871824,405.932921 432.949494,406.561304 433.384974,406.900973 L438.397547,410.810723 Z" id="check-mark" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>

@@ -226,6 +226,22 @@
   line-height: 26px;
 }
 
+#menu .form .edit-controls .button.save {
+  padding-left: 10px;
+}
+
+#menu .form .edit-controls .button.save:before {
+  content: "";
+  position: relative;
+  top: -1px;
+  display: inline-block;
+  vertical-align: middle;
+  width: 16px;
+  height: 12px;
+  margin-right: 5px;
+  background: url('images/check-mark.png') no-repeat;
+}
+
 #menu .add-new-items div.form.hidden {
   display: none;
 }
