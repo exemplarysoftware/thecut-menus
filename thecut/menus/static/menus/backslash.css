@@ -186,6 +186,33 @@
   background-image: url('images/cancel-icon.png');
 }
 
+#menu .form .edit-controls {
+  clear: both;
+  padding: 9px 10px 10px;
+  margin: 20px -12px -12px;
+  overflow: hidden;
+  background-color: #fafafa;
+  border-top: 1px solid #d9d9d9;
+  -webkit-border-radius: 0 0 6px 6px;
+          border-radius: 0 0 6px 6px;
+}
+
+#menu .form .edit-controls.hidden {
+  display: none;
+}
+
+#menu .form .edit-controls .button {
+  vertical-align: top;
+  margin-right: 10px;
+  height: 28px;
+  line-height: 28px;
+  font-size: 13px;
+}
+
+#menu .form .edit-controls .button.low {
+  line-height: 26px;
+}
+
 #menu .add-new-items div.form.hidden {
   display: none;
 }
