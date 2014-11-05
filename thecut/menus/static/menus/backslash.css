@@ -6,7 +6,7 @@
 
 /* Indent child menus. */
 #menu .menuitem > .menu {
-  padding-left: 40px;
+  padding-left: 25px;
 }
 
 #menu .menuitem .form,
