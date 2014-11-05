@@ -157,7 +157,7 @@
 #menu .form .controls .button.edit,
 #menu .form .controls .button.delete,
 #menu .form .controls .button.move {
-  opacity: 0.4;
+  opacity: 0.65;
 }
 
 #menu .form .controls .button.edit:hover,
