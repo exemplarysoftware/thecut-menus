@@ -175,6 +175,20 @@
   background-image: url('images/reorder-icon.png');
 }
 
+@media all and (min-width: 0) {
+  #menu .form .controls .button.edit {
+    background-image: url('images/edit-icon.svg');
+  }
+
+  #menu .form .controls .button.delete {
+    background-image: url('images/delete-icon.svg');
+  }
+
+  #menu .form .controls .button.move {
+    background-image: url('images/reorder-icon.svg');
+  }
+}
+
 #menu .form .controls .button.disabled {
   opacity: 0.2;
   pointer-events: none;
