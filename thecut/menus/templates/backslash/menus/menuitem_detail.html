@@ -7,7 +7,7 @@
   <div class="form">
     <div class="form-fields">
       <% if ( is_menu ) { %>
-      <span class="label">Submenu</span>
+      <span class="label">Group</span>
       <% } %>
       <label class="hidden title-label">Title</label>
       <input class="disabled title" disabled="disabled" value="<%= title %>"></input>
@@ -44,7 +44,7 @@
     <li class="add submenu">
       <div class="form hidden">
         <div class="form-fields">
-          <span class="label">Submenu</span>
+          <span class="label">Group</span>
           <label class="title-label">Title</label>
           <input class="title" />
         </div>
@@ -73,8 +73,8 @@
       </div>
     </li>
     <li class="buttons toolbar">
-      <span class="button add menuitem">New Item</span>
-      <span class="button add submenu">New Submenu</span>
+      <span class="button add menuitem">New Link</span>
+      <span class="button add submenu">New Group</span>
     </li>
   </ul>
 </script>
