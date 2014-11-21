@@ -3,6 +3,7 @@ from __future__ import absolute_import, unicode_literals
 from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
+from django.utils.encoding import python_2_unicode_compatible
 from django.db import models
 from model_utils.managers import PassThroughManagerMixin
 from thecut.menus import querysets
@@ -11,12 +12,6 @@ from thecut.publishing.models import PublishableResource
 from mptt.models import MPTTModel, TreeForeignKey
 from mptt.managers import TreeManager
 from . import managers
-
-
-try:
-    from django.utils.encoding import python_2_unicode_compatible
-except ImportError:
-    from thecut.publishing.utils import python_2_unicode_compatible
 
 
 @python_2_unicode_compatible
