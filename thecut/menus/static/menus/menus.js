@@ -5,11 +5,11 @@ var menusRequire = requirejs.config({
     context: 'menus',
 
     paths: {
-        'backbone': 'lib/backbone-min',
+        'backbone': 'lib/backbone',
         'domReady': 'lib/domReady',
-        'jquery': 'lib/jquery-1.10.2',
-        'jquery-ui': 'lib/jquery-ui-1.10.4.custom.min',
-        'underscore': 'lib/underscore-min'
+        'jquery': 'lib/jquery',
+        'jquery-ui': 'lib/jquery-ui',
+        'underscore': 'lib/underscore'
     },
 
     shim: {
