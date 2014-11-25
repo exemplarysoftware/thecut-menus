@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from .forms import MenuItemAdminForm
+from .models import MenuItem, ViewLink, WebLink
 from django.conf.urls import include, patterns
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from thecut.authorship.admin import AuthorshipMixin
-from thecut.menus.forms import MenuItemAdminForm
-from thecut.menus.models import MenuItem, ViewLink, WebLink
 
 
 class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):

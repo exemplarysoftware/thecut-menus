@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-#from django import forms
 from thecut import backslash
 from .admin import MenuItemAdmin
 from .forms import MenuItemBackslashForm

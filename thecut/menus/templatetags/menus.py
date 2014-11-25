@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from ..models import MenuItem
 from django import template
 from django.contrib.contenttypes.models import ContentType
-from thecut.menus.models import MenuItem
 
 
 register = template.Library()

@@ -1,13 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from . import managers
+from . import managers, querysets
 from .fields import MenuItemGenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey
-from thecut.menus import querysets
 from thecut.ordering.models import OrderMixin
 from thecut.publishing.models import PublishableResource
 
