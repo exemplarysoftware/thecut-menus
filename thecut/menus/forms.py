@@ -8,6 +8,9 @@ from mptt.forms import MPTTAdminForm
 class MenuItemAdminForm(MPTTAdminForm):
 
     class Meta(object):
+        fields = ['content_type', 'expire_at', 'image', 'is_enabled',
+                  'is_featured', 'object_id', 'order', 'parent', 'publish_at',
+                  'publish_by', 'slug', 'title']
         model = MenuItem
 
     def __init__(self, *args, **kwargs):
@@ -29,6 +32,7 @@ class MenuItemBackslashForm(forms.ModelForm):
     """Form for adding/editing a top-level root MenuItem."""
 
     class Meta(object):
+        fields = ['expire_at', 'is_enabled', 'publish_at', 'slug', 'title']
         model = MenuItem
 
     def __init__(self, *args, **kwargs):

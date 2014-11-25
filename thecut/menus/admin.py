@@ -10,9 +10,21 @@ from thecut.menus.models import MenuItem, ViewLink, WebLink
 
 class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
 
-    prepopulated_fields = {'slug': ['title']}
+    fieldsets = [
+        (None, {'fields': ['title', 'image', ('content_type', 'object_id'),
+                           'parent', 'order']}),
+        ('Publishing', {'fields': ['slug', ('publish_at', 'is_enabled'),
+                                   'expire_at', 'publish_by', 'is_featured',
+                                   ('created_at', 'created_by'),
+                                   ('updated_at', 'updated_by')],
+                        'classes': ['collapse']}),
+    ]
 
     form = MenuItemAdminForm
+
+    prepopulated_fields = {'slug': ['title']}
+
+    readonly_fields = ['created_at', 'created_by', 'updated_at', 'updated_by']
 
     def get_urls(self):
         urlpatterns = patterns(
