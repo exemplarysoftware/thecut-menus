@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from django.contrib.contenttypes import generic
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.utils.encoding import python_2_unicode_compatible
@@ -12,6 +11,12 @@ from thecut.publishing.models import PublishableResource
 from mptt.models import MPTTModel, TreeForeignKey
 from mptt.managers import TreeManager
 from . import managers
+
+
+try:
+    from django.contrib.contenttypes.fields import GenericForeignKey
+except ImportError:  # pre Django 1.7 compatibility
+    from django.contrib.contenttypes.generic import GenericForeignKey
 
 
 @python_2_unicode_compatible
@@ -49,7 +54,7 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     # Generic relation to an object.
     content_type = models.ForeignKey(ContentType, blank=True, null=True)
     object_id = models.IntegerField(db_index=True, blank=True, null=True)
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
+    content_object = GenericForeignKey('content_type', 'object_id')
 
     objects = PassThroughTreeManager().for_queryset_class(
         querysets.MenuItemQuerySet)()
