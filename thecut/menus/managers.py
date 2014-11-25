@@ -3,6 +3,8 @@ from __future__ import absolute_import, unicode_literals
 from . import settings
 from django.contrib.contenttypes.models import ContentTypeManager
 from django.db.models import Q
+from model_utils.managers import PassThroughManagerMixin
+from mptt.managers import TreeManager
 import operator
 
 
@@ -30,3 +32,8 @@ class MenuItemContentTypeManager(ContentTypeManager):
             MenuItemContentTypeManager._queryset = queryset
 
         return MenuItemContentTypeManager._queryset
+
+
+class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):
+
+    pass

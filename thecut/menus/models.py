@@ -6,9 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
-from model_utils.managers import PassThroughManagerMixin
 from mptt.models import MPTTModel, TreeForeignKey
-from mptt.managers import TreeManager
 from thecut.menus import querysets
 from thecut.ordering.models import OrderMixin
 from thecut.publishing.models import PublishableResource
@@ -26,11 +24,6 @@ class MenuItemContentType(ContentType):
         return self.name.title()
 
 
-class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):
-
-    pass
-
-
 @python_2_unicode_compatible
 class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     """An ordered item in a menu.
@@ -42,17 +35,21 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
 
     parent = TreeForeignKey('self', null=True, blank=True,
                             related_name='children')
+
     title = models.CharField(max_length=200, blank=True)
+
     image = models.ImageField(upload_to='uploads/menus', blank=True)
+
     slug = models.SlugField(unique=True, null=True)
 
-    # Generic relation to an object.
     content_type = models.ForeignKey('menus.MenuItemContentType', blank=True,
                                      null=True)
+
     object_id = models.IntegerField(db_index=True, blank=True, null=True)
+
     content_object = MenuItemGenericForeignKey('content_type', 'object_id')
 
-    objects = PassThroughTreeManager().for_queryset_class(
+    objects = managers.PassThroughTreeManager().for_queryset_class(
         querysets.MenuItemQuerySet)()
 
     class Meta(MPTTModel.Meta, PublishableResource.Meta):
@@ -81,11 +78,10 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
 
 @python_2_unicode_compatible
 class ViewLink(PublishableResource):
-    """A django view, for potential use in menu items.
-
-    """
+    """A django view, for potential use in menu items."""
 
     name = models.CharField(max_length=100)
+
     view = models.CharField(max_length=100)
 
     def __str__(self):
@@ -99,11 +95,10 @@ class ViewLink(PublishableResource):
 
 @python_2_unicode_compatible
 class WebLink(PublishableResource):
-    """A website link, for potential use in menu items.
-
-    """
+    """A website link, for potential use in menu items."""
 
     name = models.CharField(max_length=100)
+
     url = models.URLField()
 
     def __str__(self):
