@@ -9,6 +9,7 @@ from django.utils.encoding import force_unicode
 class ManageMenuView(generic.DetailView):
 
     model = MenuItem
+
     template_name = 'backslash/menus/menuitem_detail.html'
 
     def get_context_data(self, *args, **kwargs):
