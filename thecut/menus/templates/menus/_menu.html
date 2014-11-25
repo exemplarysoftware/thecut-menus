@@ -1,4 +1,4 @@
-{% load menu_tags %}
+{% load menus %}
 
 {% for item in menuitem_list %}{% with item_url=item.get_absolute_url %}
   {% if forloop.first %}<ul class="menu{% if extra_class %} {{ extra_class }}{% endif %}">{% endif %}
