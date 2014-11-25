@@ -19,9 +19,9 @@ class Migration(migrations.Migration):
             name='MenuItem',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('order', models.PositiveIntegerField(default=0)),
                 ('created_at', models.DateTimeField(auto_now_add=True)),
                 ('updated_at', models.DateTimeField(auto_now=True)),
+                ('order', models.PositiveIntegerField(default=0)),
                 ('is_enabled', models.BooleanField(default=True, db_index=True, verbose_name='enabled')),
                 ('is_featured', models.BooleanField(default=False, db_index=True, verbose_name='featured')),
                 ('publish_at', models.DateTimeField(default=django.utils.timezone.now, help_text='This item will only be viewable on the website if it is enabled, and this date and time has past.', verbose_name='publish date & time', db_index=True)),
@@ -34,7 +34,6 @@ class Migration(migrations.Migration):
                 ('rght', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('level', models.PositiveIntegerField(editable=False, db_index=True)),
-                ('content_type', models.ForeignKey(blank=True, to='contenttypes.ContentType', null=True)),
                 ('created_by', models.ForeignKey(related_name='+', editable=False, to=settings.AUTH_USER_MODEL)),
                 ('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='menus.MenuItem', null=True)),
                 ('publish_by', models.ForeignKey(related_name='+', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
@@ -100,5 +99,11 @@ class Migration(migrations.Migration):
                 'proxy': True,
             },
             bases=('contenttypes.contenttype',),
+        ),
+        migrations.AddField(
+            model_name='menuitem',
+            name='content_type',
+            field=models.ForeignKey(blank=True, to='menus.MenuItemContentType', null=True),
+            preserve_default=True,
         ),
     ]
