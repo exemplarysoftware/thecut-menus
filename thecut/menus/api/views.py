@@ -113,9 +113,10 @@ class MenuItemMoveAPIView(generic.list.MultipleObjectMixin, generic.View):
     @method_decorator(never_cache)
     def dispatch(self, request, *args, **kwargs):
         if not request.user.has_perm('menus.change_menuitem'):
-           return HttpResponseForbidden(content_type='text/plain')
+            return HttpResponseForbidden(content_type='text/plain')
 
-        return super(MenuItemMoveAPIView, self).dispatch(request, *args, **kwargs)
+        return super(MenuItemMoveAPIView, self).dispatch(request, *args,
+                                                         **kwargs)
 
     def post(self, *args, **kwargs):
         root_pk = self.kwargs.get('target_pk')
