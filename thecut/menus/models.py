@@ -55,7 +55,7 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
         verbose_name = 'menu'
         verbose_name_plural = 'menus'
 
-    class MPTTMeta:
+    class MPTTMeta(object):
         order_insertion_by = ['order']
 
     def __str__(self):
