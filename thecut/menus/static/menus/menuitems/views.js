@@ -38,7 +38,7 @@ define([
     var MenuItemView = Backbone.View.extend({
 
         // HTML & CSS attributes.
-        template: _.template($("#menuitem-template").html()),
+        template: _.template($('#menuitem-template').html()),
         tagName: 'li',
         className: 'menuitem',
 
@@ -75,12 +75,12 @@ define([
 
         save: function() {
             // Persist the changes made to the model.
-            var titleValue = $(this.el).find("input.title").val().trim();
+            var titleValue = $(this.el).find('input.title').val().trim();
             this.model.save({title: titleValue});
         },
 
         destroy: function(event) {
-            if (confirm("Are you sure you want to permanently delete this item?")) {
+            if (confirm('Are you sure you want to permanently delete this item?')) {
               this.model.destroy();
             }
             event.stopPropagation();
@@ -89,8 +89,8 @@ define([
         // Custom functions.
 
         isEditable: function() {
-            var saveButton = $(this.el).children('.form').find(".save.button");
-            return saveButton.hasClass("enabled");
+            var saveButton = $(this.el).children('.form').find('.save.button');
+            return saveButton.hasClass('enabled');
         },
 
         editClicked: function(event) {
@@ -119,14 +119,14 @@ define([
 
         populateContentObjectSelect: function(contentTypes) {
             // Populate and enable the content object selector.
-            var el = $(this.el).children('.form').find("select.contentobject");
+            var el = $(this.el).children('.form').find('select.contentobject');
 
             // The <select> for choosing the content object, won't exist
             // if this is a sub-menu.
             if ( el.length > 0 ) {
                 el.empty();
-                el.removeClass("disabled").addClass("enabled");
-                el.prop("disabled", false);
+                el.removeClass('disabled').addClass('enabled');
+                el.prop('disabled', false);
                 var contentType = new contenttypesModels.ContentType({id: this.model.get('content_type')});
                 contentType.fetch({async: false});
                 return contentType.getContentObjectSelect(el, this.model.get('object_id'));
@@ -161,79 +161,79 @@ define([
             // Put the form into an editable state.
 
             // Make the 'title' field editable.
-            var titleField = $(this.el).children('.form').find("input.title");
-            titleField.removeClass("disabled").addClass("enabled");
-            titleField.prop("disabled", false);
+            var titleField = $(this.el).children('.form').find('input.title');
+            titleField.removeClass('disabled').addClass('enabled');
+            titleField.prop('disabled', false);
 
             // Enable labels
-            var fieldLabel = $(this.el).children('.form').find("label");
-            fieldLabel.removeClass("hidden");
+            var fieldLabel = $(this.el).children('.form').find('label');
+            fieldLabel.removeClass('hidden');
 
             // Disable 'target' element
-            var menuTarget = $(this.el).children('.form').find(".target");
-            menuTarget.addClass("hidden");
+            var menuTarget = $(this.el).children('.form').find('.target');
+            menuTarget.addClass('hidden');
 
             // Enable 'edit-controls' container
-            var editControls = $(this.el).children('.form').find(".edit-controls");
-            editControls.removeClass("hidden");
+            var editControls = $(this.el).children('.form').find('.edit-controls');
+            editControls.removeClass('hidden');
 
             // Disable the 'Edit' button.
-            var editButton = $(this.el).children('.form').find(".edit.button");
-            editButton.addClass("disabled").removeClass("enabled");
+            var editButton = $(this.el).children('.form').find('.edit.button');
+            editButton.addClass('disabled').removeClass('enabled');
 
             // Disable the 'Delete' button.
-            var deleteButton = $(this.el).children('.form').find(".delete.button");
-            deleteButton.addClass("disabled").removeClass("enabled");
+            var deleteButton = $(this.el).children('.form').find('.delete.button');
+            deleteButton.addClass('disabled').removeClass('enabled');
 
             // Populate and enable the content type selector.
-            var selector = $(this.el).children('.form').find("select.contenttype");
+            var selector = $(this.el).children('.form').find('select.contenttype');
             if ( selector.length > 0 ) {
                 selector.empty();
                 var contentTypes = new contenttypesCollections.ContentTypeCollection();
                 var active = this.model.get('content_type');
                 contentTypes.fetch({async: false});
                 contentTypes.populateContentTypeSelect(selector, active);
-                selector.removeClass("disabled").addClass("enabled");
-                selector.prop("disabled", false);
+                selector.removeClass('disabled').addClass('enabled');
+                selector.prop('disabled', false);
                 this.populateContentObjectSelect(contentTypes);
             }
         },
 
         preventEditing: function() {
             // Make the 'title' field non-editable.
-            var titleField = $(this.el).children('.form').find("input.title");
-            titleField.addClass("disabled").removeClass("enabled");
-            titleField.prop("disabled", true);
+            var titleField = $(this.el).children('.form').find('input.title');
+            titleField.addClass('disabled').removeClass('enabled');
+            titleField.prop('disabled', true);
 
             // Disable labels
-            var fieldLabel = $(this.el).children('.form').find("label");
-            fieldLabel.addClass("hidden");
+            var fieldLabel = $(this.el).children('.form').find('label');
+            fieldLabel.addClass('hidden');
 
             // Enable 'target' element
-            var menuTarget = $(this.el).children('.form').find(".target");
-            menuTarget.removeClass("hidden");
+            var menuTarget = $(this.el).children('.form').find('.target');
+            menuTarget.removeClass('hidden');
 
             // Disable 'edit-controls' container
-            var editControls = $(this.el).children('.form').find(".edit-controls");
-            editControls.addClass("hidden");
+            var editControls = $(this.el).children('.form').find('.edit-controls');
+            editControls.addClass('hidden');
 
             // Enable the 'Edit' button.
-            var editButton = $(this.el).children('.form').find(".edit.button");
-            editButton.removeClass("disabled").addClass("enabled");
+            var editButton = $(this.el).children('.form').find('.edit.button');
+            editButton.removeClass('disabled').addClass('enabled');
 
             // Enable the 'Delete' button.
-            var deleteButton = $(this.el).children('.form').find(".delete.button");
-            deleteButton.removeClass("disabled").addClass("enabled");
+            var deleteButton = $(this.el).children('.form').find('.delete.button');
+            deleteButton.removeClass('disabled').addClass('enabled');
 
             // Disable the content type select.
-            var contentTypeSelect = $(this.el).children('.form').find("select.contenttype");
-            contentTypeSelect.addClass("disabled").removeClass("enabled");
-            contentTypeSelect.prop("disabled", true);
+            var contentTypeSelect = $(this.el).children('.form').find('select.contenttype');
+            contentTypeSelect.addClass('disabled').removeClass('enabled');
+            contentTypeSelect.prop('disabled', true);
 
             // Disable the content object select.
-            var contentObjectSelect = $(this.el).children('.form').find("select.contentobject");
-            contentObjectSelect.addClass("disabled").removeClass("enabled");
-            contentObjectSelect.prop("disabled", true);
+            var contentObjectSelect = $(this.el).children('.form').find('select.contentobject');
+            contentObjectSelect.addClass('disabled').removeClass('enabled');
+            contentObjectSelect.prop('disabled', true);
         },
 
     });
@@ -242,7 +242,7 @@ define([
     var MenuItemCollectionView = Backbone.View.extend({
 
         tagName: 'div',
-        template: _.template($("#menu-template").html()),
+        template: _.template($('#menu-template').html()),
         className: 'menu',
         events: {
             'click .add.menuitem.button': 'addMenuItemButtonClicked',
@@ -264,7 +264,7 @@ define([
             this.$el.html(this.template({id: this.id}));
 
             // Render the list of menu items inside this collection.
-            var list = this.$el.find("ul.menu");
+            var list = this.$el.find('ul.menu');
             this.collection.fetch({async: false});
             this.collection.each(function(menuitem) {
                 var itemView = new MenuItemView({model: menuitem});
@@ -341,7 +341,7 @@ define([
         },
 
         addMenuItemCancelClicked: function(event) {
-            // Render this view again which will hide the "form" used to add new
+            // Render this view again which will hide the 'form' used to add new
             // menu items. NB: may need to just add/remove class here if the page
             // flicker is deemed unbearable when re-rendering.
             this.render();
@@ -376,7 +376,7 @@ define([
     });
 
 
-    // The "application" view, which sets up and renders the initial
+    // The 'application' view, which sets up and renders the initial
     // content.
     var MenuView = Backbone.View.extend({
 
@@ -385,7 +385,7 @@ define([
         render: function() {
             // Create and render the root-level menu. This will in turn
             // create and render it's own child menus.
-            var pk = this.$el.attr("data-pk" || null);
+            var pk = this.$el.attr('data-pk' || null);
             this.rootMenu = new MenuItemCollectionView({id: pk});
             this.$el.html(this.rootMenu.render().el);
         }

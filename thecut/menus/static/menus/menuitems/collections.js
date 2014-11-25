@@ -15,8 +15,8 @@ define(['backbone', 'menuitems/models'], function(Backbone, models) {
         url: function() {
             // Only the children of this collection's parent should be
             // included.
-            var base_url = "/admin/menus/menuitem/api/menuitems/";
-            return base_url + "?root=" + this.parentId;
+            var base_url = '/admin/menus/menuitem/api/menuitems/';
+            return base_url + '?root=' + this.parentId;
         },
 
     });
