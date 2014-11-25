@@ -1,32 +1,23 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from django import forms
+#from django import forms
 from thecut import backslash
 from .admin import MenuItemAdmin
+from .forms import MenuItemBackslashForm
 from .models import MenuItem
-
-
-class MenuItemBackslashForm(forms.ModelForm):
-    """Form for adding/editing a top-level root MenuItem."""
-
-    class Meta(object):
-        model = MenuItem
-
-    def __init__(self, *args, **kwargs):
-        super(MenuItemBackslashForm, self).__init__(*args, **kwargs)
-        self.fields['title'].required = True
-        self.fields['slug'].required = True
 
 
 class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
     """Add and a top-level root MenuItem and manage it's children."""
 
     form = MenuItemBackslashForm
+
     fieldsets = [
         (None, {'fields': ['title', 'slug']}),
         ('Publishing', {'fields': [('publish_at', 'is_enabled'),
-                                   ('expire_at')]}),
+                                   'expire_at']}),
     ]
+
     change_list_template = 'backslash/change_list.html'
 
     class Meta(object):

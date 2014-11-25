@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from .models import MenuItem
+from django import forms
 from mptt.forms import MPTTAdminForm
-from thecut.menus.models import MenuItem
 
 
 class MenuItemAdminForm(MPTTAdminForm):
 
     class Meta(object):
-
         model = MenuItem
 
     def __init__(self, *args, **kwargs):
@@ -23,3 +23,15 @@ class MenuItemAdminForm(MPTTAdminForm):
             return None
 
         return slug
+
+
+class MenuItemBackslashForm(forms.ModelForm):
+    """Form for adding/editing a top-level root MenuItem."""
+
+    class Meta(object):
+        model = MenuItem
+
+    def __init__(self, *args, **kwargs):
+        super(MenuItemBackslashForm, self).__init__(*args, **kwargs)
+        self.fields['title'].required = True
+        self.fields['slug'].required = True
