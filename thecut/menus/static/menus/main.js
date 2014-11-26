@@ -6,13 +6,34 @@ var menusRequire = requirejs.config({
 
     paths: {
         'backbone': 'lib/backbone',
+        'backbone.babysitter': 'lib/backbone.babysitter',
+        'backbone.marionette': 'lib/backbone.marionette',
+        'backbone.wreqr': 'lib/backbone.wreqr',
         'domReady': 'lib/domReady',
         'jquery': 'lib/jquery',
         'jquery-ui': 'lib/jquery-ui',
+        'json2': 'lib/json2',
         'underscore': 'lib/underscore'
     },
 
     shim: {
+        'backbone': {
+            deps: ['json2', 'jquery', 'underscore'],
+            exports: 'Backbone'
+        },
+        'backbone.babysitter': {
+            deps: ['json2', 'backbone'],
+            exports: 'Backbone.ChildViewContainer'
+        },
+        'backbone.marionette': {
+            deps: ['json2', 'jquery', 'underscore', 'backbone',
+                   'backbone.wreqr', 'backbone.babysitter'],
+            exports: 'Backbone.Marionette'
+        },
+        'backbone.wreqr': {
+            deps: ['json2', 'backbone'],
+            exports: 'Backbone.Wreqr'
+        },
         'jquery': {
             exports: 'jQuery',
             init: function () {
@@ -23,6 +44,12 @@ var menusRequire = requirejs.config({
         'jquery-ui': {
             deps: ['jquery'],
             exports: 'jQueryUi'
+        },
+        'json2': {
+            exports: 'JSON'
+        },
+        'underscore': {
+            exports: '_'
         }
     }
 
