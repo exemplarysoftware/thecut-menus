@@ -84,8 +84,8 @@
     </ul>
   </script>
 
-  <script type="text/javascript" src="{% static "menus/lib/require.js" %}"></script>
-  <script type="text/javascript" src="{% static "menus/menus.js" %}"></script>
+  <script src="{% static "menus/lib/require.js" %}" type="text/javascript"></script>
+  <script src="{% static "menus/main.js" %}" data-app="menus" data-baseUrl="{% static "menus/" %}" type="text/javascript"></script>
 
 {% endblock %}
 

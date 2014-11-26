@@ -1,6 +1,6 @@
 var menusRequire = requirejs.config({
 
-    baseUrl: '/static/menus',
+    baseUrl: document.querySelector('script[data-app="menus"][src$="/main.js"]').getAttribute('data-baseUrl'),
 
     context: 'menus',
 
@@ -17,7 +17,7 @@ var menusRequire = requirejs.config({
             exports: 'jQuery',
             init: function () {
                 'use strict';
-                return this.jQUery.noConflict();
+                return this.jQuery.noConflict(true);
             }
         },
         'jquery-ui': {
