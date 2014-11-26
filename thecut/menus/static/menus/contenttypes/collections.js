@@ -13,7 +13,7 @@ define(['backbone', 'contenttypes/models'], function (Backbone, models) {
     var ContentTypeCollection = Backbone.Collection.extend({
 
         model: models.ContentType,
-        url: "/admin/menus/menuitem/api/contenttypes/",
+        url: '/admin/menus/menuitem/api/contenttypes/',
 
         populateContentTypeSelect: function(el, active) {
             // Populate and return the given <select> element with options
