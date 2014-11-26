@@ -1,93 +1,101 @@
 {% extends "backslash/change_form.html" %}
-
-{% block extrahead %}{{ block.super }}
-<link href="/static/menus/backslash.css" type="text/css" rel="stylesheet" />
-
-<script type="text/template" id="menuitem-template">
-  <div class="form">
-    <div class="form-fields">
-      <% if ( is_menu ) { %>
-      <span class="label">Group</span>
-      <% } %>
-      <label class="hidden title-label">Title</label>
-      <input class="disabled title" disabled="disabled" value="<%= title %>"></input>
-      <% if (!is_menu) { %>
-      <label class="hidden contenttype-label">Target Type</label>
-      <select class="disabled contenttype" disabled="disabled">
-        <option value="<%= content_type %>"><%= content_type_name %></option>
-      </select>
-      <label class="hidden contentobject-label">Target</label>
-      <select class="disabled contentobject" disabled="disabled">
-        <option value="<%= object_id %>"><%= content_object.name %></option>
-      </select>
-      <span class="target"><strong>&rdsh;</strong> <%= content_type_name %>/<%= content_object.name %></span>
-      <% } %>
-    </div>
-    <div class="controls">
-      <span class="button edit" title="Edit">Edit</span>
-      <span class="button delete" title="Delete">Delete</span>
-      <span class="button move" title="Move">Move</span>
-    </div>
-    <div class="edit-controls hidden">
-      <span class="button success save" title="Save">Save</span>
-      <span class="button low cancel" title="Cancel">Cancel</span>
-    </div>
-  </div>
-</script>
+{% load staticfiles %}
 
 
-<script type="text/template" id="menu-template">
+{% block extrahead %}
 
-  <ul class="menu" data-pk="<%= id %>"></ul>
+  {{ block.super }}
 
-  <ul class="controls add-new-items">
-    <li class="add submenu">
-      <div class="form hidden">
-        <div class="form-fields">
-          <span class="label">Group</span>
-          <label class="title-label">Title</label>
-          <input class="title" />
-        </div>
-        <div class="edit-controls">
-          <span class="button success save" title="Save">Save</span>
-          <span class="button low cancel" title="Cancel">Cancel</span>
-        </div>
+  <link href="{% static "menus/backslash.css" %}" type="text/css" rel="stylesheet" />
+
+  <script type="text/template" id="menuitem-template">
+    <div class="form">
+      <div class="form-fields">
+        <% if ( is_menu ) { %>
+        <span class="label">Group</span>
+        <% } %>
+        <label class="hidden title-label">Title</label>
+        <input class="disabled title" disabled="disabled" value="<%= title %>"></input>
+        <% if (!is_menu) { %>
+        <label class="hidden contenttype-label">Target Type</label>
+        <select class="disabled contenttype" disabled="disabled">
+          <option value="<%= content_type %>"><%= content_type_name %></option>
+        </select>
+        <label class="hidden contentobject-label">Target</label>
+        <select class="disabled contentobject" disabled="disabled">
+          <option value="<%= object_id %>"><%= content_object.name %></option>
+        </select>
+        <span class="target"><strong>&rdsh;</strong> <%= content_type_name %>/<%= content_object.name %></span>
+        <% } %>
       </div>
-    </li>
-
-    <li class="add menuitem">
-      <div class="form hidden">
-        <div class="form-fields">
-          <label class="title-label">Title</label>
-          <input class="title" />
-          <label class="contenttype-label">Target Type</label>
-          <select class="contenttype"></select>
-          <label class="contentobject-label">Target</label>
-          <select class="contentobject"></select>
-        </div>
-
-        <div class="edit-controls">
-          <span class="button success save" title="Save">Save</span>
-          <span class="button low cancel" title="Cancel">Cancel</span>
-        </div>
+      <div class="controls">
+        <span class="button edit" title="Edit">Edit</span>
+        <span class="button delete" title="Delete">Delete</span>
+        <span class="button move" title="Move">Move</span>
       </div>
-    </li>
-    <li class="buttons toolbar">
-      <span class="button add menuitem">New Link</span>
-      <span class="button add submenu">New Group</span>
-    </li>
-  </ul>
-</script>
+      <div class="edit-controls hidden">
+        <span class="button success save" title="Save">Save</span>
+        <span class="button low cancel" title="Cancel">Cancel</span>
+      </div>
+    </div>
+  </script>
 
-<script type="text/javascript" src="/static/menus/lib/require.js"></script>
-<script type="text/javascript" src="/static/menus/menus.js"></script>
 
-{% endblock extrahead %}
+  <script type="text/template" id="menu-template">
+
+    <ul class="menu" data-pk="<%= id %>"></ul>
+
+    <ul class="controls add-new-items">
+      <li class="add submenu">
+        <div class="form hidden">
+          <div class="form-fields">
+            <span class="label">Group</span>
+            <label class="title-label">Title</label>
+            <input class="title" />
+          </div>
+          <div class="edit-controls">
+            <span class="button success save" title="Save">Save</span>
+            <span class="button low cancel" title="Cancel">Cancel</span>
+          </div>
+        </div>
+      </li>
+
+      <li class="add menuitem">
+        <div class="form hidden">
+          <div class="form-fields">
+            <label class="title-label">Title</label>
+            <input class="title" />
+            <label class="contenttype-label">Target Type</label>
+            <select class="contenttype"></select>
+            <label class="contentobject-label">Target</label>
+            <select class="contentobject"></select>
+          </div>
+
+          <div class="edit-controls">
+            <span class="button success save" title="Save">Save</span>
+            <span class="button low cancel" title="Cancel">Cancel</span>
+          </div>
+        </div>
+      </li>
+      <li class="buttons toolbar">
+        <span class="button add menuitem">New Link</span>
+        <span class="button add submenu">New Group</span>
+      </li>
+    </ul>
+  </script>
+
+  <script type="text/javascript" src="{% static "menus/lib/require.js" %}"></script>
+  <script type="text/javascript" src="{% static "menus/menus.js" %}"></script>
+
+{% endblock %}
+
 
 {% block title %}{{ object.title }}{{ block.super }}{% endblock %}
 
-{% block breadcrumbs %}{{ block.super }} <h1 class="page-title">{{ object.title }}</h1> {% endblock %}
+
+{% block breadcrumbs %}{{ block.super }} <h1 class="page-title">{{ object.title }}</h1>{% endblock %}
+
 
 {% block content %}
-<div id="menu" data-pk="{{ object.pk }}"></div>
+  <div id="menu" data-pk="{{ object.pk }}"></div>
 {% endblock %}
