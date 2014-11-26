@@ -1,4 +1,4 @@
-define(['backbone', 'menuitems/models'], function(Backbone, models) {
+define(['underscore', 'backbone', 'menuitems/models'], function (_, Backbone, models) {
 
 
     'use strict';
@@ -6,18 +6,21 @@ define(['backbone', 'menuitems/models'], function(Backbone, models) {
 
     var MenuItemCollection = Backbone.Collection.extend({
 
-        model: models.MenuItem,
+        fetch: function (options) {
+            // Ensure we always set the root param when fetching.
+            options = options ? _.clone(options) : {};
+            options.data = options.data || {};
+            options.data.root = this.parentId;
+            return MenuItemCollection.__super__.fetch.call(this, options);
+        },
 
-        initialize: function(parentId) {
+        initialize: function (parentId) { // TODO: Should be models, options - this may be a problem
             this.parentId = parentId;
         },
 
-        url: function() {
-            // Only the children of this collection's parent should be
-            // included.
-            var base_url = '/admin/menus/menuitem/api/menuitems/';
-            return base_url + '?root=' + this.parentId;
-        },
+        model: models.MenuItem,
+
+        url: '/admin/menus/menuitem/api/menuitems/'  // TODO
 
     });
 
