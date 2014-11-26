@@ -380,8 +380,6 @@ define([
     // content.
     var MenuView = Backbone.View.extend({
 
-        el: '#menu',
-
         render: function() {
             // Create and render the root-level menu. This will in turn
             // create and render it's own child menus.

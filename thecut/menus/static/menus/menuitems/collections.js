@@ -14,7 +14,7 @@ define(['underscore', 'backbone', 'menuitems/models'], function (_, Backbone, mo
             return MenuItemCollection.__super__.fetch.call(this, options);
         },
 
-        initialize: function (parentId) { // TODO: Should be models, options - this may be a problem
+        initialize: function (parentId) { // TODO: Args should be models, options - this may be a problem
             this.parentId = parentId;
         },
 

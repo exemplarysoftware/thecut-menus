@@ -56,50 +56,33 @@ var menusRequire = requirejs.config({
 });
 
 
-menusRequire(
+menusRequire(['jquery', 'csrf', 'backbone.marionette', 'menuitems/views', 'domReady!'], function ($, csrf, Marionette, menuitemsViews) {
 
-    ['jquery', 'menuitems/views', 'domReady!'],
-
-    function ($, menuitemsViews) {
 
         'use strict';
 
-        // Set up AJAX requests to include Django's CSRF token.
-        function getCookie(name) {
-            var cookieValue = null;
-            if (document.cookie && document.cookie != '') {
-                var cookies = document.cookie.split(';');
-                for (var i = 0; i < cookies.length; i++) {
-                    var cookie = jQuery.trim(cookies[i]);
-                    // Does this cookie string begin with the name we want?
-                    if (cookie.substring(0, name.length + 1) == (name + '=')) {
-                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-                        break;
-                    }
-                }
-            }
-            return cookieValue;
-        }
 
-        var csrftoken = getCookie('csrftoken');
+        var $root = $('#menu'),
+            application = new Marionette.Application();
 
-        function csrfSafeMethod(method) {
-            // these HTTP methods do not require CSRF protection
-            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
-        }
 
-        $.ajaxSetup({
-            crossDomain: false, // obviates need for sameOrigin test
-            beforeSend: function(xhr, settings) {
-                if (!csrfSafeMethod(settings.type)) {
-                    xhr.setRequestHeader('X-CSRFToken', csrftoken);
-                }
-            }
+        // Define application regions
+        application.addRegions({
+            'root': $root
         });
 
-        // Set us up the page.
-        var rootMenu = new menuitemsViews.MenuView();
-        rootMenu.render();
+
+        // Add menu application initializer
+        application.addInitializer(function () {
+            var rootMenu = new menuitemsViews.MenuView();
+            this.getRegion('root').show(rootMenu);
+        });
+
+
+        // Start application
+        application.start();
+
 
     }
+
 );
