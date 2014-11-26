@@ -56,7 +56,11 @@ var menusRequire = requirejs.config({
 });
 
 
-menusRequire(['jquery', 'csrf', 'backbone.marionette', 'menuitems/views', 'domReady!'], function ($, csrf, Marionette, menuitemsViews) {
+menusRequire(
+
+    ['jquery', 'csrf', 'backbone.marionette', 'menuitems/views', 'domReady!'],
+
+    function ($, csrf, Marionette, menuitemsViews) {
 
 
         'use strict';
@@ -74,8 +78,10 @@ menusRequire(['jquery', 'csrf', 'backbone.marionette', 'menuitems/views', 'domRe
 
         // Add menu application initializer
         application.addInitializer(function () {
-            var rootMenu = new menuitemsViews.MenuView();
-            this.getRegion('root').show(rootMenu);
+            var rootMenuView = new menuitemsViews.MenuItemCollectionView({
+                id: this.getRegion('root').$el.attr('data-pk')
+            });
+            this.getRegion('root').show(rootMenuView);
         });
 
 

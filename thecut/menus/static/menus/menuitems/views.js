@@ -1,22 +1,14 @@
-define([
-    'jquery',
-    'jquery-ui',
-    'underscore',
-    'backbone',
-    'contenttypes/collections',
-    'contenttypes/models',
-    'contenttypes/views',
-    'menuitems/collections'
-], function(
-    $,
-    jqueryUI,
-    _,
-    Backbone,
-    contenttypesCollections,
-    contenttypesModels,
-    contenttypesViews,
-    menuitemsCollections
-) {
+define(
+
+    ['jquery', 'jquery-ui', 'underscore', 'backbone',
+        'contenttypes/collections', 'contenttypes/models',
+        'contenttypes/views', 'menuitems/collections'],
+
+    function($, jQueryUi, _, Backbone, contenttypesCollections,
+        contenttypesModels, contenttypesViews, menuitemsCollections) {
+
+
+        'use strict';
 
 
     var sortableOptions = {
@@ -376,25 +368,9 @@ define([
     });
 
 
-    // The 'application' view, which sets up and renders the initial
-    // content.
-    var MenuView = Backbone.View.extend({
-
-        render: function() {
-            // Create and render the root-level menu. This will in turn
-            // create and render it's own child menus.
-            var pk = this.$el.attr('data-pk' || null);
-            this.rootMenu = new MenuItemCollectionView({id: pk});
-            this.$el.html(this.rootMenu.render().el);
-        }
-
-    });
-
-
     return {
         'MenuItemCollectionView': MenuItemCollectionView,
         'MenuItemView': MenuItemView,
-        'MenuView': MenuView
     };
 
 });
