@@ -7,7 +7,7 @@ from django.views.decorators.cache import never_cache
 from django.views import generic
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
-from rest_framework import authentication, generics, status
+from rest_framework import authentication, generics, renderers, status
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from rest_framework.views import APIView
@@ -19,6 +19,8 @@ class APIMixin(object):
 
     permission_classes = [permissions.IsAdminUser,
                           permissions.MenuItemPermissions]
+
+    renderer_classes = [renderers.JSONRenderer]
 
     @method_decorator(never_cache)
     def dispatch(self, *args, **kwargs):
