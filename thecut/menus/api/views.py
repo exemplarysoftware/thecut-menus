@@ -1,24 +1,24 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from . import forms
-from . import serializers
+from . import forms, permissions, serializers
 from ..models import MenuItem, MenuItemContentType
-from rest_framework import authentication, generics, permissions, status
-from rest_framework.response import Response
-from rest_framework.reverse import reverse
-from rest_framework.views import APIView
-from .permissions import MenuItemAPIPermissions
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
 from django.views import generic
 from django.http import HttpResponse, HttpResponseForbidden
 from django.shortcuts import get_object_or_404
+from rest_framework import authentication, generics, status
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
+from rest_framework.views import APIView
 
 
 class APIMixin(object):
 
     authentication_classes = [authentication.SessionAuthentication]
-    permission_classes = [permissions.IsAdminUser, MenuItemAPIPermissions]
+
+    permission_classes = [permissions.IsAdminUser,
+                          permissions.MenuItemPermissions]
 
     @method_decorator(never_cache)
     def dispatch(self, *args, **kwargs):
@@ -45,12 +45,14 @@ class RootAPIView(APIMixin, APIView):
 class ContentTypeListAPIView(APIMixin, generics.ListAPIView):
 
     model = MenuItemContentType
+
     serializer_class = serializers.ContentTypeSerializer
 
 
 class ContentTypeRetrieveAPIView(APIMixin, generics.RetrieveAPIView):
 
     model = MenuItemContentType
+
     serializer_class = serializers.ContentTypeWithObjectsSerializer
 
 

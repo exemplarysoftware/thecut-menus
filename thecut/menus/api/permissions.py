@@ -1,18 +1,21 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from rest_framework import permissions
+from rest_framework.permissions import IsAdminUser, DjangoModelPermissions
 
 
-class MenuItemAPIPermissions(permissions.DjangoModelPermissions):
-    """Permissions required to access the APIs for managing menus."""
+__all__ = ['MenuItemPermissions', 'IsAdminUser']
 
-    permission_string = 'menus.change_menuitem'
+
+class MenuItemPermissions(DjangoModelPermissions):
+    """Extended version of DjangoModelPermissions which checks for ``change``
+    permissions for API requests."""
+
     perms_map = {
-        'GET': [permission_string],
-        'OPTIONS': [permission_string],
-        'HEAD': [permission_string],
-        'POST': [permission_string],
-        'PUT': [permission_string],
-        'PATCH': [permission_string],
-        'DELETE': [permission_string],
+        'GET': ['menus.change_menuitem'],
+        'OPTIONS': ['menus.change_menuitem'],
+        'HEAD': ['menus.change_menuitem'],
+        'POST': ['menus.change_menuitem'],
+        'PUT': ['menus.change_menuitem'],
+        'PATCH': ['menus.change_menuitem'],
+        'DELETE': ['menus.change_menuitem'],
     }
