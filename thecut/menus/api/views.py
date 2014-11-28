@@ -25,7 +25,7 @@ class APIMixin(object):
         return super(APIMixin, self).dispatch(*args, **kwargs)
 
 
-class RootAPIView(APIMixin, APIView):
+class MenusRootAPIView(APIMixin, APIView):
 
     # Can't use model-based permissions on the root API view.
     permission_classes = [permissions.IsAdminUser]
@@ -56,36 +56,13 @@ class ContentTypeRetrieveAPIView(APIMixin, generics.RetrieveAPIView):
     serializer_class = serializers.ContentTypeWithObjectsSerializer
 
 
-class MenuItemListAPIView(APIMixin, generics.ListAPIView):
+class MenuItemListCreateAPIView(APIMixin, generics.ListCreateAPIView):
 
     model = MenuItem
+
     serializer_class = serializers.MenuItemSerializer
+
     form_class = forms.MenuItemFilterForm
-
-    def list(self, request, *args, **kwargs):
-        root = request.QUERY_PARAMS.get('root')
-        self.form = self.form_class(data={'root': root})
-        if not self.form.is_valid():
-            return Response(self.form.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
-        return super(MenuItemListAPIView, self).list(request, *args, **kwargs)
-
-    def get_queryset(self, *args, **kwargs):
-        queryset = super(MenuItemListAPIView, self).get_queryset(*args,
-                                                                 **kwargs)
-        return self.form.filter_queryset(queryset)
-
-
-class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateDestroyAPIView):
-
-    model = MenuItem
-    serializer_class = serializers.MenuItemSerializer
-
-
-class MenuItemCreateAPIView(APIMixin, generics.CreateAPIView):
-
-    model = MenuItem
-    serializer_class = serializers.MenuItemSerializer
 
     def create(self, request, *args, **kwargs):
         # The `create` method of the CreateModelMixin is not very extensible,
@@ -105,6 +82,27 @@ class MenuItemCreateAPIView(APIMixin, generics.CreateAPIView):
 
         return Response(serializer.data, status=status.HTTP_201_CREATED,
                         headers=headers)
+
+    def list(self, request, *args, **kwargs):
+        root = request.QUERY_PARAMS.get('root')
+        self.form = self.form_class(data={'root': root})
+        if not self.form.is_valid():
+            return Response(self.form.errors,
+                            status=status.HTTP_400_BAD_REQUEST)
+        return super(MenuItemListCreateAPIView, self).list(
+            request, *args, **kwargs)
+
+    def get_queryset(self, *args, **kwargs):
+        queryset = super(MenuItemListCreateAPIView, self).get_queryset(
+            *args, **kwargs)
+        return self.form.filter_queryset(queryset)
+
+
+class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateDestroyAPIView):
+
+    model = MenuItem
+
+    serializer_class = serializers.MenuItemSerializer
 
 
 class MenuItemMoveAPIView(generic.list.MultipleObjectMixin, generic.View):

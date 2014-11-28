@@ -21,7 +21,7 @@ define(['backbone', 'menuitems/constants'], function (Backbone, constants) {
         },
 
         url: function () {  // TODO
-            var url = '/admin/menus/menuitem/api/menuitems/menuitem/';
+            var url = '/admin/menus/menuitem/api/menuitems/';
 
             if (this.get('id') === null) {
                 return url;

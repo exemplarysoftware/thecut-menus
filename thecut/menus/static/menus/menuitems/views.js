@@ -20,7 +20,7 @@ define(
                         alert('An error occured whilst processing this request.');
                     },
                     'type': 'POST',
-                    'url': '/admin/menus/menuitem/api/menuitems/menuitem/' + $(this).closest('.menu').attr('data-pk') + '/reorder/'
+                    'url': '/admin/menus/menuitem/api/menuitems/' + $(this).closest('.menu').attr('data-pk') + '/reorder/'
                 });
             }
         };

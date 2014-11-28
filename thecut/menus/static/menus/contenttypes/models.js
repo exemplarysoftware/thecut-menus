@@ -7,7 +7,7 @@ define(['backbone'], function (Backbone) {
     var ContentType = Backbone.Model.extend({
 
         url: function () {  // TODO
-            return '/admin/menus/menuitem/api/contenttypes/contenttype/' + this.id + '/';
+            return '/admin/menus/menuitem/api/contenttypes/' + this.id + '/';
         }
 
     });
