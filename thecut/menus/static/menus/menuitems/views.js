@@ -35,7 +35,10 @@ define(
             },
 
             addSubMenu: function (event) {
-                var newMenu = this.collection.add({'is_menu': true, 'title': 'New group', 'parent': this.model.get('id')});
+                // Running in to some nasty bugs when using 'add' for a sub menu.
+                // It's collection events don't seem to work.
+                // Workaround by creating the sub menu for the moment.
+                var newMenu = this.collection.create({'is_menu': true, 'title': 'New group', 'parent': this.model.get('id')}, {wait: true});
                 event.stopPropagation();
                 newMenu.set('state', constants.states.EDIT);
             },
@@ -95,12 +98,8 @@ define(
             },
 
             modelEvents: {
-                'change': 'render debug',
+                'change': 'render',
                 'change:id': 'fetchCollection'
-            },
-
-            debug: function (event) {
-                console.log(event);
             },
 
             onRender: function () {
@@ -152,7 +151,6 @@ define(
                     'object_id': parseInt(this.ui.contentObjectRegion.find('[name="contentObject"]').val(), 10) || null,
                     'state': constants.states.DISPLAY
                 });
-                this.bindUIElements();
                 event.stopPropagation();
             },
 
