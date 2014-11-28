@@ -241,6 +241,11 @@
   background: url('images/check-mark.png') no-repeat;
 }
 
+#menus form .edit-controls .button[data-action="delete"] {
+  float: right;
+  margin-right: 0;
+}
+
 @media all and (min-width: 0) {
   #menus form .edit-controls .button[data-action="save"]:before {
     background-image: url('images/check-mark.svg');
