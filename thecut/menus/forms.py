@@ -31,8 +31,11 @@ class MenuItemAdminForm(MPTTAdminForm):
 class MenuItemBackslashForm(forms.ModelForm):
     """Form for adding/editing a top-level root MenuItem."""
 
+    is_featured = forms.BooleanField(initial=True, required=False)
+
     class Meta(object):
-        fields = ['expire_at', 'is_enabled', 'publish_at', 'slug', 'title']
+        fields = ['expire_at', 'is_enabled', 'is_featured', 'publish_at',
+                  'slug', 'title']
         model = MenuItem
 
     def __init__(self, *args, **kwargs):

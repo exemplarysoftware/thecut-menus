@@ -14,7 +14,7 @@ class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['title', 'slug']}),
         ('Publishing', {'fields': [('publish_at', 'is_enabled'),
-                                   'expire_at']}),
+                                   'expire_at', 'is_featured']}),
     ]
 
     change_list_template = 'backslash/change_list.html'
