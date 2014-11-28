@@ -84,7 +84,8 @@ class ViewLink(PublishableResource):
     view = models.CharField(max_length=100,
                             help_text='Django view URL name to resolve.')
 
-    view = models.CharField(max_length=100)
+    class Meta(PublishableResource.Meta):
+        verbose_name = 'Internal link'
 
     def __str__(self):
         return self.name
@@ -102,6 +103,9 @@ class WebLink(PublishableResource):
     name = models.CharField(max_length=100)
 
     url = models.URLField()
+
+    class Meta(PublishableResource.Meta):
+        verbose_name = 'External link'
 
     def __str__(self):
         return self.name
