@@ -79,7 +79,10 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
 class ViewLink(PublishableResource):
     """A django view, for potential use in menu items."""
 
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, help_text='Friendly display name.')
+
+    view = models.CharField(max_length=100,
+                            help_text='Django view URL name to resolve.')
 
     view = models.CharField(max_length=100)
 
