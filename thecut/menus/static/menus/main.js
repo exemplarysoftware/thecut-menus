@@ -58,15 +58,15 @@ var menusRequire = requirejs.config({
 
 menusRequire(
 
-    ['jquery', 'csrf', 'backbone.marionette', 'menuitems/views', 'domReady!'],
+    ['jquery', 'csrf', 'backbone.marionette', 'menuitems/models', 'menuitems/views', 'domReady!'],
 
-    function ($, csrf, Marionette, menuitemsViews) {
+    function ($, csrf, Marionette, menuitemsModels, menuitemsViews) {
 
 
         'use strict';
 
 
-        var $root = $('#menu'),
+        var $root = $('#menus'),
             application = new Marionette.Application();
 
 
@@ -78,10 +78,22 @@ menusRequire(
 
         // Add menu application initializer
         application.addInitializer(function () {
-            var rootMenuView = new menuitemsViews.MenuItemCollectionView({
-                id: this.getRegion('root').$el.attr('data-pk')
+            var rootMenu = new menuitemsModels.MenuItem({
+                'id': parseInt(this.getRegion('root').$el.attr('data-pk'), 10),
+                'is_menu': true,
+                'title': this.getRegion('root').$el.attr('data-title')
+             });
+            rootMenu.fetch({async: false});  // TODO: Provide this data using JSON fixture
+            var rootMenuView = new menuitemsViews.MenuItemCompositeView({
+                model: rootMenu
             });
             this.getRegion('root').show(rootMenuView);
+        });
+
+
+        // Debug
+        application.addInitializer(function () {
+            this.getRegion('root').$el.data('application', this);
         });
 
 

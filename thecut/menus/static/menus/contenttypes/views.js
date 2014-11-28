@@ -1,81 +1,107 @@
-define(['backbone', 'contenttypes/collections'], function (Backbone, collections) {
+define(['underscore', 'backbone.marionette', 'contenttypes/models', 'contenttypes/collections'], function (_, Marionette, models, collections) {
+
 
     'use strict';
 
-    var ContentTypeCollectionView = Backbone.View.extend({
 
-        tagName: 'select',
-        className: 'contenttype',
+    var OptionView = Marionette.ItemView.extend({
 
-        initialize: function (contentTypeId) {
-            this.selected = contentTypeId;
-            this.collection = new collections.ContentTypeCollection();
+        attributes: function () {
+            var attrs = {'value': this.model.get('id')};
+            if (this.options.selected) {
+                attrs.selected = 'selected';
+            }
+            return attrs;
         },
 
-        render: function () {
-            this.$el.empty();
-            this.collection.fetch({async: false});
+        tagName: 'option',
 
-            this.collection.each(function (contentType) {
-                if (this.selected === contentType.get('id')) {
-                    this.$el.append('<option selected="selected" value="' +
-                                    contentType.get('id') + '">' +
-                                    contentType.get('verbose_name') +
-                                    '</option>');
-                } else {
-                    this.$el.append('<option value="' +
-                                    contentType.get('id') + '">' +
-                                    contentType.get('verbose_name') +
-                                    '</option>');
-                }
-            }, this);
+        template: _.template('<%= name %>')
 
-            return this;
+    });
+
+
+    var ContentTypeOptionView = OptionView.extend({
+
+        template: _.template('<%= verbose_name %>')
+
+    });
+
+
+    var SelectView =  Marionette.CollectionView.extend({
+
+        childView: OptionView,
+
+        childViewOptions: function (model) {
+            var data = {};
+            if (model.get('id') === this.selectedId) {
+                data.selected = true;
+            }
+            return data;
+        },
+
+        initialize: function (options) {
+            SelectView.__super__.initialize.call(this, options);
+            this.enabled = options.enabled;
+            this.selectedId = options.selectedId;
+        },
+
+        onRender: function () {
+            if (!this.enabled) {
+                this.$el.attr('disabled', 'disabled');
+            }
+        },
+
+        tagName: 'select',
+
+        triggers: {
+            'change': 'selectChanged'
         }
 
     });
 
 
-    var ContentObjectSelectView = Backbone.View.extend({
+    var ContentObjectSelectView = SelectView.extend({
 
-        tagName: 'select',
-        events: {
-            'click': 'refreshContentObjects'
+        initialize: function (options) {
+            ContentObjectSelectView.__super__.initialize.call(this, options);
+
+            var contentType = new models.ContentType({
+                'id': options.contentTypeId
+            });
+            contentType.fetch({async: false});
+
+            var objects = contentType.get('objects');
+            this.collection = new collections.ContentObjectCollection(objects);
         },
 
-        refreshContentObjects: function () {
-            console.log('Refresh the <select> of content objects.')
-        }
+        tagName: 'select name="contentObject"'
 
     });
 
 
-    var ContentObjectView = Backbone.View.extend({
+    var ContentTypeSelectView =  SelectView.extend({
 
-        tagName: 'select',
-        className: 'contentobject',
+        collection: new collections.ContentTypeCollection(),
 
-        render: function () {
-            this.$el.empty();
+        childView: ContentTypeOptionView,
 
-            this.collection.each(function (contentObject) {
-                // TODO: replace with template?
-                this.$el.append('<option value="' +
-                                contentObject.get('id') + '">' +
-                                contentObject.get('name') +
-                                '</option>');
-            }, this);
+        initialize: function (options) {
+            ContentTypeSelectView.__super__.initialize.call(this, options);
+            if (!this.collection.length) {
+                this.collection.fetch({async: false}); // TODO
+            }
+        },
 
-            return this;
-        }
+        tagName: 'select name="contentType"'
 
     });
 
 
     return {
-        'ContentTypeCollectionView': ContentTypeCollectionView,
         'ContentObjectSelectView': ContentObjectSelectView,
-        'ContentObjectView': ContentObjectView
+        'ContentTypeSelectView': ContentTypeSelectView
     };
+
 
 });

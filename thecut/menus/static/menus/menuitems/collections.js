@@ -10,12 +10,13 @@ define(['underscore', 'backbone', 'menuitems/models'], function (_, Backbone, mo
             // Ensure we always set the root param when fetching.
             options = options ? _.clone(options) : {};
             options.data = options.data || {};
-            options.data.root = this.parentId;
+            options.data.root = this.parentModel.get('id');
             return MenuItemCollection.__super__.fetch.call(this, options);
         },
 
-        initialize: function (parentId) { // TODO: Args should be models, options - this may be a problem
-            this.parentId = parentId;
+        initialize: function (models, options) {
+            options = options ? _.clone(options) : {};
+            this.parentModel = options.parentModel;
         },
 
         model: models.MenuItem,

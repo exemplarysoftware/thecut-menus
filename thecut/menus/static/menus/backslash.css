@@ -1,16 +1,16 @@
-#menu {
+#menus {
   padding: 30px;
   background-color: #f3f3f3;
   border-top: 1px solid #ccc;
 }
 
 /* Indent child menus. */
-#menu .menuitem > .menu {
+#menus .menu > li > .menu,
+#menus .menu > li > .controls.add-new-items {
   padding-left: 25px;
 }
 
-#menu .menuitem .form,
-#menu .submenu  .form {
+#menus .menu > li > form {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -28,17 +28,17 @@
 }
 
 /* on 'move' */
-#menu .menuitem.ui-sortable-helper .form {
+#menus .menu > li.ui-sortable-helper form {
   -webkit-box-shadow: 0 3px 8px rgba(0,0,0,0.2);
      -moz-box-shadow: 0 3px 8px rgba(0,0,0,0.2);
           box-shadow: 0 3px 8px rgba(0,0,0,0.2);
 }
 
-#menu .menuitem .form .form-fields {
+#menus .menu > li form .form-fields {
   width: 460px;
 }
 
-#menu .menuitem .label {
+#menus .menu > li .label {
   display: inline-block;
   vertical-align: middle;
   padding: 4px 8px 3px;
@@ -54,7 +54,7 @@
           border-radius: 12px;
 }
 
-#menu .menuitem label {
+#menus .menu > li label {
   margin-top: 15px;
   margin-bottom: 6px;
   font-size: 0.857em; /* 12/14 */
@@ -64,16 +64,15 @@
   color: #818793;
 }
 
-#menu .menuitem label:first-child,
-#menu .menuitem label.title-label {
+#menus .menu > li .title label {
   margin-top: 0;
 }
 
-#menu .menuitem label.hidden {
+#menus form[data-state="DISPLAY"] label {
   display: none;
 }
 
-#menu .menuitem input {
+#menus .menu > li input {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -91,7 +90,7 @@
           border-radius: 3px;
 }
 
-#menu .menuitem input:focus {
+#menus .menu > li input:focus {
   color: #0A0B0D;
   background-color: #fff;
   border-color: #959EA6;
@@ -100,26 +99,26 @@
           box-shadow: 0 2px 3px #E6E6E6;
 }
 
-#menu .menuitem input.disabled {
+#menus .menu > li input[disabled] {
   padding: 0;
   margin-right: 0;
   border: none;
   background-color: #fff;
 }
 
-#menu .menuitem select {
+#menus .menu > li select {
   font-size: 0.857em; /* 12/14 */
 }
 
-#menu .menuitem select.contenttype {
+#menus .menu > li .contenttype select {
   margin-right: 10px;
 }
 
-#menu .form select.disabled {
+#menus form select[disabled] {
   display: none;
 }
 
-#menu .form .target {
+#menus form .target {
   display: block;
   margin-top: 7px;
   color: #818793;
@@ -127,17 +126,17 @@
   line-height: 1;
 }
 
-#menu .form .target.hidden {
+#menus form[data-state="EDIT"] .target {
   display: none;
 }
 
-#menu .menuitem .form .controls {
+#menus .menu > li form .controls {
   position: absolute;
   top: 10px;
   right: 7px;
 }
 
-#menu .form .controls .button {
+#menus form .controls .button {
   overflow: hidden;
   text-indent: 9999em;
   font-weight: bold;
@@ -156,50 +155,50 @@
           transition: opacity 0.2s linear;
 }
 
-#menu .form .controls .button.edit,
-#menu .form .controls .button.delete,
-#menu .form .controls .button.move {
+#menus form .controls .button.edit,
+#menus form .controls .button.delete,
+#menus form .controls .button.move {
   opacity: 0.75;
 }
 
-#menu .form .controls .button.edit:hover,
-#menu .form .controls .button.delete:hover,
-#menu .form .controls .button.move:hover {
+#menus form .controls .button.edit:hover,
+#menus form .controls .button.delete:hover,
+#menus form .controls .button.move:hover {
   opacity: 1;
 }
 
-#menu .form .controls .button.edit {
+#menus form .controls .button.edit {
   background-image: url('images/edit-icon.png');
 }
 
-#menu .form .controls .button.delete {
+#menus form .controls .button.delete {
   background-image: url('images/delete-icon.png');
 }
 
-#menu .form .controls .button.move {
+#menus form .controls .button.move {
   background-image: url('images/reorder-icon.png');
 }
 
 @media all and (min-width: 0) {
-  #menu .form .controls .button.edit {
+  #menus form .controls .button.edit {
     background-image: url('images/edit-icon.svg');
   }
 
-  #menu .form .controls .button.delete {
+  #menus form .controls .button.delete {
     background-image: url('images/delete-icon.svg');
   }
 
-  #menu .form .controls .button.move {
+  #menus form .controls .button.move {
     background-image: url('images/reorder-icon.svg');
   }
 }
 
-#menu .form .controls .button.disabled {
+#menus form .controls .button.disabled {
   opacity: 0.2;
   pointer-events: none;
 }
 
-#menu .form .edit-controls {
+#menus form .edit-controls {
   clear: both;
   padding: 9px 10px 10px;
   margin: 15px -12px -12px;
@@ -210,11 +209,11 @@
           border-radius: 0 0 6px 6px;
 }
 
-#menu .form .edit-controls.hidden {
+#menus form[data-state="DISPLAY"] .edit-controls {
   display: none;
 }
 
-#menu .form .edit-controls .button {
+#menus form .edit-controls .button {
   vertical-align: top;
   margin-right: 10px;
   height: 28px;
@@ -222,15 +221,15 @@
   font-size: 0.929em; /* 13/14 */
 }
 
-#menu .form .edit-controls .button.low {
+#menus form .edit-controls .button.low {
   line-height: 26px;
 }
 
-#menu .form .edit-controls .button.save {
+#menus form .edit-controls .button[data-action="save"] {
   padding-left: 10px;
 }
 
-#menu .form .edit-controls .button.save:before {
+#menus form .edit-controls .button[data-action="save"]:before {
   content: "";
   position: relative;
   top: -1px;
@@ -243,16 +242,16 @@
 }
 
 @media all and (min-width: 0) {
-  #menu .form .edit-controls .button.save:before {
+  #menus form .edit-controls .button[data-action="save"]:before {
     background-image: url('images/check-mark.svg');
   }
 }
 
-#menu .add-new-items div.form.hidden {
+#menus .add-new-items div.form.hidden {
   display: none;
 }
 
-#menu .add-new-items .toolbar {
+#menus .add-new-items .toolbar {
   -webkit-box-sizing: border-box;
      -moz-box-sizing: border-box;
           box-sizing: border-box;
@@ -266,7 +265,7 @@
   border: 1px solid #d1d2d6;
 }
 
-#menu .add-new-items .toolbar .button.add {
+#menus .add-new-items .toolbar .button.add {
   height: 25px;
   line-height: 29px;
   color: #818793;
@@ -281,12 +280,12 @@
 }
 
 @media all and (min-width: 0) {
-  #menu .add-new-items .toolbar .button.add {
+  #menus .add-new-items .toolbar .button.add {
     background-image: url('images/add-icon.svg');
   }
 }
 
-#menu .add-new-items .toolbar .button.add:hover,
-#menu .add-new-items .toolbar .button.add:focus {
+#menus .add-new-items .toolbar .button.add:hover,
+#menus .add-new-items .toolbar .button.add:focus {
   color: #171F26;
 }
