@@ -43,13 +43,13 @@
 
         <ul class="controls">
           <li class="button edit<% if (state==states.EDIT) { %> disabled<% } %>" data-action="edit" title="Edit">Edit</li>
-          <li class="button delete<% if (state==states.EDIT) { %> disabled<% } %>" data-action="delete" title="Delete">Delete</li>
           <li class="button move<% if (state==states.EDIT) { %> disabled<% } %>" title="Move">Move</li>
         </ul>
 
         <ul class="edit-controls">
           <li class="button success" data-action="editSave">Save</li>
           <li class="button low" data-action="editCancel">Cancel</li>
+          <% if (id) { %><li class="button danger" data-action="delete" title="Delete">Delete</li><% } %>
         </ul>
 
       </form>
