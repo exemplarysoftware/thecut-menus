@@ -7,19 +7,19 @@ from rest_framework import serializers
 class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
 
     id = serializers.Field(source='pk')
+
     url = serializers.HyperlinkedIdentityField(
         view_name='admin:menus_menuitem_api:contenttype_detail',
         lookup_field='pk')
+
     verbose_name = serializers.SerializerMethodField('get_verbose_name')
+
     verbose_name_plural = serializers.SerializerMethodField(
         'get_verbose_name_plural')
 
     class Meta(object):
         fields = ['id',  'url', 'verbose_name', 'verbose_name_plural']
         model = MenuItemContentType
-
-    def __init__(self, *args, **kwargs):
-        return super(ContentTypeSerializer, self).__init__(*args, **kwargs)
 
     def get_verbose_name(self, content_type):
         return content_type.model_class()._meta.verbose_name.title()
@@ -37,12 +37,14 @@ class ContentTypeWithObjectsSerializer(ContentTypeSerializer):
 
     def get_objects(self, content_type):
         queryset = content_type.model_class().objects.all()
-        return GenericSerializer(queryset, content_type.model_class()).data
+        return GenericSerializer(
+            queryset, content_type.model_class(), many=True).data
 
 
 class GenericSerializer(serializers.ModelSerializer):
 
     id = serializers.Field(source='pk')
+
     name = serializers.SerializerMethodField('get_name')
 
     class Meta(object):
