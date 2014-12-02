@@ -28,7 +28,6 @@ class MenuItemContentTypeManager(ContentTypeManager):
                                             model__iexact=model)
                                           for app_label, model in models))
             queryset = queryset.filter(query)
-            list(queryset)  # Force evaluation
             MenuItemContentTypeManager._queryset = queryset
 
         return MenuItemContentTypeManager._queryset
