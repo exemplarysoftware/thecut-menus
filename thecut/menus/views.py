@@ -40,3 +40,9 @@ class ManageMenuView(generic.DetailView):
             context_data.setdefault(key, value)
 
         return context_data
+
+    def render_to_response(self, *args, **kwargs):
+        admin = self.kwargs['admin']
+        current_app = admin.admin_site.name
+        return super(ManageMenuView, self).render_to_response(
+            *args, current_app=current_app, **kwargs)
