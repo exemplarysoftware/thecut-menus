@@ -2,7 +2,9 @@
 from __future__ import absolute_import, unicode_literals
 from .models import MenuItem
 from django.views import generic
+from django.contrib.admin.options import csrf_protect_m
 from django.contrib.contenttypes.models import ContentType
+from django.core.exceptions import PermissionDenied
 from django.utils.encoding import force_unicode
 
 
@@ -11,6 +13,12 @@ class ManageMenuView(generic.DetailView):
     model = MenuItem
 
     template_name = 'backslash/menus/menuitem_detail.html'
+
+    @csrf_protect_m
+    def dispatch(self, request, *args, **kwargs):
+        if not kwargs['admin'].has_change_permission(request):
+            raise PermissionDenied()
+        return super(ManageMenuView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, *args, **kwargs):
         context_data = super(ManageMenuView, self).get_context_data(*args,
