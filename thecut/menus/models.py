@@ -1,57 +1,69 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from django.contrib.contenttypes import generic
+from . import managers, querysets
+from .fields import MenuItemGenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
-from model_utils.managers import PassThroughManager
-from thecut.menus import querysets
+from django.utils.encoding import python_2_unicode_compatible
+from mptt.models import MPTTModel, TreeForeignKey
 from thecut.ordering.models import OrderMixin
 from thecut.publishing.models import PublishableResource
 
-try:
-    from django.utils.encoding import python_2_unicode_compatible
-except ImportError:
-    from thecut.publishing.utils import python_2_unicode_compatible
-
 
 @python_2_unicode_compatible
-class Menu(PublishableResource):
-    """A collection of menu items.
+class MenuItemContentType(ContentType):
 
-    """
+    objects = managers.MenuItemContentTypeManager()
 
-    name = models.CharField(max_length=100)
-    slug = models.SlugField(unique=True)
+    class Meta(object):
+        proxy = True
 
     def __str__(self):
-        return self.name
+        return self.name.title()
 
 
 @python_2_unicode_compatible
-class MenuItem(OrderMixin, PublishableResource):
-    """Links a Menu to an object, and provides an order.
+class MenuItem(MPTTModel, OrderMixin, PublishableResource):
+    """An ordered item in a menu.
+
+    If it is not the root of a menu or sub-menu, it is linked to
+    another resource.
 
     """
 
-    name = models.CharField(max_length=100, blank=True, null=True)
-    title = models.CharField(max_length=200, blank=True, null=True)
-    image = models.ImageField(upload_to='uploads/menus', blank=True, null=True)
-    menu = models.ForeignKey('Menu', related_name='items')
+    parent = TreeForeignKey('self', null=True, blank=True,
+                            related_name='children')
 
-    # Generic relation to an object.
-    content_type = models.ForeignKey(ContentType, blank=True, null=True)
+    title = models.CharField(max_length=200, blank=True)
+
+    image = models.ImageField(upload_to='uploads/menus', blank=True)
+
+    slug = models.SlugField(unique=True, null=True)
+
+    content_type = models.ForeignKey('menus.MenuItemContentType', blank=True,
+                                     null=True)
+
     object_id = models.IntegerField(db_index=True, blank=True, null=True)
-    content_object = generic.GenericForeignKey('content_type', 'object_id')
 
-    objects = PassThroughManager().for_queryset_class(
+    content_object = MenuItemGenericForeignKey('content_type', 'object_id')
+
+    objects = managers.PassThroughTreeManager().for_queryset_class(
         querysets.MenuItemQuerySet)()
 
+    class Meta(MPTTModel.Meta, PublishableResource.Meta):
+        verbose_name = 'menu'
+        verbose_name_plural = 'menus'
+
+    class MPTTMeta(object):
+        order_insertion_by = ['order']
+
     def __str__(self):
-        return '{0}'.format(self.name or self.content_object)
+        return '{0}'.format(self.title or self.content_object)
 
     def get_absolute_url(self):
-        return self.content_object.get_absolute_url()
+        if not self.is_menu():
+            return self.content_object.get_absolute_url()
 
     def get_css_classes(self):
         css_classes = ['featured' if self.is_featured else '',
@@ -59,29 +71,21 @@ class MenuItem(OrderMixin, PublishableResource):
                        'has-menu' if self.is_menu() else '']
         return ' '.join(filter(bool, css_classes))
 
-    def is_active(self, *args, **kwargs):
-        item_active = super(MenuItem, self).is_active(*args, **kwargs)
-
-        if item_active:
-            object_active = getattr(self.content_object, 'is_active', True)
-            if callable(object_active):
-                object_active = object_active()
-            return bool(object_active)
-        else:
-            return False
-
     def is_menu(self):
-        return isinstance(self.content_object, Menu)
+        return self.content_object is None
 
 
 @python_2_unicode_compatible
 class ViewLink(PublishableResource):
-    """A django view, for potential use in menu items.
+    """A django view, for potential use in menu items."""
 
-    """
+    name = models.CharField(max_length=100, help_text='Friendly display name.')
 
-    name = models.CharField(max_length=100)
-    view = models.CharField(max_length=100)
+    view = models.CharField(max_length=100,
+                            help_text='Django view URL name to resolve.')
+
+    class Meta(PublishableResource.Meta):
+        verbose_name = 'Internal link'
 
     def __str__(self):
         return self.name
@@ -94,12 +98,14 @@ class ViewLink(PublishableResource):
 
 @python_2_unicode_compatible
 class WebLink(PublishableResource):
-    """A website link, for potential use in menu items.
-
-    """
+    """A website link, for potential use in menu items."""
 
     name = models.CharField(max_length=100)
+
     url = models.URLField()
+
+    class Meta(PublishableResource.Meta):
+        verbose_name = 'External link'
 
     def __str__(self):
         return self.name

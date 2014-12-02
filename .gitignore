@@ -1,2 +1,10 @@
 RELEASE-VERSION
 *.pyc
+.tox
+*.egg-info
+
+# Virtualenv
+bin/*
+include/*
+lib/*
+local/*

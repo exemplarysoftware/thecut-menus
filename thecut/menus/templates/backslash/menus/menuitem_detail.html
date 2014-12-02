@@ -1,0 +1,89 @@
+{% extends "backslash/change_form.html" %}
+{% load staticfiles %}
+
+
+{% block extrahead %}
+
+  {{ block.super }}
+
+  <link href="{% static "menus/backslash.css" %}" type="text/css" rel="stylesheet" />
+
+  <script type="text/template" data-name="menuItem">
+
+    <% if ( parent ) { %>{# We dont want to be rendering this section for the root menu item #}
+
+      <form data-state="<%= state %>">
+
+        <% if ( is_menu ) { %><span class="label">Group</span><% } %>
+
+        <ul class="form-fields">
+
+          <li class="title">
+            <label>Title</label>
+            <input name="title" value="<%= title %>"<% if (state==states.DISPLAY) { %> disabled="disabled"<% } %>></input>
+          </li>
+
+          <% if (!is_menu) { %>
+
+            <li class="contenttype">
+              <label>Target Type</label>
+              <div data-region="contentType"></div>
+            </li>
+
+            <li class="contentobject">
+              <label>Target</label>
+              <div data-region="contentObject"></div>
+            </li>
+
+          <% } %>
+
+        </ul>
+
+        <% if (!is_menu && content_object) { %><span class="target"><strong>&rdsh;</strong> <%= content_type_name %>/<%= content_object.name %></span><% } %>
+
+        <ul class="controls">
+          <li class="button edit<% if (state==states.EDIT) { %> disabled<% } %>" data-action="edit" title="Edit">Edit</li>
+          <li class="button move<% if (state==states.EDIT) { %> disabled<% } %>" title="Move">Move</li>
+        </ul>
+
+        <ul class="edit-controls">
+          <li class="button success" data-action="editSave">Save</li>
+          <li class="button low" data-action="editCancel">Cancel</li>
+          <% if (id) { %><li class="button danger" data-action="delete" title="Delete">Delete</li><% } %>
+        </ul>
+
+      </form>
+
+    <% } %>
+
+
+    <ol class="menu" data-pk="<%= id %>"></ol>
+
+    <% if (id && is_menu) { %>
+      <ul class="controls add-new-items">
+        <li class="buttons toolbar">
+          <span class="button add" data-action="addMenuItem">New Link</span>
+          <span class="button add" data-action="addSubMenu">New Group</span>
+        </li>
+      </ul>
+    <% } %>
+
+  </script>
+
+  <script src="{% static "menus/lib/require.js" %}" type="text/javascript"></script>
+  <script src="{% static "menus/main.js" %}" data-app="menus" data-baseUrl="{% static "menus/" %}" type="text/javascript"></script>
+
+{% endblock %}
+
+
+{% block title %}{{ object.title }}{{ block.super }}{% endblock %}
+
+
+{% block breadcrumbs %}{{ block.super }} <h1 class="page-title">{{ object.title }}</h1>{% endblock %}
+
+
+{% block content %}
+
+  <ol id="menus" data-pk="{{ object.pk }}"></ol>
+
+{% endblock %}

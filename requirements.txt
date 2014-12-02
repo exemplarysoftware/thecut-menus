@@ -1,0 +1,7 @@
+django-mptt==0.6.1
+djangorestframework==2.3.13
+Pillow==2.4.0
+django-tagging==0.3.2
+git+ssh://git@git.thecut.net.au/thecut-authorship@0.5.3
+git+ssh://git@git.thecut.net.au/thecut-ordering@0.5.1
+git+ssh://git@git.thecut.net.au/thecut-publishing@0.5.3

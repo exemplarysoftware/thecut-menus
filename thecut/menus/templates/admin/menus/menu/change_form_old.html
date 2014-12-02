@@ -1,7 +1,0 @@
-{% extends "admin/change_form.html" %}
-{% load url from future %}
-
-{% block extrahead %}
-{{ block.super }}
-<link rel="menuitem_contenttype_list" href="{% url "admin:menus_menuitem_admin_contenttype_list" %}" />
-{% endblock %}
