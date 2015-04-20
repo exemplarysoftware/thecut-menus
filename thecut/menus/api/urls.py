@@ -30,4 +30,4 @@ urls = patterns(
 urlpatterns = patterns(
     '', (r'^', include(urls, namespace='menus_menuitem_api')))
 
-urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])  # api
+urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])

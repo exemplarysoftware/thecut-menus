@@ -46,47 +46,33 @@ class MenusRootAPIView(APIMixin, APIView):
 
 class ContentTypeListAPIView(APIMixin, generics.ListAPIView):
 
-    model = MenuItemContentType
+    queryset = MenuItemContentType.objects.all()
 
     serializer_class = serializers.ContentTypeSerializer
 
 
 class ContentTypeRetrieveAPIView(APIMixin, generics.RetrieveAPIView):
 
-    model = MenuItemContentType
+    queryset = MenuItemContentType.objects.all()
 
     serializer_class = serializers.ContentTypeWithObjectsSerializer
 
 
 class MenuItemListCreateAPIView(APIMixin, generics.ListCreateAPIView):
 
-    model = MenuItem
+    form_class = forms.MenuItemFilterForm
+
+    queryset = MenuItem.objects.all()
 
     serializer_class = serializers.MenuItemSerializer
 
-    form_class = forms.MenuItemFilterForm
-
-    def create(self, request, *args, **kwargs):
-        # The `create` method of the CreateModelMixin is not very extensible,
-        # so we're going to have blast over the entire method here.
-        serializer = self.get_serializer(data=request.DATA,
-                                         files=request.FILES)
-
-        if not serializer.is_valid():
-            return Response(serializer.errors,
-                            status=status.HTTP_400_BAD_REQUEST)
-
-        menuitem = serializer.object
-        menuitem.created_by = menuitem.updated_by = request.user
-        menuitem.insert_at(menuitem.parent, position='last-child', save=True)
-
-        headers = self.get_success_headers(serializer.data)
-
-        return Response(serializer.data, status=status.HTTP_201_CREATED,
-                        headers=headers)
+    def get_queryset(self, *args, **kwargs):
+        queryset = super(MenuItemListCreateAPIView, self).get_queryset(
+            *args, **kwargs)
+        return self.form.filter_queryset(queryset)
 
     def list(self, request, *args, **kwargs):
-        root = request.QUERY_PARAMS.get('root')
+        root = request.query_params.get('root')
         self.form = self.form_class(data={'root': root})
         if not self.form.is_valid():
             return Response(self.form.errors,
@@ -94,15 +80,17 @@ class MenuItemListCreateAPIView(APIMixin, generics.ListCreateAPIView):
         return super(MenuItemListCreateAPIView, self).list(
             request, *args, **kwargs)
 
-    def get_queryset(self, *args, **kwargs):
-        queryset = super(MenuItemListCreateAPIView, self).get_queryset(
-            *args, **kwargs)
-        return self.form.filter_queryset(queryset)
+    def perform_create(self, serializer):
+        serializer.save(created_by=self.request.user,
+                        updated_by=self.request.user)
+
+    def perform_update(self, serializer):
+        serializer.save(updated_by=self.request.user)
 
 
 class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateDestroyAPIView):
 
-    model = MenuItem
+    queryset = MenuItem.objects.all()
 
     serializer_class = serializers.MenuItemSerializer
 
