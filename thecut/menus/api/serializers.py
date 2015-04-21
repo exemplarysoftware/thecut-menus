@@ -6,19 +6,17 @@ from rest_framework import serializers
 
 class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
 
-    id = serializers.Field(source='pk')
+    id = serializers.ReadOnlyField(source='pk')
 
-    url = serializers.HyperlinkedIdentityField(
-        view_name='admin:menus_menuitem_api:contenttype_detail',
-        lookup_field='pk')
+    verbose_name = serializers.SerializerMethodField()
 
-    verbose_name = serializers.SerializerMethodField('get_verbose_name')
-
-    verbose_name_plural = serializers.SerializerMethodField(
-        'get_verbose_name_plural')
+    verbose_name_plural = serializers.SerializerMethodField()
 
     class Meta(object):
-        fields = ['id',  'url', 'verbose_name', 'verbose_name_plural']
+        extra_kwargs = {
+            'url': {'view_name': 'admin:menus_menuitem_api:contenttype_detail'}
+        }
+        fields = ['url', 'id', 'verbose_name', 'verbose_name_plural']
         model = MenuItemContentType
 
     def get_verbose_name(self, content_type):
@@ -30,30 +28,29 @@ class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
 
 class ContentTypeWithObjectsSerializer(ContentTypeSerializer):
 
-    objects = serializers.SerializerMethodField('get_objects')
+    objects = serializers.SerializerMethodField()
 
     class Meta(ContentTypeSerializer.Meta):
         fields = ContentTypeSerializer.Meta.fields + ['objects']
 
     def get_objects(self, content_type):
         queryset = content_type.model_class().objects.all()
-        return GenericSerializer(
-            queryset, content_type.model_class(), many=True).data
+        return GenericSerializer(queryset, many=True,
+                                 model=content_type.model_class()).data
 
 
 class GenericSerializer(serializers.ModelSerializer):
 
-    id = serializers.Field(source='pk')
+    id = serializers.ReadOnlyField(source='pk')
 
-    name = serializers.SerializerMethodField('get_name')
+    name = serializers.SerializerMethodField()
 
     class Meta(object):
         fields = ['id', 'name']
 
-    def __init__(self, queryset_or_instance, model, *args, **kwargs):
+    def __init__(self, queryset, model, **kwargs):
         self.Meta.model = model
-        return super(GenericSerializer, self).__init__(queryset_or_instance,
-                                                       *args, **kwargs)
+        return super(GenericSerializer, self).__init__(queryset, **kwargs)
 
     def get_name(self, instance):
         return instance.__str__().title()
@@ -61,27 +58,30 @@ class GenericSerializer(serializers.ModelSerializer):
 
 class MenuItemSerializer(serializers.ModelSerializer):
 
-    id = serializers.Field(source='pk')
-    is_menu = serializers.SerializerMethodField('get_is_menu')
-    content_object = serializers.SerializerMethodField('get_content_object')
-    content_type_name = serializers.SerializerMethodField(
-        'get_content_type_name')
+    id = serializers.ReadOnlyField(source='pk')
+
+    content_object = serializers.SerializerMethodField()
+
+    content_type_name = serializers.SerializerMethodField()
 
     class Meta(object):
         fields = ['id', 'is_menu', 'title', 'parent', 'order', 'lft', 'rght',
                   'content_type', 'content_object', 'object_id',
                   'content_type_name']
-        read_only_fields = ['order', 'lft', 'rght']
         model = MenuItem
+        read_only_fields = ['order', 'lft', 'rght']
 
-    def get_is_menu(self, menuitem):
-        return menuitem.is_menu()
+    def create(self, validated_data):
+        ModelClass = self.Meta.model
+        instance = ModelClass(**validated_data)
+        instance.insert_at(instance.parent, position='last-child', save=True)
+        return instance
 
     def get_content_object(self, menuitem):
         if menuitem.content_object:
-            serializer = GenericSerializer(menuitem.content_object,
-                                           menuitem.content_object.__class__)
-            return serializer.data
+            return GenericSerializer(
+                menuitem.content_object,
+                model=menuitem.content_object.__class__).data
 
     def get_content_type_name(self, menuitem):
         if menuitem.content_type:
