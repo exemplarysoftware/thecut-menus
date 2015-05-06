@@ -22,8 +22,10 @@ def menu(context, slug_or_menuitem, extra_class=None):
         except MenuItem.DoesNotExist:
             menu = None
 
-    # TODO: menu.children.active().prefetch_content_objects()
-    menuitem_list = menu.children.active() if menu else []
+    if menu:
+        menuitem_list = menu.children.active().prefetch_content_objects()
+    else:
+        menuitem_list = MenuItem.objects.none()
 
     return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
             'request': context.get('request')}
@@ -43,9 +45,9 @@ def section_menu(context, obj, extra_class=None):
 
     if matching_menuitems:
         menu = matching_menuitems[0].parent
-        menuitem_list = menu.items.active().prefetch_content_objects()
+        menuitem_list = menu.children.active().prefetch_content_objects()
     else:
-        menuitem_list = None
+        menuitem_list = MenuItem.objects.none()
 
     return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
             'request': context.get('request')}
