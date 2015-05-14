@@ -264,8 +264,6 @@
 }
 
 #menus .add-new-items .toolbar .button.add {
-  height: 25px;
-  line-height: 29px;
   color: #818793;
   font-weight: bold;
   background: transparent;
@@ -275,6 +273,8 @@
   background-position: 0;
   text-shadow: none;
   padding-left: 30px;
+  padding-top: 5px;
+  padding-bottom: 3px;
 }
 
 @media all and (min-width: 0) {
