@@ -55,6 +55,7 @@
 }
 
 #menus .menu > li label {
+  display: block;
   margin-top: 15px;
   margin-bottom: 6px;
   font-size: 0.857em; /* 12/14 */
