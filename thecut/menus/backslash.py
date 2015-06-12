@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from . import settings
+from django.db.models import Q
+from django.contrib.sites.shortcuts import get_current_site
 from thecut import backslash
 from .admin import MenuItemAdmin
 from .forms import MenuItemBackslashForm
@@ -24,8 +27,9 @@ class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
 
     def get_queryset(self, *args, **kwargs):
         queryset = super(MenuItemBackslash, self).get_queryset(*args, **kwargs)
-        # Only display top-level menus for editing in backslash.
-        return queryset.filter(object_id__isnull=True, parent__isnull=True)
+        if settings.SITE_FILTER:
+           queryset = queryset.filter(Q(site__isnull=True) | Q(site=get_current_site(args[0])))
+        return queryset.filter(parent=None)
 
     def change_view(self, request, object_id, form_url='', extra_content=None):
         # Use a custom view to manage the menu items completely
