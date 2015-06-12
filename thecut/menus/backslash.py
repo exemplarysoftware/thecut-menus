@@ -15,7 +15,7 @@ class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
     form = MenuItemBackslashForm
 
     fieldsets = [
-        (None, {'fields': ['title', 'slug']}),
+        (None, {'fields': ['title', 'slug', 'site']}),
         ('Publishing', {'fields': [('publish_at', 'is_enabled'),
                                    'expire_at', 'is_featured']}),
     ]
