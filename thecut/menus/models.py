@@ -86,6 +86,7 @@ class ViewLink(PublishableResource):
 
     class Meta(PublishableResource.Meta):
         verbose_name = 'Internal link'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -94,9 +95,6 @@ class ViewLink(PublishableResource):
         args = self.view.split()
         view_name = args.pop()
         return reverse(view_name, args=args)
-
-    class Meta:
-        ordering = ['name']
 
 
 @python_2_unicode_compatible
@@ -109,13 +107,10 @@ class WebLink(PublishableResource):
 
     class Meta(PublishableResource.Meta):
         verbose_name = 'External link'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return self.url
-
-    class Meta:
-        ordering = ['name']
-
