@@ -95,6 +95,9 @@ class ViewLink(PublishableResource):
         view_name = args.pop()
         return reverse(view_name, args=args)
 
+    class Meta:
+        ordering = ['name']
+
 
 @python_2_unicode_compatible
 class WebLink(PublishableResource):
@@ -112,3 +115,7 @@ class WebLink(PublishableResource):
 
     def get_absolute_url(self):
         return self.url
+
+    class Meta:
+        ordering = ['name']
+
