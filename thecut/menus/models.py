@@ -51,6 +51,8 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     objects = managers.PassThroughTreeManager().for_queryset_class(
         querysets.MenuItemQuerySet)()
 
+    site = models.ForeignKey('sites.Site', blank=True, null=True)
+
     class Meta(MPTTModel.Meta, PublishableResource.Meta):
         verbose_name = 'menu'
         verbose_name_plural = 'menus'
