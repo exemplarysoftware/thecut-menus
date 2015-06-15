@@ -2,6 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from . import managers, querysets
 from .fields import MenuItemGenericForeignKey
+from .validators import validate_view
 from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 from django.db import models
@@ -84,6 +85,7 @@ class ViewLink(PublishableResource):
     name = models.CharField(max_length=100, help_text='Friendly display name.')
 
     view = models.CharField(max_length=100,
+                            validators=[validate_view],
                             help_text='Django view URL name to resolve.')
 
     class Meta(PublishableResource.Meta):
