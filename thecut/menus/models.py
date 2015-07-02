@@ -4,7 +4,7 @@ from . import managers, querysets
 from .fields import MenuItemGenericForeignKey
 from .validators import validate_view
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey
@@ -98,7 +98,11 @@ class ViewLink(PublishableResource):
     def get_absolute_url(self):
         args = self.view.split()
         view_name = args.pop()
-        return reverse(view_name, args=args)
+        try:
+            url = reverse(view_name, args=args)
+        except NoReverseMatch:
+            url = None
+        return url
 
 
 @python_2_unicode_compatible
