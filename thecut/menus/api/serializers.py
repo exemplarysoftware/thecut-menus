@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
+from .. import settings
 from ..models import MenuItem, MenuItemContentType
 from django.contrib.sites.shortcuts import get_current_site
 from rest_framework import serializers
@@ -37,7 +38,7 @@ class ContentTypeWithObjectsSerializer(ContentTypeSerializer):
     def get_objects(self, content_type):
         model = content_type.model_class()
         queryset = model.objects.all()
-        if hasattr(model, 'site'):
+        if settings.SITE_FILTER and hasattr(model, 'site'):
             queryset = queryset.filter(site=get_current_site(self.context['request']))
         return GenericSerializer(queryset, many=True,
                                  model=content_type.model_class()).data
