@@ -2,8 +2,9 @@
 from __future__ import absolute_import, unicode_literals
 from . import managers, querysets
 from .fields import MenuItemGenericForeignKey
+from .validators import validate_view
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
+from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey
@@ -51,6 +52,8 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     objects = managers.PassThroughTreeManager().for_queryset_class(
         querysets.MenuItemQuerySet)()
 
+    site = models.ForeignKey('sites.Site', blank=True, null=True)
+
     class Meta(MPTTModel.Meta, PublishableResource.Meta):
         verbose_name = 'menu'
         verbose_name_plural = 'menus'
@@ -82,10 +85,12 @@ class ViewLink(PublishableResource):
     name = models.CharField(max_length=100, help_text='Friendly display name.')
 
     view = models.CharField(max_length=100,
+                            validators=[validate_view],
                             help_text='Django view URL name to resolve.')
 
     class Meta(PublishableResource.Meta):
         verbose_name = 'Internal link'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
@@ -93,7 +98,11 @@ class ViewLink(PublishableResource):
     def get_absolute_url(self):
         args = self.view.split()
         view_name = args.pop()
-        return reverse(view_name, args=args)
+        try:
+            url = reverse(view_name, args=args)
+        except NoReverseMatch:
+            url = None
+        return url
 
 
 @python_2_unicode_compatible
@@ -106,6 +115,7 @@ class WebLink(PublishableResource):
 
     class Meta(PublishableResource.Meta):
         verbose_name = 'External link'
+        ordering = ['name']
 
     def __str__(self):
         return self.name
