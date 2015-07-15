@@ -35,7 +35,7 @@ class MenuItemBackslashForm(forms.ModelForm):
 
     class Meta(object):
         fields = ['expire_at', 'is_enabled', 'is_featured', 'publish_at',
-                  'slug', 'title']
+                  'slug', 'title', 'site']
         model = MenuItem
 
     def __init__(self, *args, **kwargs):

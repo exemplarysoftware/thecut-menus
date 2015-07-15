@@ -2,11 +2,16 @@
 from __future__ import absolute_import, unicode_literals
 from . import settings
 from django.db.models import Q
-from django.contrib.sites.shortcuts import get_current_site
 from thecut import backslash
 from .admin import MenuItemAdmin
 from .forms import MenuItemBackslashForm
 from .models import MenuItem
+
+try:
+    from django.contrib.sites.shortcuts import get_current_site
+except ImportError:
+    # Django < 1.7 compatibility.
+    from django.contrib.sites.models import get_current_site
 
 
 class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
@@ -28,7 +33,8 @@ class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
     def get_queryset(self, *args, **kwargs):
         queryset = super(MenuItemBackslash, self).get_queryset(*args, **kwargs)
         if settings.SITE_FILTER:
-           queryset = queryset.filter(Q(site__isnull=True) | Q(site=get_current_site(args[0])))
+            # args[0] is the current request.
+            queryset = queryset.filter(Q(site__isnull=True) | Q(site=get_current_site(args[0])))
         return queryset.filter(parent=None)
 
     def change_view(self, request, object_id, form_url='', extra_content=None):
