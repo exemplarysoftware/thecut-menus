@@ -2,8 +2,13 @@
 from __future__ import absolute_import, unicode_literals
 from .. import settings
 from ..models import MenuItem, MenuItemContentType
-from django.contrib.sites.shortcuts import get_current_site
 from rest_framework import serializers
+
+try:
+    from django.contrib.sites.shortcuts import get_current_site
+except ImportError:
+    # Django < 1.7 compatibility.
+    from django.contrib.sites.models import get_current_site
 
 
 class ContentTypeSerializer(serializers.HyperlinkedModelSerializer):
