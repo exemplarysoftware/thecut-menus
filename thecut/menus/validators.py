@@ -4,9 +4,12 @@ from django.core.urlresolvers import reverse, NoReverseMatch
 
 
 def validate_view(value):
-    """Ensure that the value is a valid view identifier that can be resolved to a URL."""
+    """Ensure that the value is a valid view identifier that can be resolved to
+    a URL."""
+
     try:
         reverse(value)
     except NoReverseMatch:
-        raise ValidationError("'{value}' cannot be resolved. Does the view exist?".format(
-                              value=value))
+        raise ValidationError(
+            "'{value}' cannot be resolved. Does the view exist?".format(
+                value=value))

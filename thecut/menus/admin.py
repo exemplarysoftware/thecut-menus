@@ -12,9 +12,10 @@ class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
 
     fieldsets = [
         (None, {'fields': ['title', 'image', ('content_type', 'object_id'),
-                           'parent', 'order', 'site']}),
-        ('Publishing', {'fields': ['slug', ('publish_at', 'is_enabled'),
-                                   'expire_at', 'publish_by', 'is_featured',
+                           'parent', 'order']}),
+        ('Publishing', {'fields': ['site', 'slug',
+                                   ('publish_at', 'is_enabled'), 'expire_at',
+                                   'publish_by', 'is_featured',
                                    ('created_at', 'created_by'),
                                    ('updated_at', 'updated_by')],
                         'classes': ['collapse']}),
