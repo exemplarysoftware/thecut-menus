@@ -11,6 +11,6 @@ setup(
     version=get_git_version(),
     packages=find_packages(),
     include_package_data=True,
-    install_requires=['django-mptt>=0.7.2,<1', 'djangorestframework>=3.1.1,<4',
-                      'pillow>=2.8.1,<3']
+    install_requires=['django-mptt>=0.7.2,<0.8',
+                      'djangorestframework>=3.1.1,<4', 'pillow>=2.8.1,<3']
 )
