@@ -10,14 +10,14 @@ import operator
 
 class MenuItemContentTypeManager(ContentTypeManager):
 
-    _queryset = None
+    _menus_queryset = None
 
     def get_queryset(self, *args, **kwargs):
         queryset = super(MenuItemContentTypeManager, self).get_queryset(
             *args, **kwargs)
 
         # Evaluate the queryset and store it on the class
-        if MenuItemContentTypeManager._queryset is None:
+        if MenuItemContentTypeManager._menus_queryset is None:
             # Convert 'app.Model' strings in to (app_label, model) tuples.
             models = (
                 ('.'.join(model.split('.')[:-1]), model.split('.')[-1]) for
@@ -28,9 +28,9 @@ class MenuItemContentTypeManager(ContentTypeManager):
                                             model__iexact=model)
                                           for app_label, model in models))
             queryset = queryset.filter(query)
-            MenuItemContentTypeManager._queryset = queryset
+            MenuItemContentTypeManager._menus_queryset = queryset
 
-        return MenuItemContentTypeManager._queryset
+        return MenuItemContentTypeManager._menus_queryset
 
 
 class PassThroughTreeManager(PassThroughManagerMixin, TreeManager):
