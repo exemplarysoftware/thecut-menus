@@ -34,7 +34,7 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     """
 
     parent = TreeForeignKey('self', null=True, blank=True,
-                            related_name='children')
+                            related_name='children', on_delete=models.CASCADE)
 
     title = models.CharField(max_length=200, blank=True)
 
@@ -43,7 +43,8 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     slug = models.SlugField(unique=True, null=True)
 
     content_type = models.ForeignKey('menus.MenuItemContentType', blank=True,
-                                     null=True)
+                                     null=True, related_name='+',
+                                     on_delete=models.CASCADE)
 
     object_id = models.IntegerField(db_index=True, blank=True, null=True)
 
@@ -52,7 +53,8 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
     objects = managers.PassThroughTreeManager().for_queryset_class(
         querysets.MenuItemQuerySet)()
 
-    site = models.ForeignKey('sites.Site', blank=True, null=True)
+    site = models.ForeignKey('sites.Site', blank=True, null=True,
+                             related_name='+', on_delete=models.SET_NULL)
 
     class Meta(MPTTModel.Meta, PublishableResource.Meta):
         verbose_name = 'menu'
