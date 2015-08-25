@@ -20,8 +20,8 @@ class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
     form = MenuItemBackslashForm
 
     fieldsets = [
-        (None, {'fields': ['title', 'slug', 'site']}),
-        ('Publishing', {'fields': [('publish_at', 'is_enabled'),
+        (None, {'fields': ['title', 'slug']}),
+        ('Publishing', {'fields': ['site', ('publish_at', 'is_enabled'),
                                    'expire_at', 'is_featured']}),
     ]
 
@@ -30,11 +30,12 @@ class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):
     class Meta(object):
         model = MenuItem
 
-    def get_queryset(self, *args, **kwargs):
-        queryset = super(MenuItemBackslash, self).get_queryset(*args, **kwargs)
+    def get_queryset(self, request, *args, **kwargs):
+        queryset = super(MenuItemBackslash, self).get_queryset(request, *args,
+                                                               **kwargs)
         if settings.SITE_FILTER:
-            # args[0] is the current request.
-            queryset = queryset.filter(Q(site__isnull=True) | Q(site=get_current_site(args[0])))
+            queryset = queryset.filter(Q(site__isnull=True) |
+                                       Q(site=get_current_site(request)))
         return queryset.filter(parent=None)
 
     def change_view(self, request, object_id, form_url='', extra_content=None):

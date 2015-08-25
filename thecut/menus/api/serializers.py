@@ -44,7 +44,8 @@ class ContentTypeWithObjectsSerializer(ContentTypeSerializer):
         model = content_type.model_class()
         queryset = model.objects.all()
         if settings.SITE_FILTER and hasattr(model, 'site'):
-            queryset = queryset.filter(site=get_current_site(self.context['request']))
+            queryset = queryset.filter(
+                site=get_current_site(self.context['request']))
         return GenericSerializer(queryset, many=True,
                                  model=content_type.model_class()).data
 

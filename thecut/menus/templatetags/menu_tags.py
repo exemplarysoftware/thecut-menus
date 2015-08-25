@@ -1,4 +1,4 @@
-from menus import *
+from menus import *  # NOQA
 import warnings
 
 
