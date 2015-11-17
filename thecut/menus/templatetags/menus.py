@@ -9,9 +9,11 @@ register = template.Library()
 
 
 @register.inclusion_tag('menus/_menu.html', takes_context=True)
-def menu(context, slug_or_menuitem, extra_class=None):
+def menu(context, slug_or_menuitem, extra_class=None, level=0):
 
     menu = None
+
+    level += 1
 
     if type(slug_or_menuitem) == MenuItem:
         menu = slug_or_menuitem
@@ -28,7 +30,7 @@ def menu(context, slug_or_menuitem, extra_class=None):
         menuitem_list = MenuItem.objects.none()
 
     return {'menuitem_list': menuitem_list, 'extra_class': extra_class,
-            'request': context.get('request')}
+            'request': context.get('request'), 'level': level}
 
 
 @register.inclusion_tag('menus/_menu.html', takes_context=True)
