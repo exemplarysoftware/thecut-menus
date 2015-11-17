@@ -1,7 +1,7 @@
 {% load menus %}
 
 {% for item in menuitem_list %}{% with item_url=item.get_absolute_url %}
-  {% if forloop.first %}<ul class="menu{% if level %} level-{{ level }}{% endif %}{% if extra_class %} {{ extra_class }}{% endif %}">{% endif %}
+  {% if forloop.first %}<ul{% if level %} data-level="{{ level }}"{% endif %} class="menu{% if extra_class %} {{ extra_class }}{% endif %}">{% endif %}
   <li class="{{ item.get_css_classes }}">
     {% if item.get_absolute_url %}<a href="{{ item.get_absolute_url }}" {% if request.path == item.get_absolute_url %} class="active"{% endif %}>{% else %}<span tabindex="0" role="button">{% endif %}
     {% if item.image %}<img src="{{ item.image.url }}" alt="{{ item }}" />{% endif %}
