@@ -9,9 +9,13 @@ register = template.Library()
 
 
 @register.inclusion_tag('menus/_menu.html', takes_context=True)
-def menu(context, slug_or_menuitem, extra_class=None, level=0):
+def menu(context, slug_or_menuitem, extra_class=None, level=None):
 
     menu = None
+
+    # Default level
+    if not level:
+        level = 0
 
     level += 1
 
