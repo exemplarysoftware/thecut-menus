@@ -69,11 +69,10 @@ class MenuItemListCreateAPIView(APIMixin, generics.ListCreateAPIView):
     def get_queryset(self, *args, **kwargs):
         queryset = super(MenuItemListCreateAPIView, self).get_queryset(
             *args, **kwargs)
-        return self.form.filter_queryset(queryset)
+        return self.get_form().filter_queryset(queryset)
 
     def list(self, request, *args, **kwargs):
-        root = request.query_params.get('root')
-        self.form = self.form_class(data={'root': root})
+        self.form = self.get_form()
         if not self.form.is_valid():
             return Response(self.form.errors,
                             status=status.HTTP_400_BAD_REQUEST)
@@ -86,6 +85,14 @@ class MenuItemListCreateAPIView(APIMixin, generics.ListCreateAPIView):
 
     def perform_update(self, serializer):
         serializer.save(updated_by=self.request.user)
+
+    def get_form(self):
+        return self.form_class(data=self.get_form_data())
+
+    def get_form_data(self):
+        return {
+            'root': self.request.query_params.get('root')
+        }
 
 
 class MenuItemRetrieveAPIView(APIMixin, generics.RetrieveUpdateDestroyAPIView):
