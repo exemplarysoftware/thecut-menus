@@ -22,6 +22,7 @@ class MenuItemFilterForm(forms.Form):
         return MenuItem.objects.all()
 
     def filter_queryset(self, queryset):
+        self.is_valid()
         # Return only the children of the root MenuItem, if one has
         # been specified.
         root = self.cleaned_data.get('root')
