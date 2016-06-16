@@ -9,3 +9,5 @@ SELECTABLE_MODELS = getattr(settings, 'MENUS_SELECTABLE_MODELS',
                             ['menus.ViewLink', 'menus.WebLink'])
 
 SITE_FILTER = getattr(settings, 'MENUS_SITE_FILTER', False)
+
+VALIDATE_VIEWLINKS = getattr(settings, 'MENUS_VALIDATE_VIEWLINKS', True)
