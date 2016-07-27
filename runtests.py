@@ -2,10 +2,12 @@
 from __future__ import absolute_import, unicode_literals
 import sys
 
-#try:
-from django.conf import settings
+try:
+    from django.conf import settings
+    from django.test.utils import get_runner
 
-settings.configure(
+
+    settings.configure(
         DEBUG=True,
         USE_TZ=True,
         DATABASES={
@@ -19,6 +21,7 @@ settings.configure(
             'django.contrib.contenttypes',
             'django.contrib.sites',
             'thecut.menus',
+            'taggit',
             "test_app",
         ],
         SITE_ID=1,
@@ -37,13 +40,13 @@ settings.configure(
         ],
     )
 
-try:
-    import django
-    setup = django.setup
-except AttributeError:
-    pass
-else:
-    setup()
+    try:
+        import django
+        setup = django.setup
+    except AttributeError:
+        pass
+    else:
+        setup()
 
 except ImportError:
     import traceback
