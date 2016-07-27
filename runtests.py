@@ -19,9 +19,22 @@ settings.configure(
             'django.contrib.contenttypes',
             'django.contrib.sites',
             'thecut.menus',
+            "test_app",
         ],
         SITE_ID=1,
-        NOSE_ARGS=['-s'],
+        MIDDLEWARE_CLASSES=(),
+        TEMPLATES=[
+            {
+                'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                'OPTIONS': {
+                    'loaders': [
+                        ('django.template.loaders.cached.Loader',
+                         ['django.template.loaders.filesystem.Loader',
+                          'django.template.loaders.app_directories.Loader'])
+                    ],
+                },
+            },
+        ],
     )
 
 try:
@@ -32,9 +45,11 @@ except AttributeError:
 else:
     setup()
 
-from django_nose import NoseTestSuiteRunner
-# except ImportError:
-#     raise ImportError('To fix this error, run: pip install -r requirements-test.txt')
+except ImportError:
+    import traceback
+    traceback.print_exc()
+    msg = "To fix this error, run: pip install -r requirements-test.txt"
+    raise ImportError(msg)
 
 
 def run_tests(*test_args):
@@ -42,12 +57,13 @@ def run_tests(*test_args):
         test_args = ['thecut/menus/tests']
 
     # Run tests
-    test_runner = NoseTestSuiteRunner(verbosity=1)
+    TestRunner = get_runner(settings)
+    test_runner = TestRunner()
 
     failures = test_runner.run_tests(test_args)
 
     if failures:
-        sys.exit(failures)
+        sys.exit(bool(failures))
 
 
 if __name__ == '__main__':
