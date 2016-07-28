@@ -10,7 +10,8 @@ def validate_view(value):
 
     if settings.VALIDATE_VIEWLINKS:
         try:
-            reverse(value)
+            args = value.split()
+            reverse(args[0], args=args[1:])
         except NoReverseMatch:
             raise ValidationError(
                 "'{value}' cannot be resolved. Does the view exist?".format(

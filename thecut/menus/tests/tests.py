@@ -57,16 +57,21 @@ class TestViewLinkReverse(TestCase):
         with self.assertRaises(ValidationError):
             validate_view('hello:planet')
 
-    #def test_validator_passes_correctly_on_a_parameterised_reverse_url(self):
-    #    try:
-    #        validate_view('hello:world2 1111 2222')
-    #    except:
-    #        self.fail("validate_view() raised ValidationError unexpectedly!")
+    def test_validator_passes_correctly_on_a_parameterised_reverse_url(self):
+        try:
+            validate_view('hello:world2 1111 2222')
+        except:
+            self.fail("validate_view() raised ValidationError unexpectedly!")
 
-    #def test_validator_does_not_know_url_expects_params_always_allows(self):
-    #    try:
-    #        validate_view('hello:world 1111 2222')
-    #    except:
-    #        self.fail("validate_view() raised ValidationError unexpectedly!")
+    def test_validator_errors_on_non_existing_params(self):
+        with self.assertRaises(ValidationError):
+            validate_view('hello:world 1111 2222')
 
+    def test_validator_errors_on_insufficient_existing_params(self):
+        with self.assertRaises(ValidationError):
+            validate_view('hello:world2 1111')
+
+    def test_validator_errors_on_invalid_params(self):
+        with self.assertRaises(ValidationError):
+            validate_view('hello:world2 1111 2a22')
 

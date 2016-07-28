@@ -99,7 +99,6 @@ class ViewLink(PublishableResource):
 
     def get_absolute_url(self):
         args = self.view.split()
-        #view_name = args.pop()
         try:
             url = reverse(args[0], args=args[1:])
         except NoReverseMatch:
