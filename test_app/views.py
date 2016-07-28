@@ -8,4 +8,7 @@ class HelloWorldView(View):
         return HttpResponse("Hello World")
 
 
+class HelloWorld2View(View):
+    def get(self, *args, **kwargs):
+        return HttpResponse("Hello World2 {0} {1}".format(args[1], args[2]))
 

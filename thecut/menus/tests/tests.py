@@ -38,12 +38,13 @@ class TestViewLinkReverse(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertEquals(response.content, "Hello World")
 
-    #def test_reverse_links_to_the_correct_URL_with_parameters(self):
-    #    url = reverse('hello:world2 1111 2222')
-    #    self.assertEquals(url, '/hello/world2/1111/2222/')
-    #    response = client.get(url)
-    #    self.assertEquals(response.status_code, 200)
-    #    self.assertEquals(response.content, "Hello world2 1111 2222")
+    def test_reverse_links_to_the_correct_URL_with_parameters(self):
+        viewlink = ViewLinkFactory(view='hello:world2 1111 2222')
+        self.assertEquals(viewlink.get_absolute_url(), '/hello/world2/1111/2222/')
+        client = Client()
+        response = client.get(viewlink.get_absolute_url())
+        self.assertEquals(response.status_code, 200)
+        self.assertEquals(response.content, "Hello World2 1111 2222")
 
     #def test_validator_passes_correctly_on_a_simple_reverse_url(self):
     #    try:
