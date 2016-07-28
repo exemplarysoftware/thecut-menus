@@ -88,7 +88,8 @@ class ViewLink(PublishableResource):
 
     view = models.CharField(max_length=100,
                             validators=[validate_view],
-                            help_text='Django view URL name to resolve.')
+                            help_text='Django view URL name to resolve. '
+                            'Format view:link arg1 arg2')
 
     class Meta(PublishableResource.Meta):
         verbose_name = 'Internal link'

@@ -4,7 +4,6 @@ from thecut.menus.templatetags.menu_tags import menu
 from thecut.menus.tests.factories import MenuItemFactory, ViewLinkFactory
 from django.test import TestCase
 from django.test import Client
-from django.core.urlresolvers import reverse
 from thecut.menus.validators import validate_view
 from django.core.exceptions import ValidationError
 
@@ -41,7 +40,8 @@ class TestViewLinkReverse(TestCase):
 
     def test_reverse_links_to_the_correct_URL_with_parameters(self):
         viewlink = ViewLinkFactory(view='hello:world2 1111 2222')
-        self.assertEquals(viewlink.get_absolute_url(), '/hello/world2/1111/2222/')
+        self.assertEquals(viewlink.get_absolute_url(),
+                          '/hello/world2/1111/2222/')
         client = Client()
         response = client.get(viewlink.get_absolute_url())
         self.assertEquals(response.status_code, 200)
