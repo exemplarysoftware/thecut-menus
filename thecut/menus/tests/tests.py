@@ -6,6 +6,7 @@ from django.test import TestCase
 from django.test import Client
 from django.core.urlresolvers import reverse
 from thecut.menus.validators import validate_view
+from django.core.exceptions import ValidationError
 
 
 class TestMenuTag(TestCase):
@@ -46,14 +47,15 @@ class TestViewLinkReverse(TestCase):
         self.assertEquals(response.status_code, 200)
         self.assertEquals(response.content, "Hello World2 1111 2222")
 
-    #def test_validator_passes_correctly_on_a_simple_reverse_url(self):
-    #    try:
-    #        validate_view('hello:world')
-    #    except:
-    #        self.fail("validate_view() raised ValidationError unexpectedly!")
+    def test_validator_passes_correctly_on_a_simple_reverse_url(self):
+        try:
+            validate_view('hello:world')
+        except:
+            self.fail("validate_view() raised ValidationError unexpectedly!")
 
-    #def test_validator_fails_correctly_on_a_simple_reverse_url(self):
-    #    self.assertRaises(ValidationError, validate_view('hello:planet'))
+    def test_validator_fails_correctly_on_a_simple_reverse_url(self):
+        with self.assertRaises(ValidationError):
+            validate_view('hello:planet')
 
     #def test_validator_passes_correctly_on_a_parameterised_reverse_url(self):
     #    try:
