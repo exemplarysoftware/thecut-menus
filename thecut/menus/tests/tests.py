@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from thecut.menus.templatetags.menu_tags import menu
-from thecut.menus.tests.factories import MenuItemFactory
+from thecut.menus.tests.factories import MenuItemFactory, ViewLinkFactory
 from django.test import TestCase
 from django.test import Client
 from django.core.urlresolvers import reverse
@@ -31,10 +31,10 @@ class TestViewLinkReverse(TestCase):
     # We test reversing the URL and passing parameter via a reversed URl
 
     def test_reverse_links_to_the_correct_URL_without_parameters(self):
-        url = reverse('hello:world')
-        self.assertEquals(url, '/hello/world/')
+        viewlink = ViewLinkFactory(view='hello:world')
+        self.assertEquals(viewlink.get_absolute_url(), '/hello/world/')
         client = Client()
-        response = client.get(url)
+        response = client.get(viewlink.get_absolute_url())
         self.assertEquals(response.status_code, 200)
         self.assertEquals(response.content, "Hello World")
 
