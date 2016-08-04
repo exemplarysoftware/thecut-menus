@@ -88,7 +88,8 @@ class ViewLink(PublishableResource):
 
     view = models.CharField(max_length=100,
                             validators=[validate_view],
-                            help_text='Django view URL name to resolve.')
+                            help_text='Django view URL name to resolve. '
+                            'Format view:link arg1 arg2')
 
     class Meta(PublishableResource.Meta):
         verbose_name = 'Internal link'
@@ -99,9 +100,8 @@ class ViewLink(PublishableResource):
 
     def get_absolute_url(self):
         args = self.view.split()
-        view_name = args.pop()
         try:
-            url = reverse(view_name, args=args)
+            url = reverse(args[0], args=args[1:])
         except NoReverseMatch:
             url = None
         return url
