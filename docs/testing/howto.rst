@@ -14,7 +14,7 @@ You can perform basic testing against your system's Python / Django.
 
 2. Ensure a version of Django is installed::
 
-    $ pip install Django
+    $ pip install "Django>=1.8,<1.9"
 
 3. Run the test runner::
 
