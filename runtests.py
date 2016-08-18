@@ -1,62 +1,63 @@
-# -*- coding: utf-8 -*-
-from __future__ import absolute_import, unicode_literals
 import sys
 
-try:
-    from django.conf import settings
-    from django.test.utils import get_runner
+#try:
+from django.conf import settings
+from django.test.utils import get_runner
 
-    settings.configure(
-        DEBUG=True,
-        USE_TZ=True,
-        DATABASES={
-            'default': {
-                'ENGINE': 'django.db.backends.sqlite3',
-            }
-        },
-        ROOT_URLCONF='test_app.urls',
-        INSTALLED_APPS=[
-            'django.contrib.auth',
-            'django.contrib.contenttypes',
-            'django.contrib.sites',
-            'thecut.menus',
-            'taggit',
-            "test_app",
-        ],
-        SITE_ID=1,
-        MIDDLEWARE_CLASSES=(),
-        TEMPLATES=[
-            {
-                'BACKEND': 'django.template.backends.django.DjangoTemplates',
-                'OPTIONS': {
-                    'loaders': [
-                        ('django.template.loaders.cached.Loader',
-                         ['django.template.loaders.filesystem.Loader',
-                          'django.template.loaders.app_directories.Loader'])
-                    ],
-                },
+settings.configure(
+    DEBUG=True,
+    USE_TZ=True,
+    DATABASES={
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+        }
+    },
+    ROOT_URLCONF='test_app.urls',
+    INSTALLED_APPS=[
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sites',
+        'taggit',
+        'thecut.authorship',
+        'thecut.ordering',
+        'thecut.publishing',
+        'thecut.menus',
+        'test_app',
+    ],
+    SITE_ID=1,
+    MIDDLEWARE_CLASSES=(),
+    TEMPLATES=[
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+            'OPTIONS': {
+                'loaders': [
+                    ('django.template.loaders.cached.Loader',
+                     ['django.template.loaders.filesystem.Loader',
+                      'django.template.loaders.app_directories.Loader'])
+                ],
             },
-        ],
-    )
+        },
+    ],
+)
 
-    try:
-        import django
-        setup = django.setup
-    except AttributeError:
-        pass
-    else:
-        setup()
+try:
+    import django
+    setup = django.setup
+except AttributeError:
+    pass
+else:
+    setup()
 
-except ImportError:
-    import traceback
-    traceback.print_exc()
-    msg = "To fix this error, run: pip install -r requirements-test.txt"
-    raise ImportError(msg)
+#except ImportError:
+#    import traceback
+#    traceback.print_exc()
+#    msg = "To fix this error, run: pip install -r requirements-test.txt"
+#    raise ImportError(msg)
 
 
 def run_tests(*test_args):
     if not test_args:
-        test_args = ['thecut/menus/tests']
+        test_args = ['thecut.menus.tests']
 
     # Run tests
     TestRunner = get_runner(settings)
