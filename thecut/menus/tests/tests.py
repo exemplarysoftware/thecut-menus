@@ -36,7 +36,7 @@ class TestViewLinkReverse(TestCase):
         client = Client()
         response = client.get(viewlink.get_absolute_url())
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.content, "Hello World")
+        self.assertEquals(response.content, b"Hello World")
 
     def test_reverse_links_to_the_correct_URL_with_parameters(self):
         viewlink = ViewLinkFactory(view='hello:world2 1111 2222')
@@ -45,7 +45,7 @@ class TestViewLinkReverse(TestCase):
         client = Client()
         response = client.get(viewlink.get_absolute_url())
         self.assertEquals(response.status_code, 200)
-        self.assertEquals(response.content, "Hello World2 1111 2222")
+        self.assertEquals(response.content, b"Hello World2 1111 2222")
 
     def test_validator_passes_correctly_on_a_simple_reverse_url(self):
         try:
