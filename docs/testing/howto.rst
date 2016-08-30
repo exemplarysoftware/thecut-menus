@@ -47,6 +47,10 @@ as the default test env. Tox then tests the alternative configs
 
     (thecut-menus) $ python runtests.py
 
+7. Run the tests with coverage
+    coverage run --branch --omit=lib/*,/home/mark/thecut-ordering/*,/home/mark/thecut-publishing/*,/home/mark/thecut-authorship/*,thecut/menus/migrations/* runtests.py
+    coverage report -m
+
 
 Using tox
 ---------------------------------
