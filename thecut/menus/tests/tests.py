@@ -6,6 +6,7 @@ from django.test import TestCase
 from django.test import Client
 from thecut.menus.validators import validate_view
 from django.core.exceptions import ValidationError
+from thecut.menus.fields import MenuItemGenericForeignKey
 
 
 class TestMenuTag(TestCase):
@@ -75,3 +76,9 @@ class TestViewLinkReverse(TestCase):
         with self.assertRaises(ValidationError):
             validate_view('hello:world2 1111 2a22')
 
+
+class TestMenuItemFieldContentTypes(TestCase):
+    # Test everything in the fields file
+    def test_check_content_type_field_is_empty(self):
+        f = MenuItemGenericForeignKey()
+        self.assertTrue(len(f._check_content_type_field()) == 0)
