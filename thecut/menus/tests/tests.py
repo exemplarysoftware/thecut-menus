@@ -1,13 +1,14 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from thecut.menus.templatetags.menu_tags import menu
-from thecut.menus.tests.factories import MenuItemFactory, ViewLinkFactory
+from thecut.menus.tests.factories import MenuItemFactory, ViewLinkFactory, WebLinkFactory
 from django.test import TestCase
 from django.test import Client
 from thecut.menus.validators import validate_view
 from django.core.exceptions import ValidationError
 from thecut.menus.fields import MenuItemGenericForeignKey
-from thecut.menus.models import MenuItemContentType
+from thecut.menus.models import MenuItemContentType, ViewLink, MenuItem
+from mock import Mock, patch, PropertyMock
 
 
 class TestMenuTag(TestCase):
@@ -15,6 +16,13 @@ class TestMenuTag(TestCase):
     def setUp(self):
         self.root = MenuItemFactory(slug='root')
         self.child = MenuItemFactory(parent=self.root)
+        self.secondchild = MenuItemFactory(parent=self.root
+                                           )
+        viewlink = ViewLinkFactory(view='hello:world')
+        viewlink_content_type = [ct for ct in MenuItemContentType.objects.all()
+                                 if ct.name == ViewLink._meta.verbose_name][0]
+        self.secondchild.content_type = viewlink_content_type
+        self.secondchild.object_id = viewlink.id
 
     def test_returns_a_menuitems_children_when_given_a_slug(self):
 
@@ -27,6 +35,27 @@ class TestMenuTag(TestCase):
         result = menu({}, self.root)
 
         self.assertIn(self.child, result['menuitem_list'])
+
+    def test_menuitem_string_cast_returns_title(self):
+        result = str(self.child)
+        self.assertEqual(result, self.child.title)
+        self.assertRegexpMatches(result, 'Menu Item [\d]')
+
+    def test_menuitem_returns_contents_url(self):
+        viewlink = ViewLinkFactory(view='hello:world')
+        self.assertEquals(self.secondchild.get_absolute_url(),
+                          viewlink.get_absolute_url())
+        self.assertEquals(self.child.get_absolute_url(), None)
+
+    def test_menuitem_css_classes(self):
+        self.assertEqual(self.secondchild.get_css_classes(), '')
+        self.assertEqual(self.root.get_css_classes(), 'has-menu')
+        self.child.is_featured = True
+        self.assertRegexpMatches(self.child.get_css_classes(), 'featured')
+        with patch('thecut.menus.models.MenuItem.image', new_callable=PropertyMock) as mock_image:
+            mock_image.return_value = True
+            self.assertRegexpMatches(self.child.get_css_classes(), 'has-image')
+            
 
 
 class TestViewLinkReverse(TestCase):
@@ -76,6 +105,25 @@ class TestViewLinkReverse(TestCase):
     def test_validator_errors_on_invalid_params(self):
         with self.assertRaises(ValidationError):
             validate_view('hello:world2 1111 2a22')
+
+    def test_casting_viewlink_to_string(self):
+        viewlink = ViewLinkFactory(view='hello:world')
+        self.assertEquals(viewlink.name, str(viewlink))
+
+    def test_reverse_links_to_invalid_URL_is_none(self):
+        viewlink = ViewLinkFactory(view='hello:world3 1111 2222')
+        self.assertEquals(viewlink.get_absolute_url(), None)
+
+
+class TestWeblinks(TestCase):
+    def setUp(self):
+        self.weblink = WebLinkFactory(url='www.thecut.net.au')
+
+    def test_weblink_names(self):
+        self.assertEqual(self.weblink.name, str(self.weblink))
+
+    def test_weblink_url(self):
+        self.assertEqual(self.weblink.url, self.weblink.get_absolute_url())
 
 
 class TestMenuItemFieldContentTypes(TestCase):
