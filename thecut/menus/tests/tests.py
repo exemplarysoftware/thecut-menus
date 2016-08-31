@@ -90,6 +90,9 @@ class TestMenuItemContentType(TestCase):
     def test_menu_item_content_types_exit(self):
         queryset = MenuItemContentType.objects.all()
         self.assertTrue(len(queryset) > 0)
+        names = set([str(ct) for ct in queryset])
+        self.assertTrue('Internal Link' in names)
+        self.assertTrue('External Link' in names)
 
     def test_menu_item_contenttypes_if_fresh_query_forced(self):
         MenuItemContentType.objects._menus_queryset = None
