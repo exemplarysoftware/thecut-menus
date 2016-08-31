@@ -7,6 +7,7 @@ from django.test import Client
 from thecut.menus.validators import validate_view
 from django.core.exceptions import ValidationError
 from thecut.menus.fields import MenuItemGenericForeignKey
+from thecut.menus.models import MenuItemContentType
 
 
 class TestMenuTag(TestCase):
@@ -82,3 +83,15 @@ class TestMenuItemFieldContentTypes(TestCase):
     def test_check_content_type_field_is_empty(self):
         f = MenuItemGenericForeignKey()
         self.assertTrue(len(f._check_content_type_field()) == 0)
+
+
+class TestMenuItemContentType(TestCase):
+    # Test we actually have some content types
+    def test_menu_item_content_types_exit(self):
+        queryset = MenuItemContentType.objects.all()
+        self.assertTrue(len(queryset) > 0)
+
+    def test_menu_item_contenttypes_if_fresh_query_forced(self):
+        MenuItemContentType.objects._menus_queryset = None
+        queryset = MenuItemContentType.objects.all()
+        self.assertTrue(len(queryset) > 0)
