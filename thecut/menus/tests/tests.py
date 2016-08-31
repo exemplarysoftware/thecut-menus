@@ -1,14 +1,15 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from thecut.menus.templatetags.menu_tags import menu
-from thecut.menus.tests.factories import MenuItemFactory, ViewLinkFactory, WebLinkFactory
+from thecut.menus.tests.factories import (MenuItemFactory, ViewLinkFactory,
+                                          WebLinkFactory)
 from django.test import TestCase
 from django.test import Client
 from thecut.menus.validators import validate_view
 from django.core.exceptions import ValidationError
 from thecut.menus.fields import MenuItemGenericForeignKey
-from thecut.menus.models import MenuItemContentType, ViewLink, MenuItem
-from mock import Mock, patch, PropertyMock
+from thecut.menus.models import MenuItemContentType, ViewLink
+from mock import patch, PropertyMock
 
 
 class TestMenuTag(TestCase):
@@ -52,10 +53,10 @@ class TestMenuTag(TestCase):
         self.assertEqual(self.root.get_css_classes(), 'has-menu')
         self.child.is_featured = True
         self.assertRegexpMatches(self.child.get_css_classes(), 'featured')
-        with patch('thecut.menus.models.MenuItem.image', new_callable=PropertyMock) as mock_image:
+        with patch('thecut.menus.models.MenuItem.image',
+                   new_callable=PropertyMock) as mock_image:
             mock_image.return_value = True
             self.assertRegexpMatches(self.child.get_css_classes(), 'has-image')
-            
 
 
 class TestViewLinkReverse(TestCase):
