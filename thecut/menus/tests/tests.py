@@ -10,6 +10,7 @@ from django.core.exceptions import ValidationError
 from thecut.menus.fields import MenuItemGenericForeignKey
 from thecut.menus.models import MenuItemContentType, ViewLink
 from mock import patch, PropertyMock
+import thecut.menus.settings
 
 
 class TestMenuTag(TestCase):
@@ -129,6 +130,12 @@ class TestViewLinkReverse(TestCase):
     def test_validator_fails_correctly_on_a_simple_reverse_url(self):
         with self.assertRaises(ValidationError):
             validate_view('hello:planet')
+
+    def test_validator_succeeds_if_validation_turned_off(self):
+        prev = thecut.menus.settings.VALIDATE_VIEWLINKS
+        thecut.menus.settings.VALIDATE_VIEWLINKS = False
+        validate_view('hello:planet')
+        thecut.menus.settings.VALIDATE_VIEWLINKS = prev
 
     def test_validator_passes_correctly_on_a_parameterised_reverse_url(self):
         try:
