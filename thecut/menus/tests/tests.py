@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from thecut.menus.templatetags.menu_tags import menu
+from thecut.menus.templatetags.menu_tags import menu, section_menu
 from thecut.menus.tests.factories import (MenuItemFactory, ViewLinkFactory,
                                           WebLinkFactory)
 from django.test import TestCase
@@ -30,6 +30,7 @@ class TestMenuTag(TestCase):
         result = menu({}, 'root')
 
         self.assertIn(self.child, result['menuitem_list'])
+        self.assertEquals(result['level'], 1)
 
     def test_returns_a_menuitems_children_when_given_a_menuitem(self):
 
@@ -57,6 +58,46 @@ class TestMenuTag(TestCase):
                    new_callable=PropertyMock) as mock_image:
             mock_image.return_value = True
             self.assertRegexpMatches(self.child.get_css_classes(), 'has-image')
+
+    def test_returns_empty_list_when_given_an_invalid_slug(self):
+
+        result = menu({}, 'invalidslug')
+
+        self.assertEqual(len(result['menuitem_list']), 0)
+
+    def test_level_correctly(self):
+
+        result = menu({}, 'root', level=1)
+
+        self.assertIn(self.child, result['menuitem_list'])
+        self.assertEquals(result['level'], 2)
+
+
+class TestSectionMenuTag(TestCase):
+
+    def setUp(self):
+        self.root = MenuItemFactory(slug='root')
+        self.child = MenuItemFactory(parent=self.root)
+        self.secondchild = MenuItemFactory(parent=self.root
+                                           )
+        self.viewlink = ViewLinkFactory(view='hello:world')
+        viewlink_content_type = [ct for ct in MenuItemContentType.objects.all()
+                                 if ct.name == ViewLink._meta.verbose_name][0]
+        self.secondchild.content_type = viewlink_content_type
+        self.secondchild.object_id = self.viewlink.id
+        self.secondchild.save()
+
+    def test_returns_menuitems_when_given_a_model(self):
+
+        result = section_menu({}, self.viewlink)
+
+        self.assertIn(self.secondchild, result['menuitem_list'])
+
+    def test_returns_no_menuitems_when_given_an_unlinked_model(self):
+        viewlink2 = ViewLinkFactory(view='hello:world2 1111 2222')
+        result = section_menu({}, viewlink2)
+
+        self.assertEqual(len(result['menuitem_list']), 0)
 
 
 class TestViewLinkReverse(TestCase):
