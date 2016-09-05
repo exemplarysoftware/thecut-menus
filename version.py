@@ -31,9 +31,11 @@
 #
 #   include RELEASE-VERSION
 
-__all__ = ("get_git_version")
-
+from __future__ import unicode_literals
 from subprocess import Popen, PIPE
+
+
+__all__ = ("get_git_version")
 
 
 def call_git_describe(abbrev=4):

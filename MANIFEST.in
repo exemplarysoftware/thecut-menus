@@ -2,6 +2,8 @@ include RELEASE-VERSION
 recursive-include docs *.rst
 include LICENSE
 include README
+include README.rst
+include HISTORY.rst
 graft thecut/menus/static
 graft thecut/menus/templates
 

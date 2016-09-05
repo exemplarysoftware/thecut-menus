@@ -5,4 +5,6 @@ from django import apps
 
 class AppConfig(apps.AppConfig):
 
+    label = 'menus'
+
     name = 'thecut.menus'

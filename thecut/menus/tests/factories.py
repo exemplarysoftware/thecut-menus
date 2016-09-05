@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from thecut.menus.models import MenuItem, ViewLink
+from thecut.menus.models import MenuItem, ViewLink, WebLink
 import factory
 from django.contrib.auth import get_user_model
 user_model = get_user_model()
@@ -30,5 +30,14 @@ class ViewLinkFactory(factory.django.DjangoModelFactory):
         model = ViewLink
 
     name = factory.Sequence(lambda n: 'View Link {0}'.format(n))
+    created_by = factory.SubFactory(UserFactory)
+    updated_by = factory.SubFactory(UserFactory)
+
+
+class WebLinkFactory(factory.django.DjangoModelFactory):
+    class Meta:
+        model = WebLink
+
+    name = factory.Sequence(lambda n: 'Web Link {0}'.format(n))
     created_by = factory.SubFactory(UserFactory)
     updated_by = factory.SubFactory(UserFactory)

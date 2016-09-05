@@ -6,6 +6,7 @@ from django.db.models import Q
 from model_utils.managers import PassThroughManagerMixin
 from mptt.managers import TreeManager
 import operator
+import functools
 
 
 class MenuItemContentTypeManager(ContentTypeManager):
@@ -24,9 +25,10 @@ class MenuItemContentTypeManager(ContentTypeManager):
                 model in settings.SELECTABLE_MODELS)
             # Construct query to filter for ContentType objects which match the
             # app_label and model combinations.
-            query = reduce(operator.or_, (Q(app_label__iexact=app_label,
-                                            model__iexact=model)
-                                          for app_label, model in models))
+            query = functools.reduce(operator.or_,
+                                     (Q(app_label__iexact=app_label,
+                                      model__iexact=model)
+                                      for app_label, model in models))
             queryset = queryset.filter(query)
             MenuItemContentTypeManager._menus_queryset = queryset
 
