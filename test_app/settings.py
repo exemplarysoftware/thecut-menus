@@ -15,6 +15,7 @@ INSTALLED_APPS = [
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sites",
+    'mptt',
     "thecut.menus",
     "test_app",
 ]

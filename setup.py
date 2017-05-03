@@ -22,8 +22,6 @@ def read(*filenames, **kwargs):
 
 long_description = read('README.rst', 'HISTORY.rst')
 
-print ("packages=",find_packages(exclude=['docs']))
-
 setup(
     # General information
     name='thecut-menus',
@@ -35,8 +33,8 @@ setup(
     include_package_data=True,
 
     # Dependencies
-    install_requires=['django-mptt>=0.7.2,<0.8',
-                      'djangorestframework>=3.1.1,<4', 'pillow>=2.8.1,<3'],
+    install_requires=['django-mptt>=0.8.7',
+                      'djangorestframework>=3.6.2,<4', 'pillow>=4.1.1,<5'],
 
     # Author information
     author='The Cut Creative',

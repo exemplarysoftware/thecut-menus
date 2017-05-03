@@ -10,6 +10,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from mptt.models import MPTTModel, TreeForeignKey
 from thecut.ordering.models import OrderMixin
 from thecut.publishing.models import PublishableResource
+from mptt.managers import TreeManager
 
 
 @python_2_unicode_compatible
@@ -50,8 +51,7 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
 
     content_object = MenuItemGenericForeignKey('content_type', 'object_id')
 
-    objects = managers.PassThroughTreeManager().for_queryset_class(
-        querysets.MenuItemQuerySet)()
+    objects = TreeManager.from_queryset(querysets.MenuItemQuerySet)()
 
     site = models.ForeignKey('sites.Site', blank=True, null=True,
                              related_name='+', on_delete=models.SET_NULL)
