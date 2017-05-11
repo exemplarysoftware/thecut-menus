@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
-
 from django.db import models, migrations
-import mptt.fields
-import django.utils.timezone
 from django.conf import settings
+import mptt.fields
+import django.db.models.deletion
+import django.utils.timezone
 
 
 class Migration(migrations.Migration):
@@ -34,10 +34,10 @@ class Migration(migrations.Migration):
                 ('rght', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('level', models.PositiveIntegerField(editable=False, db_index=True)),
-                ('created_by', models.ForeignKey(related_name='+', editable=False, to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, editable=False, to=settings.AUTH_USER_MODEL)),
                 ('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='menus.MenuItem', null=True)),
-                ('publish_by', models.ForeignKey(related_name='+', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('updated_by', models.ForeignKey(related_name='+', editable=False, to=settings.AUTH_USER_MODEL)),
+                ('publish_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('updated_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, editable=False, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -59,9 +59,9 @@ class Migration(migrations.Migration):
                 ('expire_at', models.DateTimeField(help_text='This item will no longer be viewable on the website if this date and time has past. Leave blank if you do not wish this item to expire.', null=True, verbose_name='expiry date & time', db_index=True, blank=True)),
                 ('name', models.CharField(max_length=100)),
                 ('view', models.CharField(max_length=100)),
-                ('created_by', models.ForeignKey(related_name='+', editable=False, to=settings.AUTH_USER_MODEL)),
-                ('publish_by', models.ForeignKey(related_name='+', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('updated_by', models.ForeignKey(related_name='+', editable=False, to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, editable=False, to=settings.AUTH_USER_MODEL)),
+                ('publish_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('updated_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, editable=False, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,
@@ -81,9 +81,9 @@ class Migration(migrations.Migration):
                 ('expire_at', models.DateTimeField(help_text='This item will no longer be viewable on the website if this date and time has past. Leave blank if you do not wish this item to expire.', null=True, verbose_name='expiry date & time', db_index=True, blank=True)),
                 ('name', models.CharField(max_length=100)),
                 ('url', models.URLField()),
-                ('created_by', models.ForeignKey(related_name='+', editable=False, to=settings.AUTH_USER_MODEL)),
-                ('publish_by', models.ForeignKey(related_name='+', blank=True, to=settings.AUTH_USER_MODEL, null=True)),
-                ('updated_by', models.ForeignKey(related_name='+', editable=False, to=settings.AUTH_USER_MODEL)),
+                ('created_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, editable=False, to=settings.AUTH_USER_MODEL)),
+                ('publish_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
+                ('updated_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, editable=False, to=settings.AUTH_USER_MODEL)),
             ],
             options={
                 'abstract': False,

@@ -7,10 +7,10 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
 from thecut.ordering.models import OrderMixin
 from thecut.publishing.models import PublishableResource
-from mptt.managers import TreeManager
 
 
 @python_2_unicode_compatible
