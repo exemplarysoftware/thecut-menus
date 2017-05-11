@@ -4,12 +4,17 @@ from . import managers, querysets
 from .fields import MenuItemGenericForeignKey
 from .validators import validate_view
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse, NoReverseMatch
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from mptt.managers import TreeManager
 from mptt.models import MPTTModel, TreeForeignKey
 from thecut.ordering.models import OrderMixin
 from thecut.publishing.models import PublishableResource
+
+try:
+    from django.urls import reverse, NoReverseMatch
+except ImportError:
+    from django.core.urlresolvers import reverse, NoReverseMatch
 
 
 @python_2_unicode_compatible
@@ -50,8 +55,7 @@ class MenuItem(MPTTModel, OrderMixin, PublishableResource):
 
     content_object = MenuItemGenericForeignKey('content_type', 'object_id')
 
-    objects = managers.PassThroughTreeManager().for_queryset_class(
-        querysets.MenuItemQuerySet)()
+    objects = TreeManager.from_queryset(querysets.MenuItemQuerySet)()
 
     site = models.ForeignKey('sites.Site', blank=True, null=True,
                              related_name='+', on_delete=models.SET_NULL)

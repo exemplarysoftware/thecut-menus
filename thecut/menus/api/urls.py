@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from . import views
-from django.conf.urls import include, patterns, url
+from django.conf.urls import include, url
 from rest_framework.urlpatterns import format_suffix_patterns
 
 
-urls = patterns(
-    'thecut.menus.api.views',
+urls = [
 
     url(r'^$', views.MenusRootAPIView.as_view(), name='root'),
 
@@ -25,9 +24,8 @@ urls = patterns(
     url(r'^menuitems/(?P<target_pk>\d+)/reorder/$',
         views.MenuItemMoveAPIView.as_view(), name='menuitem_move'),
 
-)
+]
 
-urlpatterns = patterns(
-    '', (r'^', include(urls, namespace='menus_menuitem_api')))
+urlpatterns = [url(r'^', include(urls, namespace='menus_menuitem_api'))]
 
 urlpatterns = format_suffix_patterns(urlpatterns, allowed=['json'])

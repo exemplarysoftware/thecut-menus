@@ -17,6 +17,7 @@ settings.configure(
         'django.contrib.auth',
         'django.contrib.contenttypes',
         'django.contrib.sites',
+        'mptt',
         'taggit',
         'thecut.authorship',
         'thecut.ordering',

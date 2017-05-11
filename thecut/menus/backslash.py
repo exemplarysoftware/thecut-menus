@@ -1,17 +1,12 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
 from . import settings
-from django.db.models import Q
-from thecut import backslash
 from .admin import MenuItemAdmin
 from .forms import MenuItemBackslashForm
 from .models import MenuItem
-
-try:
-    from django.contrib.sites.shortcuts import get_current_site
-except ImportError:
-    # Django < 1.7 compatibility.
-    from django.contrib.sites.models import get_current_site
+from django.contrib.sites.shortcuts import get_current_site
+from django.db.models import Q
+from thecut import backslash
 
 
 class MenuItemBackslash(MenuItemAdmin, backslash.ModelAdmin):

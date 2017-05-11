@@ -2,12 +2,13 @@
 from __future__ import absolute_import, unicode_literals
 from .forms import MenuItemAdminForm
 from .models import MenuItem, ViewLink, WebLink
-from django.conf.urls import include, patterns
+from django.conf.urls import include, url
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from thecut.authorship.admin import AuthorshipMixin
 
 
+@admin.register(MenuItem)
 class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
 
     fieldsets = [
@@ -28,16 +29,14 @@ class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
     readonly_fields = ['created_at', 'created_by', 'updated_at', 'updated_by']
 
     def get_urls(self):
-        urlpatterns = patterns(
-            '',
-            (r'^api/', include('thecut.menus.api.urls')),
-        )
+        urlpatterns = [
+            url(r'^api/', include('thecut.menus.api.urls')),
+        ]
         urlpatterns += super(MenuItemAdmin, self).get_urls()
         return urlpatterns
 
-admin.site.register(MenuItem, MenuItemAdmin)
 
-
+@admin.register(ViewLink)
 class ViewLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
 
     fieldsets = [
@@ -48,9 +47,8 @@ class ViewLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
 
     list_display = ['name', 'view']
 
-admin.site.register(ViewLink, ViewLinkAdmin)
 
-
+@admin.register(WebLink)
 class WebLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
 
     fieldsets = [
@@ -60,5 +58,3 @@ class WebLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
     ]
 
     list_display = ['name', 'url']
-
-admin.site.register(WebLink, WebLinkAdmin)

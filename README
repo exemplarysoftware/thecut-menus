@@ -14,10 +14,10 @@ To install this application (whilst in the project's activated virtualenv)::
 
 Add the ``thecut.menus`` to the project's ``INSTALLED_APPS`` setting::
 
-    INSTALLED_APPS = (
+    INSTALLED_APPS = [
         ...
         'thecut.menus',
-    )
+    ]
 
 
 ===========
