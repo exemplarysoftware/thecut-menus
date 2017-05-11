@@ -35,7 +35,7 @@ class Migration(migrations.Migration):
                 ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('level', models.PositiveIntegerField(editable=False, db_index=True)),
                 ('created_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, editable=False, to=settings.AUTH_USER_MODEL)),
-                ('parent', mptt.fields.TreeForeignKey(related_name='children', blank=True, to='menus.MenuItem', null=True)),
+                ('parent', mptt.fields.TreeForeignKey(related_name='children', on_delete=django.db.models.deletion.CASCADE, blank=True, to='menus.MenuItem', null=True)),
                 ('publish_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, blank=True, to=settings.AUTH_USER_MODEL, null=True)),
                 ('updated_by', models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, editable=False, to=settings.AUTH_USER_MODEL)),
             ],
@@ -103,7 +103,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='menuitem',
             name='content_type',
-            field=models.ForeignKey(blank=True, to='menus.MenuItemContentType', null=True),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, blank=True, to='menus.MenuItemContentType', null=True),
             preserve_default=True,
         ),
     ]

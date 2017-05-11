@@ -16,7 +16,7 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='menuitem',
             name='content_type',
-            field=models.ForeignKey(related_name='+', blank=True, to='menus.MenuItemContentType', null=True),
+            field=models.ForeignKey(related_name='+', on_delete=django.db.models.deletion.CASCADE, blank=True, to='menus.MenuItemContentType', null=True),
         ),
         migrations.AlterField(
             model_name='menuitem',
