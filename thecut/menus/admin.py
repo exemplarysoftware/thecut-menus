@@ -8,6 +8,7 @@ from mptt.admin import MPTTModelAdmin
 from thecut.authorship.admin import AuthorshipMixin
 
 
+@admin.register(MenuItem)
 class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
 
     fieldsets = [
@@ -34,9 +35,8 @@ class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
         urlpatterns += super(MenuItemAdmin, self).get_urls()
         return urlpatterns
 
-admin.site.register(MenuItem, MenuItemAdmin)
 
-
+@admin.register(ViewLink)
 class ViewLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
 
     fieldsets = [
@@ -47,9 +47,8 @@ class ViewLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
 
     list_display = ['name', 'view']
 
-admin.site.register(ViewLink, ViewLinkAdmin)
 
-
+@admin.register(WebLink)
 class WebLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
 
     fieldsets = [
@@ -59,5 +58,3 @@ class WebLinkAdmin(AuthorshipMixin, admin.ModelAdmin):
     ]
 
     list_display = ['name', 'url']
-
-admin.site.register(WebLink, WebLinkAdmin)
