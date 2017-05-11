@@ -2,7 +2,7 @@
 from __future__ import absolute_import, unicode_literals
 from .forms import MenuItemAdminForm
 from .models import MenuItem, ViewLink, WebLink
-from django.conf.urls import include, patterns
+from django.conf.urls import include, url
 from django.contrib import admin
 from mptt.admin import MPTTModelAdmin
 from thecut.authorship.admin import AuthorshipMixin
@@ -28,10 +28,9 @@ class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
     readonly_fields = ['created_at', 'created_by', 'updated_at', 'updated_by']
 
     def get_urls(self):
-        urlpatterns = patterns(
-            '',
-            (r'^api/', include('thecut.menus.api.urls')),
-        )
+        urlpatterns = [
+            url(r'^api/', include('thecut.menus.api.urls')),
+        ]
         urlpatterns += super(MenuItemAdmin, self).get_urls()
         return urlpatterns
 

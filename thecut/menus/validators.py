@@ -1,7 +1,11 @@
 from __future__ import absolute_import, unicode_literals
 from django.core.exceptions import ValidationError
-from django.core.urlresolvers import reverse, NoReverseMatch
 from thecut.menus import settings
+
+try:
+    from django.urls import reverse, NoReverseMatch
+except ImportError:
+    from django.core.urlresolvers import reverse, NoReverseMatch
 
 
 def validate_view(value):
