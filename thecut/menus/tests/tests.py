@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 from __future__ import absolute_import, unicode_literals
-from thecut.menus.templatetags.menu_tags import menu, section_menu
+from thecut.menus.templatetags.menus import menu, section_menu
 from thecut.menus.tests.factories import (MenuItemFactory, ViewLinkFactory,
                                           WebLinkFactory)
 from django.test import TestCase
