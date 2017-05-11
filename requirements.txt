@@ -2,4 +2,3 @@ django-mptt
 djangorestframework
 pillow
 django-taggit
-

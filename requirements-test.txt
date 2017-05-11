@@ -1,9 +1,7 @@
 coverage
-mock
-flake8
-tox
-fake-factory==0.7.2 # Work around issues caused by renaming fake-factory to Faker upstream
-Faker>=0.5.7
 factory-boy==2.6.1
+faker>=0.7.11
+flake8
+mock
+tox
 -r requirements.txt
-
