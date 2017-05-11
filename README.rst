@@ -1,6 +1,6 @@
-=======================
-Welcome to thecut-menus
-=======================
+============
+thecut-menus
+============
 
 ..
   .. image:: https://travis-ci.org/thecut/thecut-menus.svg
