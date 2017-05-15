@@ -5,7 +5,7 @@ from django.views import generic
 from django.contrib.admin.options import csrf_protect_m
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import PermissionDenied
-from django.utils.encoding import force_unicode
+from django.utils.encoding import force_text
 
 
 class ManageMenuView(generic.DetailView):
@@ -30,7 +30,7 @@ class ManageMenuView(generic.DetailView):
                     'app_label': opts.app_label, 'add': False,
                     'content_type': content_type, 'form_url': '',
                     'title': 'Add {0}'.format(
-                        force_unicode(opts.verbose_name_plural)),
+                        force_text(opts.verbose_name_plural)),
                     'root_path': getattr(admin.admin_site, 'root_path', None),
                     'media': '',
                     'errors': None,
