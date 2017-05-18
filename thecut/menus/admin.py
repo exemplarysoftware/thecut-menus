@@ -24,8 +24,6 @@ class MenuItemAdmin(AuthorshipMixin, MPTTModelAdmin):
 
     form = MenuItemAdminForm
 
-    change_list_template = 'admin/change_list.html'
-
     prepopulated_fields = {'slug': ['title']}
 
     readonly_fields = ['created_at', 'created_by', 'updated_at', 'updated_by']
